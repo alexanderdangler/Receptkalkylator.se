@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Beräkna recept · Receptkalkylator.se</title>
+  <!-- CSS only -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+  <link href="./css/main.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <body>
+
+    <div style="background: white; width: 100%;">
+      <!-- hack made to make sides white when using footer as body-background to make it look like footer stretches the page height-->
+
+      <header class="px-4 py-4 text-center">
+        <a href="/" alt="home" class="text-decoration-none text-black">
+          <h1 class="display-1 d-inline">Receptkalkylator.se</h1>
+        </a>
+      </header>
+
+      <main class="col-xl-6 col-lg-9 col-md-12 mx-auto mb-3 text-center px-3 pb-5">
+        <div class="row text-start pt-4">
+          <h4>Välj vad du vill beräkna</h4>
+          <div class="col-12 pb-3 d-grid gap-2 d-md-block">
+            <button id="btnDagar" class="btnSelector btn btn-outline-primary mb-2" type="button">Antal tabletter/dagar
+              kvar på nuvarande recept<span id="btnDagarSpan" class="btnExtraInfo"></span></button>
+            <button id="btnUttag" class="btnSelector btn btn-outline-primary mb-2" type="button">Antal uttag som behövs
+              för att räcka<span id="btnUttagSpan" class="btnExtraInfo"></span></button>
+            <button id="btnAverage" class="btnSelector btn btn-outline-primary mb-2" type="button">Snittförbrukning för
+              en viss tidsperiod<span id="btnAverageSpan" class="btnExtraInfo"></span></button>
+          </div>
+
+          <div class="col-12">
+            <h4>Från</h4>
+            <div class="input-group mb-3">
+              <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                aria-expanded="false">Förvalda datum:</button>
+              <ul class="dropdown-menu">
+                <li><a onclick="changeDate('-', '0', 'days', '#fromDate')" class="dropdown-item" href="#">Idag</a></li>
+                <li><a onclick="changeDate('-', '1', 'days', '#fromDate')" class="dropdown-item" href="#">Igår</a></li>
+                <li><a onclick="changeDate('+', '1', 'days', '#fromDate')" class="dropdown-item" href="#">Imorgon</a>
+                </li>
+                <li><a onclick="changeDate('-', '1', 'weeks', '#fromDate')" class="dropdown-item" href="#">För 1 vecka
+                    sedan</a></li>
+                <li><a onclick="changeDate('-', '1', 'months', '#fromDate')" class="dropdown-item" href="#">För 1 månad
+                    sedan</a></li>
+                <li><a onclick="changeDate('-', '3', 'months', '#fromDate')" class="dropdown-item" href="#">För 3
+                    månader sedan</a></li>
+                <li><a onclick="changeDate('-', '6', 'months', '#fromDate')" class="dropdown-item" href="#">För 6
+                    månader sedan</a></li>
+                <li><a onclick="changeDate('-', '1', 'years', '#fromDate')" class="dropdown-item" href="#">För 1 år
+                    sedan</a></li>
+              </ul>
+              <input id="fromDate" type="date" class="form-control" aria-label="Text input with dropdown button">
+            </div>
+
+            <h4>Till</h4>
+            <div class="input-group mb-3">
+              <input id="toDate" type="date" class="form-control" aria-label="Text input with dropdown button">
+              <button id="btnToDate" class="btn btn-outline-secondary dropdown-toggle" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false">Förvalda datum:</button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><a onclick="changeDate('-', '0', 'days', '#toDate')" class="dropdown-item" href="#">Idag</a></li>
+                <li><a onclick="changeDate('-', '1', 'days', '#toDate')" class="dropdown-item" href="#">Igår</a></li>
+                <li><a onclick="changeDate('+', '1', 'days', '#toDate')" class="dropdown-item" href="#">Imorgon</a></li>
+                <li><a onclick="changeDate('+', '1', 'weeks', '#toDate')" class="dropdown-item" href="#">Om 1 vecka</a>
+                </li>
+                <li><a onclick="changeDate('+', '1', 'months', '#toDate')" class="dropdown-item" href="#">Om 1 månad</a>
+                </li>
+                <li><a onclick="changeDate('+', '3', 'months', '#toDate')" class="dropdown-item" href="#">Om 3
+                    månader</a></li>
+                <li><a onclick="changeDate('+', '6', 'months', '#toDate')" class="dropdown-item" href="#">Om 6
+                    månader</a></li>
+                <li><a onclick="changeDate('+', '1', 'years', '#toDate')" class="dropdown-item" href="#">Om 1 år</a>
+                </li>
+              </ul>
+            </div>
+
+            <h4>Dosering</h4>
+            <div class="row g-3">
+              <div class="col">
+                <input id="dosage" type="text" class="form-control" placeholder="Dos (t.ex. 2x2, 1+0+1, 1*3)">
+              </div>
+              <div class="col">
+                <input id="packageSize" type="number" class="form-control" placeholder="Förpackningsstorlek">
+              </div>
+              <div class="col">
+                <input id="withdrawls" type="number" class="form-control" placeholder="Antal uttag">
+              </div>
+            </div>
+
+
+
+
+          </div>
+        </div>
+
+        <div id="alertReceptInfo" class="col-12 mt-4 alert alert-secondary text-start d-none" role="alert">
+          <h2>Ditt recept</h2>
+          <p id="pReceptText">Skriv in de värden du vet så räknar kalkylatorn ut det du inte vet. Testa dig fram med
+            olika fält så ser du hur du kan använda räknaren.</p>
+        </div>
+
+      </main>
+
+    </div>
+
+    <footer class="px-4 py-5 footer-dark">
+      <div class="col-12 mx-auto py-3 text-center">
+        <h3 class="text-white"><a href="https://www.medibyte.se/" class="no-decoration text-white"><img
+              src="./img/layout/medibyte_transparent_logo.png" alt="Medibyte logo" id="footer-logo">
+            Medibyte</a></h3>
+        <div class="col-lg-6 mx-auto">
+          <p class="fs-5 mb-4 mt-2">Medibyte är ett läkardrivet initiativ för digitala verktyg att använda i den
+            kliniska vardagen</p>
+        </div>
+
+      </div>
+    </footer>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> <!-- jQuery -->
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3.0.4/build/global/luxon.min.js"></script>
+    <!-- Luxon date library -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+      </script> <!-- Bootstrap 5 -->
+    <script src="./js/main.js" type="text/javascript"></script>
+    <!-- All custom js, e.g. all calculations and manipulation -->
+
+  </body>
+
+</html>
