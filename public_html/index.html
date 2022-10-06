@@ -39,20 +39,22 @@
               <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                 aria-expanded="false">Förvalda datum:</button>
               <ul class="dropdown-menu">
-                <li><a onclick="changeDate('-', '0', 'days', '#fromDate')" class="dropdown-item" href="#">Idag</a></li>
-                <li><a onclick="changeDate('-', '1', 'days', '#fromDate')" class="dropdown-item" href="#">Igår</a></li>
-                <li><a onclick="changeDate('+', '1', 'days', '#fromDate')" class="dropdown-item" href="#">Imorgon</a>
+                <li><a class="dateDropdown dropdown-item" data-addorsub="-" data-numberof="0" data-timeframe="days" data-element="#fromDate" href="#">Idag</a></li>
+                <li><a class="dateDropdown dropdown-item" data-addorsub="-" data-numberof="1" data-timeframe="days" data-element="#fromDate" href="#">Igår</a></li>
+                <li><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="1" data-timeframe="days" data-element="#fromDate" href="#">Imorgon</a></li>
+                <li><a class="dateDropdown dropdown-item" data-addorsub="-" data-numberof="1" data-timeframe="weeks" data-element="#fromDate" href="#">För 1 vecka
+                  sedan</a></li>
+                <li><a class="dateDropdown dropdown-item" data-addorsub="-" data-numberof="1" data-timeframe="months" data-element="#fromDate" href="#">För 1 månad
+                  sedan</a></li>
+                <li><a class="dateDropdown dropdown-item" data-addorsub="-" data-numberof="3" data-timeframe="months" data-element="#fromDate" href="#">För 3
+                  månader sedan</a></li>
                 </li>
-                <li><a onclick="changeDate('-', '1', 'weeks', '#fromDate')" class="dropdown-item" href="#">För 1 vecka
-                    sedan</a></li>
-                <li><a onclick="changeDate('-', '1', 'months', '#fromDate')" class="dropdown-item" href="#">För 1 månad
-                    sedan</a></li>
-                <li><a onclick="changeDate('-', '3', 'months', '#fromDate')" class="dropdown-item" href="#">För 3
-                    månader sedan</a></li>
-                <li><a onclick="changeDate('-', '6', 'months', '#fromDate')" class="dropdown-item" href="#">För 6
-                    månader sedan</a></li>
-                <li><a onclick="changeDate('-', '1', 'years', '#fromDate')" class="dropdown-item" href="#">För 1 år
-                    sedan</a></li>
+                <li><a class="dateDropdown dropdown-item" data-addorsub="-" data-numberof="6" data-timeframe="months" data-element="#fromDate" href="#">För 6
+                  månader sedan</a></li>
+                </li>
+                <li><a class="dateDropdown dropdown-item" data-addorsub="-" data-numberof="1" data-timeframe="years" data-element="#fromDate" href="#">För 1 år
+                  sedan</a></li>
+                </li>
               </ul>
               <input id="fromDate" type="date" class="form-control" aria-label="Text input with dropdown button">
             </div>
@@ -63,18 +65,16 @@
               <button id="btnToDate" class="btn btn-outline-secondary dropdown-toggle" type="button"
                 data-bs-toggle="dropdown" aria-expanded="false">Förvalda datum:</button>
               <ul class="dropdown-menu dropdown-menu-end">
-                <li><a onclick="changeDate('-', '0', 'days', '#toDate')" class="dropdown-item" href="#">Idag</a></li>
-                <li><a onclick="changeDate('-', '1', 'days', '#toDate')" class="dropdown-item" href="#">Igår</a></li>
-                <li><a onclick="changeDate('+', '1', 'days', '#toDate')" class="dropdown-item" href="#">Imorgon</a></li>
-                <li><a onclick="changeDate('+', '1', 'weeks', '#toDate')" class="dropdown-item" href="#">Om 1 vecka</a>
+                <li><a class="dateDropdown dropdown-item" data-addorsub="-" data-numberof="0" data-timeframe="days" data-element="#toDate" href="#">Idag</a></li>
+                <li><a class="dateDropdown dropdown-item" data-addorsub="-" data-numberof="1" data-timeframe="days" data-element="#toDate" href="#">Igår</a></li>
+                <li><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="1" data-timeframe="days" data-element="#toDate" href="#">Imorgon</a></li>
+                <li><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="1" data-timeframe="weeks" data-element="#toDate" href="#">Om 1 vecka</a></li>
+                <li><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="1" data-timeframe="months" data-element="#toDate" href="#">Om 1 månad</a></li>
+                <li><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="3" data-timeframe="months" data-element="#toDate" href="#">Om 3
+                  månader</a></li>
                 </li>
-                <li><a onclick="changeDate('+', '1', 'months', '#toDate')" class="dropdown-item" href="#">Om 1 månad</a>
-                </li>
-                <li><a onclick="changeDate('+', '3', 'months', '#toDate')" class="dropdown-item" href="#">Om 3
-                    månader</a></li>
-                <li><a onclick="changeDate('+', '6', 'months', '#toDate')" class="dropdown-item" href="#">Om 6
-                    månader</a></li>
-                <li><a onclick="changeDate('+', '1', 'years', '#toDate')" class="dropdown-item" href="#">Om 1 år</a>
+                <li><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="6" data-timeframe="months" data-element="#toDate" href="#">Om 6
+                  månader</a></li>
                 </li>
               </ul>
             </div>
@@ -121,14 +121,12 @@
       </div>
     </footer>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> <!-- jQuery -->
-    <script src="https://cdn.jsdelivr.net/npm/luxon@3.0.4/build/global/luxon.min.js"></script>
-    <!-- Luxon date library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
       </script> <!-- Bootstrap 5 -->
-    <script src="./js/main.min.js" type="text/javascript"></script>
-    <!-- All custom js, e.g. all calculations and manipulation -->
+    <script src="./js/main.js" type="text/javascript"></script>
+    <!-- Luxon and all custom js, e.g. all calculations and manipulation -->
 
   </body>
 </html>
