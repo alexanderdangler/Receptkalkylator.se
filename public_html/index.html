@@ -7,7 +7,16 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Beräkna recept · Receptkalkylator.se</title>
   <link href="./css/main.min.css" rel="stylesheet">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
 </head>
+
 <body>
 
   <body>
@@ -15,9 +24,11 @@
     <div style="background: white; width: 100%;">
       <!-- hack made to make sides white when using footer as body-background to make it look like footer stretches the page height-->
 
-      <header class="px-4 py-4 text-center">
-        <a href="/" alt="home" class="text-decoration-none text-black">
-          <h1 class="display-1 d-inline">Receptkalkylator.se</h1>
+      <header class="px-4 pt-4 text-center">
+        <a href="/" alt="Link to home" class="text-decoration-none">
+          <div class="col-xl-6 col-lg-9 col-md-12 mx-auto text-center d-flex align-items-center justify-content-center">
+            <img src="./img/layout/logo_with_text.svg" alt="Logo of Receptkalkylator.se">
+          </div>
         </a>
       </header>
 
@@ -36,7 +47,9 @@
           <div class="col-12">
             <h4>Från</h4>
             <div class="input-group mb-3">
-              <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+              <button data-addorsub="-" data-numberof="0" data-timeframe="days" data-element="#fromDate"
+                class="dateDropdown btn btn-outline-primary" type="button" id="button-addon1">Idag</button>
+              <!--               <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                 aria-expanded="false">Förvalda datum:</button>
               <ul class="dropdown-menu">
                 <li><a class="dateDropdown dropdown-item" data-addorsub="-" data-numberof="0" data-timeframe="days" data-element="#fromDate" href="#">Idag</a></li>
@@ -55,26 +68,35 @@
                 <li><a class="dateDropdown dropdown-item" data-addorsub="-" data-numberof="1" data-timeframe="years" data-element="#fromDate" href="#">För 1 år
                   sedan</a></li>
                 </li>
-              </ul>
-              <input id="fromDate" type="date" class="form-control" aria-label="Text input with dropdown button">
+              </ul> -->
+              <input id="fromDate" type="date" class="form-control" aria-label="Text input with dropdown button"
+                max="2999-12-31">
             </div>
 
             <h4>Till</h4>
             <div class="input-group mb-3">
-              <input id="toDate" type="date" class="form-control" aria-label="Text input with dropdown button">
-              <button id="btnToDate" class="btn btn-outline-secondary dropdown-toggle" type="button"
+              <input id="toDate" type="date" class="form-control" aria-label="Text input with dropdown button"
+                max="2999-12-31">
+              <button id="btnToDate" class="btn btn-outline-primary dropdown-toggle" type="button"
                 data-bs-toggle="dropdown" aria-expanded="false">Förvalda datum:</button>
               <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dateDropdown dropdown-item" data-addorsub="-" data-numberof="0" data-timeframe="days" data-element="#toDate" href="#">Idag</a></li>
-                <li><a class="dateDropdown dropdown-item" data-addorsub="-" data-numberof="1" data-timeframe="days" data-element="#toDate" href="#">Igår</a></li>
-                <li><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="1" data-timeframe="days" data-element="#toDate" href="#">Imorgon</a></li>
-                <li><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="1" data-timeframe="weeks" data-element="#toDate" href="#">Om 1 vecka</a></li>
-                <li><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="1" data-timeframe="months" data-element="#toDate" href="#">Om 1 månad</a></li>
-                <li><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="3" data-timeframe="months" data-element="#toDate" href="#">Om 3
-                  månader</a></li>
+                <li><a class="dateDropdown dropdown-item" data-addorsub="-" data-numberof="0" data-timeframe="days"
+                    data-element="#toDate" href="#">Idag</a></li>
+                <li><a class="dateDropdown dropdown-item" data-addorsub="-" data-numberof="1" data-timeframe="days"
+                    data-element="#toDate" href="#">Igår</a></li>
+                <li><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="1" data-timeframe="days"
+                    data-element="#toDate" href="#">Imorgon</a></li>
+                <li><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="1" data-timeframe="weeks"
+                    data-element="#toDate" href="#">Om 1 vecka</a></li>
+                <li><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="1" data-timeframe="months"
+                    data-element="#toDate" href="#">Om 1 månad</a></li>
+                <li><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="3" data-timeframe="months"
+                    data-element="#toDate" href="#">Om 3
+                    månader</a></li>
                 </li>
-                <li><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="6" data-timeframe="months" data-element="#toDate" href="#">Om 6
-                  månader</a></li>
+                <li><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="6" data-timeframe="months"
+                    data-element="#toDate" href="#">Om 6
+                    månader</a></li>
                 </li>
               </ul>
             </div>
@@ -92,27 +114,28 @@
               </div>
             </div>
 
-
-
-
           </div>
         </div>
 
-        <div id="alertReceptInfo" class="col-12 mt-4 alert alert-secondary text-start d-none" role="alert">
-          <h2>Ditt recept</h2>
-          <p id="pReceptText">Skriv in de värden du vet så räknar kalkylatorn ut det du inte vet. Testa dig fram med
-            olika fält så ser du hur du kan använda räknaren.</p>
+        <div id="alertReceptInfo" class="col-12 mt-4 alert alert-secondary rounded-0 text-start d-none" role="alert">
+          <div class="m-1 p-3 border-primary border border-3">
+            <h2 class="text-primary">RECEPT</h2>
+            <p id="pReceptText">3x1 i 30 dagar från 2022-07-01 till 2022-08-01. 3 stycken förpackningar á 98 tabletter.
+              I dagsläget borde <strong>22 tabletter finnas kvar</strong> som enligt receptet <strong>bör räcka i 10
+                dagar</strong></b></p>
+            <button id="kopieraKnapp" class="btn btn-primary"><i class="bi bi-clipboard"></i> Kopiera
+              recept-texten</button>
+          </div>
         </div>
 
       </main>
-
     </div>
 
     <footer class="px-4 py-5 footer-dark">
       <div class="col-12 mx-auto py-3 text-center">
         <h3 class="text-white"><a href="https://www.medibyte.se/" class="no-decoration text-white"><img
-              src="./img/layout/medibyte_transparent_logo.png" alt="Medibyte logo" id="footer-logo">
-            Medibyte</a></h3>
+              src="./img/layout/medibyte_logo.png" alt="Medibyte logo" id="footer-logo">
+          </a></h3>
         <div class="col-lg-6 mx-auto">
           <p class="fs-5 mb-4 mt-2">Medibyte är ett läkardrivet initiativ för digitala verktyg att använda i den
             kliniska vardagen</p>
@@ -121,7 +144,8 @@
       </div>
     </footer>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.1.slim.min.js"
+      integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
       </script> <!-- Bootstrap 5 -->
@@ -129,4 +153,5 @@
     <!-- Luxon and all custom js, e.g. all calculations and manipulation -->
 
   </body>
+
 </html>
