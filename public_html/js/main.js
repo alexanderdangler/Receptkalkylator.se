@@ -8645,12 +8645,13 @@ function mainFunction() {
                     var days = Math.ceil((packageSize * withdrawls) / totalPillsPerDay);
                     if(typeof dateFrom === 'string') {
                         var toDate = DateTime.fromISO(dateFrom).plus({days: days});
+                        var fromDate = DateTime.fromISO(dateFrom);
                         var today = DateTime.now();
                         $("#toDate").val(toDate.toISODate());
                         if(toDate > today) {
                             var remainingDays = Math.ceil(toDate.diff(today).as('days'));
                             $("#btnDagarSpan").text(": " + remainingDays + " dagar");
-                            aktuelltRecept = `Patientens recept från ${dateFrom} för ${packageSize} tabletter med ${withdrawls} uttag med dosen ${dosage} bör räcka i ytterligare ${remainingDays} dagar. Vid dagens datum ${today.toISODate()} bör det fortfarande finnas kvar ${Math.floor(packageSize * withdrawls - Interval.fromDateTimes(today, toDate).length('days') * totalPillsPerDay)} tabletter. Om alla tabletter förbrukats till idag har det skett med en snittförbrukning på ${Math.round(((packageSize * withdrawls / Interval.fromDateTimes(today, toDate).length('days')) + Number.EPSILON) * 10) / 10} tabletter/dag.`;
+                            aktuelltRecept = `Patientens recept från ${dateFrom} för ${packageSize} tabletter med ${withdrawls} uttag med dosen ${dosage} bör räcka i ytterligare ${remainingDays} dagar. Vid dagens datum ${today.toISODate()} bör det fortfarande finnas kvar ${Math.floor(packageSize * withdrawls - Interval.fromDateTimes(fromDate, today).length('days') * totalPillsPerDay)} tabletter. Om alla tabletter förbrukats till idag har det skett med en snittförbrukning på ${Math.round(((packageSize * withdrawls / Interval.fromDateTimes(fromDate, today).length('days')) + Number.EPSILON) * 10) / 10} tabletter/dag.`;
                         } else {
                             $("#btnDagarSpan").text(": Receptet tog slut " + toDate.toISODate());
                             aktuelltRecept = `Patientens recept från ${dateFrom} för ${packageSize} tabletter i ${withdrawls} uttag med dosen ${dosage} bör ha tagit slut ` + toDate.toISODate() + ". Således har patienten varit utan tabletter i " + Math.floor(Interval.fromDateTimes(toDate, today).length('days')) + " dagar.";
