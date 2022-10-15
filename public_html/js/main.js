@@ -8619,7 +8619,7 @@ function mainFunction() {
                     var withdrawlsCalculated = Math.ceil((days * totalPillsPerDay) / packageSize);
                     var pillsLeftAtEndofPrescription = (packageSize * withdrawlsCalculated) - (days * totalPillsPerDay);
                     var extraDays = pillsLeftAtEndofPrescription / totalPillsPerDay;
-                    aktuelltRecept = "Baserat på dosen " + dosage + " från " + dateFrom + " till " + dateTo + " bör patienten erhålla " + withdrawlsCalculated + " stycken uttag á " + packageSize + " tabletter. Totalt antal tabletter för hela perioden blir " + Math.ceil(days * totalPillsPerDay) + " stycken. Vid slutdatum för receptet bör patienten ha kvar " + Math.floor(pillsLeftAtEndofPrescription) + " tabletter, vilket skulle kunna räcka i ytterliggare " + Math.floor(extraDays) + " dagar till och med " + DateTime.fromISO(dateTo).plus({ days: extraDays }).toISODate();;
+                    aktuelltRecept = "Baserat på dosen " + dosage + " från " + DateTime.now().toISODate() + " till " + dateTo + " bör patienten erhålla <b>" + withdrawlsCalculated + " stycken uttag</b> á " + packageSize + " tabletter. Totalt antal tabletter för hela perioden blir " + Math.ceil(days * totalPillsPerDay) + " stycken. Vid slutdatum för receptet bör patienten ha kvar " + Math.floor(pillsLeftAtEndofPrescription) + " tabletter, vilket skulle kunna räcka i ytterliggare " + Math.floor(extraDays) + " dagar till och med " + DateTime.fromISO(dateTo).plus({ days: extraDays }).toISODate();;
                     updateReceptText()
                     $("#additionalInfo").html("<hr><i>Om patienten förskrivs 1 paket vid varje uttag kan den tidigast hämta ut ett nytt uttag efter " + Math.floor((packageSize / totalPillsPerDay) / 3 * 2) + " dagar, och 1 uttag räcker som max i " + Math.floor(packageSize / totalPillsPerDay) + " dagar. <a id='toAccordion5' href='#flush-heading5'>Läs mer nedan</a>.</i>").removeClass("d-none");
                 }
@@ -8639,7 +8639,7 @@ function mainFunction() {
                     var today = DateTime.now();
                     if (toDate > today) {
                         var remainingDays = Math.ceil(toDate.diff(today).as('days'));
-                        aktuelltRecept = `Patientens recept från ${dateFrom} för ${packageSize} tabletter med ${withdrawls} uttag med dosen ${dosage} bör räcka i ytterligare ${remainingDays} dagar. Vid dagens datum ${today.toISODate()} bör det fortfarande finnas kvar ${Math.floor(packageSize * withdrawls - Interval.fromDateTimes(fromDate, today).length('days') * totalPillsPerDay)} tabletter. Om alla tabletter förbrukats till idag har det skett med en snittförbrukning på ${Math.round(((packageSize * withdrawls / Interval.fromDateTimes(fromDate, today).length('days')) + Number.EPSILON) * 10) / 10} tabletter/dag.`;
+                        aktuelltRecept = `Patientens recept från ${dateFrom} för ${packageSize} tabletter med ${withdrawls} uttag med dosen ${dosage} <b>bör räcka i ytterligare ${remainingDays} dagar</b>. Vid dagens datum ${today.toISODate()} bör det fortfarande finnas kvar ${Math.floor(packageSize * withdrawls - Interval.fromDateTimes(fromDate, today).length('days') * totalPillsPerDay)} tabletter. Om alla tabletter förbrukats till idag har det skett med en snittförbrukning på ${Math.round(((packageSize * withdrawls / Interval.fromDateTimes(fromDate, today).length('days')) + Number.EPSILON) * 10) / 10} tabletter/dag.`;
                     } else {
                         aktuelltRecept = `Patientens recept från ${dateFrom} för ${packageSize} tabletter i ${withdrawls} uttag med dosen ${dosage} bör ha tagit slut ` + toDate.toISODate() + ". Således har patienten varit utan tabletter i " + Math.floor(Interval.fromDateTimes(toDate, today).length('days')) + " dagar.";
                     }
@@ -8659,7 +8659,7 @@ function mainFunction() {
 
     function updateReceptText() {
         $("#alertReceptInfo").removeClass("d-none");
-        $("#pReceptText").text(aktuelltRecept);
+        $("#pReceptText").html(aktuelltRecept);
     }
 
     function calculateTotalPillsPerDay() {
@@ -8695,7 +8695,8 @@ function changeDate(addOrSub, numberOf, timeFrame, element) {
 }
 
 function copyAktuelltReceptToClipboard() {
-    navigator.clipboard.writeText(aktuelltRecept).then(
+    var strippedAktuelltRecept = $("<div/>").html(aktuelltRecept).text();
+    navigator.clipboard.writeText(strippedAktuelltRecept).then(
         () => {
             $('#kopieraKnapp').html("<i class='bi bi-clipboard-check-fill'></i> Kopierat");
         },
