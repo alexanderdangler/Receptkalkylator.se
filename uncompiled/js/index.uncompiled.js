@@ -2,12 +2,12 @@ var { DateTime, Interval } = require("luxon"); //imports Luxon
 // to browswerify: 
 // browserify uncompiled/js/index.uncompiled.js -o public_html/js/main.js
 
-var currentFunction;
+var currentFunction = "dagar";
 var aktuelltRecept;
 
 // Function that manipulate the form and turns off/"disables" the input boxes not used
 function setUpInitialForm(currentFunctionState, buttonSelector, stateId, dNone) {
-    $("#alertReceptInfo").addClass("d-none");
+    $("#alertReceptInfo, .hideAtFormSetUp").addClass("d-none");
     $(".btnSelector").addClass("btn-outline-primary").removeClass("btn-primary");
     $(buttonSelector).removeClass("btn-outline-primary").addClass("btn-primary");
     $(".formGroupSelectorElement").removeClass("d-none");
@@ -35,6 +35,7 @@ function mainFunction() {
                     var extraDays = pillsLeftAtEndofPrescription / totalPillsPerDay;
                     aktuelltRecept = "Baserat på dosen " + dosage + " från " + dateFrom + " till " + dateTo + " bör patienten erhålla " + withdrawlsCalculated + " stycken uttag á " + packageSize + " tabletter. Totalt antal tabletter för hela perioden blir " + Math.ceil(days * totalPillsPerDay) + " stycken. Vid slutdatum för receptet bör patienten ha kvar " + Math.floor(pillsLeftAtEndofPrescription) + " tabletter, vilket skulle kunna räcka i ytterliggare " + Math.floor(extraDays) + " dagar till och med " + DateTime.fromISO(dateTo).plus({ days: extraDays }).toISODate();;
                     updateReceptText()
+                    $("#additionalInfo").html("<hr><i>Om patienten förskrivs 1 paket vid varje uttag kan den tidigast hämta ut ett nytt uttag efter " + Math.floor((packageSize / totalPillsPerDay) / 3 * 2) + " dagar, och 1 uttag räcker som max i " + Math.floor(packageSize / totalPillsPerDay) + " dagar. <a id='toAccordion5' href='#flush-heading5'>Läs mer nedan</a>.</i>").removeClass("d-none");
                 }
             }
         }
@@ -131,6 +132,21 @@ $(function () {
         changeDate(element.data("addorsub"), element.data("numberof"), element.data("timeframe"), element.data("element"));
         mainFunction();
     });
+
+    $(document).on('click', 'a[href^="#"]', function(event) {
+
+        var target = $(this.getAttribute('href'));
+      
+        if (target.length) {
+          event.preventDefault();
+          $('html, body').stop().animate({
+            scrollTop: target.offset().top
+          }, 600);
+        }
+
+        $("#flush-heading5 button").trigger("click");
+      });
+      
 
     $('#kopieraKnapp').on('click', copyAktuelltReceptToClipboard);
 });
