@@ -16,7 +16,8 @@
   <meta name="msapplication-TileColor" content="#da532c">
   <meta name="theme-color" content="#ffffff">
 
-  <script data-host="https://microanalytics.io" data-dnt="false" src="https://microanalytics.io/js/script.js" id="ZwSg9rf6GA" async defer></script>
+  <script data-host="https://microanalytics.io" data-dnt="false" src="https://microanalytics.io/js/script.js"
+    id="ZwSg9rf6GA" async defer></script>
 </head>
 
 <body>
@@ -36,87 +37,70 @@
 
       <main class="col-xl-6 col-lg-9 col-md-12 mx-auto mb-3 text-center px-3 pb-5">
         <div class="row text-start pt-4">
-          <h4>Välj vad du vill beräkna</h4>
-          <div class="col-12 pb-3 d-grid gap-2 d-md-block">
-            <button id="btnDagar" class="btnSelector btn btn-outline-primary mb-2" type="button">Antal tabletter/dagar
-              kvar på nuvarande recept<span id="btnDagarSpan" class="btnExtraInfo"></span></button>
-            <button id="btnUttag" class="btnSelector btn btn-outline-primary mb-2" type="button">Antal uttag som behövs
-              för att räcka<span id="btnUttagSpan" class="btnExtraInfo"></span></button>
-            <button id="btnAverage" class="btnSelector btn btn-outline-primary mb-2" type="button">Snittförbrukning för
-              en viss tidsperiod<span id="btnAverageSpan" class="btnExtraInfo"></span></button>
-          </div>
-
-          <div class="col-12">
-            <h4>Från</h4>
-            <div class="input-group mb-3">
-              <button data-addorsub="-" data-numberof="0" data-timeframe="days" data-element="#fromDate"
-                class="dateDropdown btn btn-outline-primary" type="button" id="button-addon1">Idag</button>
-              <!--               <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                aria-expanded="false">Förvalda datum:</button>
-              <ul class="dropdown-menu">
-                <li><a class="dateDropdown dropdown-item" data-addorsub="-" data-numberof="0" data-timeframe="days" data-element="#fromDate" href="#">Idag</a></li>
-                <li><a class="dateDropdown dropdown-item" data-addorsub="-" data-numberof="1" data-timeframe="days" data-element="#fromDate" href="#">Igår</a></li>
-                <li><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="1" data-timeframe="days" data-element="#fromDate" href="#">Imorgon</a></li>
-                <li><a class="dateDropdown dropdown-item" data-addorsub="-" data-numberof="1" data-timeframe="weeks" data-element="#fromDate" href="#">För 1 vecka
-                  sedan</a></li>
-                <li><a class="dateDropdown dropdown-item" data-addorsub="-" data-numberof="1" data-timeframe="months" data-element="#fromDate" href="#">För 1 månad
-                  sedan</a></li>
-                <li><a class="dateDropdown dropdown-item" data-addorsub="-" data-numberof="3" data-timeframe="months" data-element="#fromDate" href="#">För 3
-                  månader sedan</a></li>
-                </li>
-                <li><a class="dateDropdown dropdown-item" data-addorsub="-" data-numberof="6" data-timeframe="months" data-element="#fromDate" href="#">För 6
-                  månader sedan</a></li>
-                </li>
-                <li><a class="dateDropdown dropdown-item" data-addorsub="-" data-numberof="1" data-timeframe="years" data-element="#fromDate" href="#">För 1 år
-                  sedan</a></li>
-                </li>
-              </ul> -->
-              <input id="fromDate" type="date" class="form-control" aria-label="Text input with dropdown button"
-                max="2999-12-31">
+            <!-- <h4>Tryck på knappen för det du vill ha svar på</h4> -->
+            <div class="col-12 py-3 d-grid gap-2 d-md-block">
+              <button id="btnDagar" class="btnSelector btn btn-lg btn-primary mb-2" type="button">Hur många
+                tabletter
+                finns kvar?<span id="btnDagarSpan" class="btnExtraInfo"></span></button>
+              <button id="btnUttag" class="btnSelector btn btn-lg btn-outline-primary mb-2" type="button">Hur stort
+                recept ska
+                jag skriva ut?<span id="btnUttagSpan" class="btnExtraInfo"></span></button>
             </div>
 
-            <h4>Till</h4>
-            <div class="input-group mb-3">
-              <input id="toDate" type="date" class="form-control" aria-label="Text input with dropdown button"
-                max="2999-12-31">
-              <button id="btnToDate" class="btn btn-outline-primary dropdown-toggle" type="button"
-                data-bs-toggle="dropdown" aria-expanded="false">Förvalda datum:</button>
-              <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dateDropdown dropdown-item" data-addorsub="-" data-numberof="0" data-timeframe="days"
-                    data-element="#toDate" href="#">Idag</a></li>
-                <li><a class="dateDropdown dropdown-item" data-addorsub="-" data-numberof="1" data-timeframe="days"
-                    data-element="#toDate" href="#">Igår</a></li>
-                <li><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="1" data-timeframe="days"
-                    data-element="#toDate" href="#">Imorgon</a></li>
-                <li><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="1" data-timeframe="weeks"
-                    data-element="#toDate" href="#">Om 1 vecka</a></li>
-                <li><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="1" data-timeframe="months"
-                    data-element="#toDate" href="#">Om 1 månad</a></li>
-                <li><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="3" data-timeframe="months"
-                    data-element="#toDate" href="#">Om 3
-                    månader</a></li>
-                </li>
-                <li><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="6" data-timeframe="months"
-                    data-element="#toDate" href="#">Om 6
-                    månader</a></li>
-                </li>
-              </ul>
+          <div id="mainForm" class="d-none">
+            <div id="formGroupFromDate" class="formGroupSelectorElement">
+              <div class="col-12">
+                <h4>När skrevs receptet?</h4>
+                <div class="input-group mb-3">
+                  <input id="fromDate" type="date" class="form-control" aria-label="Text input with dropdown button"
+                    max="2999-12-31">
+                </div>
+              </div>
             </div>
+
+            <div id="formGroupToDate" class="formGroupSelectorElement">
+              <h4>Hur länge ska receptet räcka?</h4>
+              <div class="input-group mb-3">
+                <input id="toDate" type="date" class="form-control" aria-label="Text input with dropdown button"
+                  max="2999-12-31">
+                <button id="btnToDate" class="btn btn-outline-primary dropdown-toggle" type="button"
+                  data-bs-toggle="dropdown" aria-expanded="false">Förvalda datum:</button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="1" data-timeframe="weeks"
+                      data-element="#toDate" href="#">1 vecka</a></li>
+                  <li><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="2" data-timeframe="weeks"
+                      data-element="#toDate" href="#">2 veckor</a></li>
+                  <li><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="1" data-timeframe="months"
+                      data-element="#toDate" href="#">1 månad</a></li>
+                  <li><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="3" data-timeframe="months"
+                      data-element="#toDate" href="#">3
+                      månader</a></li>
+                  </li>
+                  <li><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="6" data-timeframe="months"
+                      data-element="#toDate" href="#">6
+                      månader</a></li>
+                  <li><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="1" data-timeframe="years"
+                      data-element="#toDate" href="#">1 år</a></li>
+                </ul>
+              </div>
+            </div>
+
 
             <h4>Dosering</h4>
-            <div class="row g-3">
+            <div class="row gx-3 gy-sm-1">
               <div class="col">
                 <input id="dosage" type="text" class="form-control" placeholder="Dos (t.ex. 2x2, 1+0+1, 1*3)">
               </div>
               <div class="col">
                 <input id="packageSize" type="number" class="form-control" placeholder="Förpackningsstorlek">
               </div>
-              <div class="col">
+              <div id="formGroupWithdrawls" class="col formGroupSelectorElement">
                 <input id="withdrawls" type="number" class="form-control" placeholder="Antal uttag">
               </div>
             </div>
 
           </div>
+
         </div>
 
         <div id="alertReceptInfo" class="col-12 mt-4 alert alert-secondary rounded-0 text-start d-none" role="alert">
@@ -126,7 +110,7 @@
               I dagsläget borde <strong>22 tabletter finnas kvar</strong> som enligt receptet <strong>bör räcka i 10
                 dagar</strong></b></p>
             <button id="kopieraKnapp" class="btn btn-primary"><i class="bi bi-clipboard"></i> Kopiera
-              recept-texten</button>
+              texten (för att klistra in i journalen)</button>
           </div>
         </div>
 

@@ -6,12 +6,13 @@ var currentFunction;
 var aktuelltRecept;
 
 // Function that manipulate the form and turns off/"disables" the input boxes not used
-function setUpInitialForm(currentFunctionState, buttonSelector, stateId) {
+function setUpInitialForm(currentFunctionState, buttonSelector, stateId, dNone) {
     $("#alertReceptInfo").addClass("d-none");
     $(".btnSelector").addClass("btn-outline-primary").removeClass("btn-primary");
     $("input,button").removeAttr("disabled");
     $(buttonSelector).removeClass("btn-outline-primary").addClass("btn-primary");
     $(stateId).prop("disabled",true);
+    $(dNone).addClass("d-none");
     currentFunction = currentFunctionState;
     switch(currentFunction) {
         case "uttag":
@@ -154,7 +155,7 @@ function copyAktuelltReceptToClipboard() {
 $(function () {
     $("#fromDate, #toDate, #dosage, #packageSize, #withdrawls").on("input", mainFunction);
 
-    $('#btnDagar').on('click', function() { setUpInitialForm("dagar", "#btnDagar", "#toDate,#btnToDate")});
+    $('#btnDagar').on('click', function() { setUpInitialForm("dagar", "#btnDagar", "#toDate,#btnToDate", "formGroupToDate")});
     $('#btnUttag').on('click', function() { setUpInitialForm("uttag", "#btnUttag", "#withdrawls")});
     $('#btnAverage').on('click', function() { setUpInitialForm("average", "#btnAverage", "#dosage")});
 
