@@ -8588,27 +8588,16 @@ var { DateTime, Interval } = require("luxon"); //imports Luxon
 // to browswerify: 
 // browserify uncompiled/js/index.uncompiled.js -o public_html/js/main.js
 
-var currentFunction = "dagar";
+var currentFunction;
 var aktuelltRecept;
 
 // Function that manipulate the form and turns off/"disables" the input boxes not used
 function setUpInitialForm(currentFunctionState, buttonSelector, stateId, dNone) {
     $("#alertReceptInfo").addClass("d-none");
     $(".btnSelector").addClass("btn-outline-primary").removeClass("btn-primary");
-    $("input,button").removeAttr("disabled");
     $(buttonSelector).removeClass("btn-outline-primary").addClass("btn-primary");
-    $(stateId).prop("disabled", true);
     $(".formGroupSelectorElement").removeClass("d-none");
     currentFunction = currentFunctionState;
-    switch (currentFunction) {
-        case "uttag":
-            changeDate("+", "0", "days", "#fromDate");
-            break;
-        case "average":
-            changeDate("+", "0", "days", "#toDate");
-            break;
-    }
-    $("#mainForm").removeClass("d-none");
     mainFunction();
 }
 
@@ -8622,8 +8611,7 @@ function mainFunction() {
 
     if (currentFunction === "uttag") {
         $("#formGroupWithdrawls, #formGroupFromDate").addClass("d-none");
-        $(".btnExtraInfo").text("");
-        if (typeof dateFrom === 'string' && typeof dateTo === 'string') {
+        if (typeof dateTo === 'string') {
             var days = calculateDateDifference();
             if (typeof dosage === 'string') {
                 var totalPillsPerDay = calculateTotalPillsPerDay();
@@ -8631,8 +8619,6 @@ function mainFunction() {
                     var withdrawlsCalculated = Math.ceil((days * totalPillsPerDay) / packageSize);
                     var pillsLeftAtEndofPrescription = (packageSize * withdrawlsCalculated) - (days * totalPillsPerDay);
                     var extraDays = pillsLeftAtEndofPrescription / totalPillsPerDay;
-                    $("#withdrawls").val(withdrawlsCalculated);
-                    // $("#btnUttagSpan").text(": " + withdrawlsCalculated + " uttag");
                     aktuelltRecept = "Baserat på dosen " + dosage + " från " + dateFrom + " till " + dateTo + " bör patienten erhålla " + withdrawlsCalculated + " stycken uttag á " + packageSize + " tabletter. Totalt antal tabletter för hela perioden blir " + Math.ceil(days * totalPillsPerDay) + " stycken. Vid slutdatum för receptet bör patienten ha kvar " + Math.floor(pillsLeftAtEndofPrescription) + " tabletter, vilket skulle kunna räcka i ytterliggare " + Math.floor(extraDays) + " dagar till och med " + DateTime.fromISO(dateTo).plus({ days: extraDays }).toISODate();;
                     updateReceptText()
                 }
@@ -8642,7 +8628,6 @@ function mainFunction() {
 
     if (currentFunction === "dagar") {
         $("#formGroupToDate").addClass("d-none");
-        $(".btnExtraInfo").text("");
         if (typeof dosage === 'string') {
             var totalPillsPerDay = calculateTotalPillsPerDay();
             if (packageSize > 0 && withdrawls > 0 && totalPillsPerDay > 0) {
@@ -8651,13 +8636,10 @@ function mainFunction() {
                     var toDate = DateTime.fromISO(dateFrom).plus({ days: days });
                     var fromDate = DateTime.fromISO(dateFrom);
                     var today = DateTime.now();
-                    $("#toDate").val(toDate.toISODate());
                     if (toDate > today) {
                         var remainingDays = Math.ceil(toDate.diff(today).as('days'));
-                        //$("#btnDagarSpan").text(": " + remainingDays + " dagar");
                         aktuelltRecept = `Patientens recept från ${dateFrom} för ${packageSize} tabletter med ${withdrawls} uttag med dosen ${dosage} bör räcka i ytterligare ${remainingDays} dagar. Vid dagens datum ${today.toISODate()} bör det fortfarande finnas kvar ${Math.floor(packageSize * withdrawls - Interval.fromDateTimes(fromDate, today).length('days') * totalPillsPerDay)} tabletter. Om alla tabletter förbrukats till idag har det skett med en snittförbrukning på ${Math.round(((packageSize * withdrawls / Interval.fromDateTimes(fromDate, today).length('days')) + Number.EPSILON) * 10) / 10} tabletter/dag.`;
                     } else {
-                        //  $("#btnDagarSpan").text(": Receptet tog slut " + toDate.toISODate());
                         aktuelltRecept = `Patientens recept från ${dateFrom} för ${packageSize} tabletter i ${withdrawls} uttag med dosen ${dosage} bör ha tagit slut ` + toDate.toISODate() + ". Således har patienten varit utan tabletter i " + Math.floor(Interval.fromDateTimes(toDate, today).length('days')) + " dagar.";
                     }
                     updateReceptText()
@@ -8666,26 +8648,8 @@ function mainFunction() {
         }
     }
 
-    if (currentFunction === "average") {
-        $(".btnExtraInfo").text("");
-        if (typeof dateFrom === 'string' && typeof dateTo === 'string') {
-            var days = calculateDateDifference();
-            if (packageSize > 0 && withdrawls > 0 && days > 0) {
-                var totalPills = packageSize * withdrawls;
-                var pillsPerDay = totalPills / days;
-                pillsPerDay = Math.round((pillsPerDay + Number.EPSILON) * 10) / 10;
-                $("#dosage").val(pillsPerDay + "x1");
-                $("#btnAverageSpan").text(": " + pillsPerDay + " tabletter/dag");
-                var toDate = DateTime.fromISO(dateFrom).plus({ days: days });
-                var today = DateTime.now();
-                aktuelltRecept = `Patientens fick ett recept ${dateFrom} för ${packageSize} tabletter med ${withdrawls} uttag. Om alla tabletter förbrukats till idag har det skett med en snittförbrukning på ${pillsPerDay} tabletter/dag.`;
-                updateReceptText()
-            }
-        }
-    }
-
     function calculateDateDifference() {
-        var now = DateTime.fromISO(dateFrom);
+        var now = DateTime.now();
         var later = DateTime.fromISO(dateTo);
         var i = Interval.fromDateTimes(now, later);
         var days = Math.round(i.length('days'));
@@ -8735,7 +8699,7 @@ function copyAktuelltReceptToClipboard() {
             $('#kopieraKnapp').html("<i class='bi bi-clipboard-check-fill'></i> Kopierat");
         },
         () => {
-            console.log("Gick ej att kopiera");
+            $('#kopieraKnapp').html("Tyvärr stödjer inte din webbläsare kopiering :'(");
         }
     );
 }
@@ -8755,7 +8719,5 @@ $(function () {
     });
 
     $('#kopieraKnapp').on('click', copyAktuelltReceptToClipboard);
-
-    setUpInitialForm("dagar", "#btnDagar", "#toDate,#btnToDate", "formGroupToDate");
 });
 },{"luxon":1}]},{},[2]);
