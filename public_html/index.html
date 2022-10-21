@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Beräkna recept · Receptkalkylator.se</title>
+  <link href="./css/main.min.css" rel="stylesheet"> <!-- including Bootstrap css -->
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+
+  <script data-host="https://microanalytics.io" data-dnt="false" src="https://microanalytics.io/js/script.js"
+    id="ZwSg9rf6GA" async defer></script>
+</head>
+
+<body>
+
+  <body>
+
+    <div style="background: white; width: 100%;">
+      <!-- hack made to make sides white when using footer as body-background to make it look like footer stretches the page height-->
+
+      <header class="px-4 pt-4 text-center">
+        <a href="/" alt="Link to home" class="text-decoration-none">
+          <div class="col-xl-6 col-lg-9 col-md-12 mx-auto text-center d-flex align-items-center justify-content-center">
+            <img src="./img/layout/logo_with_text.svg" alt="Logo of Receptkalkylator.se">
+          </div>
+        </a>
+      </header>
+
+      <main class="col-xl-6 col-lg-9 col-md-12 mx-auto text-center px-3 pb-5">
+        <div class="row text-start pt-4">
+          <div class="col-12 py-3 d-grid gap-2 d-md-block">
+            <button id="btnDagar" class="btnSelector btn btn-lg btn-primary mb-2" type="button">Hur många tabletter
+              finns kvar?</button>
+            <button id="btnUttag" class="btnSelector btn btn-lg btn-outline-primary mb-2" type="button">Hur stort recept
+              ska jag skriva ut?</button>
+          </div>
+
+          <div id="mainForm">
+            <div id="formGroupFromDate" class="formGroupSelectorElement">
+              <div class="col-12">
+                <h4>När skrevs receptet?</h4>
+                <div class="input-group mb-3">
+                  <input id="fromDate" type="date" class="form-control" aria-label="Text input with dropdown button"
+                    max="2999-12-31">
+                </div>
+              </div>
+            </div>
+
+            <div id="formGroupToDate" class="formGroupSelectorElement d-none">
+              <h4>Hur länge ska receptet räcka?</h4>
+              <div class="input-group mb-3">
+                <input id="toDate" type="date" class="form-control" aria-label="Text input with dropdown button"
+                  max="2999-12-31">
+                <button id="btnToDate" class="btn btn-outline-primary dropdown-toggle" type="button"
+                  data-bs-toggle="dropdown" aria-expanded="false">Förvalda datum:</button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="1" data-timeframe="weeks"
+                      data-element="#toDate" href="#">1 vecka</a></li>
+                  <li><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="2" data-timeframe="weeks"
+                      data-element="#toDate" href="#">2 veckor</a></li>
+                  <li><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="1" data-timeframe="months"
+                      data-element="#toDate" href="#">1 månad</a></li>
+                  <li><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="3" data-timeframe="months"
+                      data-element="#toDate" href="#">3
+                      månader</a></li>
+                  </li>
+                  <li><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="6" data-timeframe="months"
+                      data-element="#toDate" href="#">6
+                      månader</a></li>
+                  <li><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="1" data-timeframe="years"
+                      data-element="#toDate" href="#">1 år</a></li>
+                </ul>
+              </div>
+            </div>
+
+
+            <h4>Dosering</h4>
+            <div class="row gx-3 gy-sm-1">
+              <div class="col">
+                <input id="dosage" type="text" class="form-control" placeholder="Dos (t.ex. 2x2, 1+0+1, 1*3)">
+              </div>
+              <div class="col">
+                <input id="packageSize" type="number" class="form-control" placeholder="Förpackningsstorlek">
+              </div>
+              <div id="formGroupWithdrawls" class="col formGroupSelectorElement">
+                <input id="withdrawls" type="number" class="form-control" placeholder="Antal uttag">
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div id="alertReceptInfo" class="col-12 mt-4 alert alert-secondary rounded-0 text-start d-none" role="alert">
+          <div class="m-1 p-3 border-primary border border-3">
+            <h2 class="text-primary">RECEPT</h2>
+            <p id="pReceptText">3x1 i 30 dagar från 2022-07-01 till 2022-08-01. 3 stycken förpackningar á 98 tabletter.
+              I dagsläget borde <strong>22 tabletter finnas kvar</strong> som enligt receptet <strong>bör räcka i 10
+                dagar</strong></b></p>
+            <button id="kopieraKnapp" class="btn btn-primary"><i class="bi bi-clipboard"></i> Kopiera
+              texten (för att klistra in i journalen)</button>
+              <div id="additionalInfo" class="text-muted hideAtFormSetUp pt-2">
+                
+              </div>
+          </div>
+        </div>
+
+      </main>
+
+    </div> <!-- Slut på vita bakgrunden -->
+
+    <section class="bg-light py-4">
+      <div class="col-xl-6 col-lg-9 col-md-12 mx-auto text-start px-3 py-4">
+        <h2 class="pb-2">Svar på de vanligaste frågorna om recept</h2>
+
+        <h4 class="pt-3">Förskrivningsregler</h4>
+
+        <div class="accordion" id="accordion1">
+
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingOne">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                Hur länge gäller ett recept som längst?
+              </button>
+            </h2>
+            <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
+              data-bs-parent="#accordion1">
+              <div class="accordion-body">Giltighetstiden för ett recept är 12 månader och kan inte förlängas. Däremot
+                kan giltighetstiden begränsas om det anges på receptet.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingThree">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                Hur mycket läkemedel kan förskrivas per uttag?
+              </button>
+            </h2>
+            <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree"
+              data-bs-parent="#accordion1">
+              <div class="accordion-body">Som mest beviljas uttag för att täcka 90 dagars förbrukning inom
+                högkostnadsskyddet. Begärs större uttag kan detta bekostas utanför högkostnadsskyddet.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingFour">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
+                Hur ofta kan preventivmedel hämtas ut?
+              </button>
+            </h2>
+            <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour"
+              data-bs-parent="#accordion1">
+              <div class="accordion-body">Preventivmedel är generellt undantaget den s.k. 90-dagarsregeln och kan hämtas
+                ut för 1 års förbrukning.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-heading5">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#flush-collapse5" aria-expanded="false" aria-controls="flush-collapse5">
+                Hur många uttag kan hämtas ut vid ett och samma tillfälle?
+              </button>
+            </h2>
+            <div id="flush-collapse5" class="accordion-collapse collapse" aria-labelledby="flush-heading5"
+              data-bs-parent="#accordion1">
+              <div class="accordion-body">
+                <p>Sedan 2018 kan endast 1 uttag göras vid ett och samma tillfälle inom högkostnadsskyddet. Det är
+                  därför viktigt att ordinera en adekvat förpackningsstorlek och ett korrekt antal förpackningar per
+                  uttag.</p>
+                <p><i>Exempel: Paracetamol 500 mg förskrivs med ordination 2x4 på förpackningsstorleken 100 stycken och
+                    12 uttag. En förpackning á 100 tabletter räcker utifrån ordinationen endast i 12 dagar. Patienten
+                    har visserligen totalt sett behandling för 150 dagar men måste besöka apoteket varannan vecka. 
+                    För patienten hade det underlättat att få fler förpackningar förskrivet per uttag. 
+                  </i></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-heading6">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#flush-collapse6" aria-expanded="false" aria-controls="flush-collapse6">
+                Hur ofta kan läkemedel hämtas ut?
+              </button>
+            </h2>
+            <div id="flush-collapse6" class="accordion-collapse collapse" aria-labelledby="flush-heading6"
+              data-bs-parent="#accordion1">
+              <div class="accordion-body">
+                <p>Ett nytt uttag kan inom högkostnadsskyddet göras tidigast efter 2/3 av tiden som ett recept ska
+                  räcka. </p>
+                <p><i>Exempel: Enalapril 20 mg förskrivs på ordination 1x1 med förpackningsstorlek 100 stycken och 4
+                    uttag. Det andra uttaget kan göras tidigast 60 dagar efter det första uttaget.</i></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-heading10">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#flush-collapse10" aria-expanded="false" aria-controls="flush-collapse10">
+                Kan receptfria läkemedel skrivas på recept?
+              </button>
+            </h2>
+            <div id="flush-collapse10" class="accordion-collapse collapse" aria-labelledby="flush-heading10"
+              data-bs-parent="#accordion1">
+              <div class="accordion-body">Ja. Alla läkemedel kan förskrivas på recept. I vissa fall är det lämpligt att även skriva recept på receptfria läkemedel för subventionering inom högkostnadsskyddet. Var dock uppmärksam på att flertalet regioner har särskilda regler för just detta.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-heading14">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#flush-collapse14" aria-expanded="false" aria-controls="flush-collapse14">
+                Är det åldersgräns på receptfria läkemedel?
+              </button>
+            </h2>
+            <div id="flush-collapse14" class="accordion-collapse collapse" aria-labelledby="flush-heading14"
+              data-bs-parent="#accordion1">
+              <div class="accordion-body">Ja. Det är 18-årsgräns på samtliga receptfria läkemedel.
+              </div>
+            </div>
+          </div>
+          
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-heading15">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#flush-collapse15" aria-expanded="false" aria-controls="flush-collapse15">
+                Får läkare skriva recept till sig själv?
+              </button>
+            </h2>
+            <div id="flush-collapse15" class="accordion-collapse collapse" aria-labelledby="flush-heading15"
+              data-bs-parent="#accordion1">
+              <div class="accordion-body">Ja. Förskrivningsrätten innefattar även läkemedelsförskrivning för eget bruk. Detta görs enklast som “Fritidsförskrivning” på E-hälsomyndighetens webbplats <a href="https://www.ehalsomyndigheten.se/yrkesverksam/vard/forskrivningskollen/">förskrivningskollen.se</a>.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-heading16">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#flush-collapse16" aria-expanded="false" aria-controls="flush-collapse16">
+                Vad är licensförskrivning?
+              </button>
+            </h2>
+            <div id="flush-collapse16" class="accordion-collapse collapse" aria-labelledby="flush-heading16"
+              data-bs-parent="#accordion1">
+              <div class="accordion-body"><p>För att en patient ska kunna behandlas med ett icke godkänt läkemedel krävs det att apoteket söker om en licens. Läkaren måste först starta ett ärende i <a href="https://www.ehalsomyndigheten.se/yrkesverksam/klas/" target="_blank">e-tjänsten KLAS</a>. Det är Läkemedelsverket som beslutar i frågan.</p>
+              <p>Läkarens ansöka ska beskriva tidigare behandlingsförsök och varför inte godkända läkemedel kan användas samt motivera valet av det aktuella licensläkemedlet.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-heading17">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#flush-collapse17" aria-expanded="false" aria-controls="flush-collapse17">
+                Hur ofta behöver läkare förnya sin licensansökan?
+              </button>
+            </h2>
+            <div id="flush-collapse17" class="accordion-collapse collapse" aria-labelledby="flush-heading17"
+              data-bs-parent="#accordion1">
+              <div class="accordion-body">Läkarens licensmotivering sparas i 36 månader. Under denna period kan apoteket på egen hand förnya licensansökan vid behov.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-heading18">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#flush-collapse18" aria-expanded="false" aria-controls="flush-collapse18">
+                Vad är skillnaden på enskild och generell licens?
+              </button>
+            </h2>
+            <div id="flush-collapse18" class="accordion-collapse collapse" aria-labelledby="flush-heading18"
+              data-bs-parent="#accordion1">
+              <div class="accordion-body">En enskild licens gäller en enskild patient och är inte kopplat till förskrivande läkare eller vårdenhet. En generell licens tillgodoser tvärtom behovet av läkemedelsrekvirering på en eller flera vårdenheter (exempelvis ett sjukhus) men gäller inte för receptexpediering annat än i undantagsfall. 
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-heading19">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#flush-collapse19" aria-expanded="false" aria-controls="flush-collapse19">
+                Kan någon annan hämta ut läkemedel till patienten?
+              </button>
+            </h2>
+            <div id="flush-collapse19" class="accordion-collapse collapse" aria-labelledby="flush-heading19"
+              data-bs-parent="#accordion1">
+              <div class="accordion-body">Ja. Genom att lämna in en fullmakt till Apoteket kan exempelvis en anhörig eller vårdenhet hämta ut läkemedel åt patienten. En vårnadshavare kan även överlåta sitt barns apoteksärenden genom en <a href="https://www.ehalsomyndigheten.se/privat/blanketter/blanketter-for-fullmakter/" target="_blank">fullmakt från E-hälsomyndigheten</a>. 
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-heading20">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#flush-collapse20" aria-expanded="false" aria-controls="flush-collapse20">
+                Hur kan patienten som bor långt ifrån Apotek hämta ut sina läkemedel?
+              </button>
+            </h2>
+            <div id="flush-collapse20" class="accordion-collapse collapse" aria-labelledby="flush-heading20"
+              data-bs-parent="#accordion1">
+              <div class="accordion-body">På de flesta orter som saknar apotek finns det apoteksombud. Det kan exempelvis vara en lanthandel där du kan kan hämta ut och lämna in läkemedel.
+              </div>
+            </div>
+          </div>
+        
+
+        </div>
+
+        <h4 class="pt-3">Kostnader</h4>
+
+        <div class="accordion" id="accordion2">
+
+     
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingTwo">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                Hur högt är högkostandsskyddet?
+              </button>
+            </h2>
+            <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo"
+              data-bs-parent="#accordion2">
+              <div class="accordion-body">Högkostandsskyddet uppgår 2022 till 2400 kr. Det innebär att patienten aldrig
+                betalar mer än 2400 kr per 12 månadersperiod.
+              </div>
+            </div>
+          </div>
+      
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-heading10x">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#flush-collapse10x" aria-expanded="false" aria-controls="flush-collapse10x">
+                Är receptfria läkemedel billigare med recept?
+              </button>
+            </h2>
+            <div id="flush-collapse10x" class="accordion-collapse collapse" aria-labelledby="flush-heading10x"
+              data-bs-parent="#accordion2">
+              <div class="accordion-body">
+                <p>Nej. Generellt sett är receptfria läkemedel billigare att köpa utan recept, t.ex. från nätapotek
+                  eller vanliga livsmedelsbutiker, förutsatt att patienten inte nått upp till subvention inom
+                  högkostnadsskyddet.</p>
+                <p>Läs mer i <a
+                    href="https://www.konkurrensverket.se/informationsmaterial/rapportlista/prisutveckling-pa-receptfria-lakemedel-sedan-omregleringen/"
+                    target="_blank" alt="Länk till rapport om recept på Konkurrensverkets hemsida">Konkurrensverkets
+                    rapport från 2017</a>.</p>
+              </div>
+            </div>
+          </div>
+      
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-heading11">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#flush-collapse11" aria-expanded="false" aria-controls="flush-collapse11">
+                Är läkemedel gratis för barn och ungdomar?
+              </button>
+            </h2>
+            <div id="flush-collapse11" class="accordion-collapse collapse" aria-labelledby="flush-heading11"
+              data-bs-parent="#accordion2">
+              <div class="accordion-body">Ja. Läkemedel inom läkemedelsförmånen är kostnadsfria till barn och ungdomar upp till och med 18 år.
+              </div>
+            </div>
+          </div>
+      
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-heading12">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#flush-collapse12" aria-expanded="false" aria-controls="flush-collapse12">
+                Är läkemedel för behandling för könssjukdom kostnadsfri?
+              </button>
+            </h2>
+            <div id="flush-collapse12" class="accordion-collapse collapse" aria-labelledby="flush-heading12"
+              data-bs-parent="#accordion2">
+              <div class="accordion-body">Ja. Läkemedel för behandling av könssjukdomar som lyder under Smittskyddslagen är kostnadsfria oavsett ålder. Könssjukdomar som ingår i Smittskyddslagen är: Klamydia, Gonorré, Hepatit B, Syfilis och HIV.
+              </div>
+            </div>
+          </div>
+      
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-heading13">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#flush-collapse13" aria-expanded="false" aria-controls="flush-collapse13">
+                Är preventivmedel gratis?
+              </button>
+            </h2>
+            <div id="flush-collapse13" class="accordion-collapse collapse" aria-labelledby="flush-heading13"
+              data-bs-parent="#accordion2">
+              <div class="accordion-body">För kvinnor mellan 18-20 år är preventivmedel kostnadsfritt på nationell nivå.
+                Därefter subventioneras
+                preventivmedel olika beroende på vilken region patienten bor i.
+              </div>
+            </div>
+          </div>
+          
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-heading14">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#flush-collapse14" aria-expanded="false" aria-controls="flush-collapse14">
+                Är diabetesläkemedel kostnadsfria?
+              </button>
+            </h2>
+            <div id="flush-collapse14" class="accordion-collapse collapse" aria-labelledby="flush-heading14"
+              data-bs-parent="#accordion2">
+              <div class="accordion-body">Insulin är kostnadsfritt till både patienter med diabetes typ 1 och typ 2.  Även kombinationspreparat av insulin och GLP-1-analoger är kostnadsfria.
+              </div>
+            </div>
+          </div>
+          
+      
+        </div>
+
+        <h4 class="pt-3">Resa och medborgarskap</h4>
+
+        <div class="accordion" id="accordion3">
+
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-heading7">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#flush-collapse7" aria-expanded="false" aria-controls="flush-collapse7">
+                Får fler uttag göras inför exempelvis utlandsresa?
+              </button>
+            </h2>
+            <div id="flush-collapse7" class="accordion-collapse collapse" aria-labelledby="flush-heading7"
+              data-bs-parent="#accordion3">
+              <div class="accordion-body">Vid synnerliga skäl (exempelvis utlandsstudier) får Apoteket göra undantag
+                från den s.k. 90-dagarsregeln och bevilja större uttag inom läkemedelsförmånen.
+              </div>
+            </div>
+          </div>
+        
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-heading8">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#flush-collapse8" aria-expanded="false" aria-controls="flush-collapse8">
+                Hur mycket läkemedel får patienten ta med sig utomlands?
+              </button>
+            </h2>
+            <div id="flush-collapse8" class="accordion-collapse collapse" aria-labelledby="flush-heading8"
+              data-bs-parent="#accordion3">
+              <div class="accordion-body">Det beror på mottagande land. Kontakta aktuellt lands ambassad för regler
+                gällande läkemedel.
+              </div>
+            </div>
+          </div>
+        
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-heading9">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#flush-collapse9" aria-expanded="false" aria-controls="flush-collapse9">
+                Behövs intyg för att resa med narkotikaklassade läkemedel?
+              </button>
+            </h2>
+            <div id="flush-collapse9" class="accordion-collapse collapse" aria-labelledby="flush-heading9"
+              data-bs-parent="#accordion3">
+              <div class="accordion-body">
+                <p>Vid resa till Schengenland krävs ett schengenintyg för varje läkemedel som är narkotikaklassat i det
+                  mottagande landet. För övriga länder bör aktuellt lands ambassad konsulteras.</p>
+                <p>Schengenintyg finns att fylla i elektroniskt på Läkemedelsverkets hemsida:
+                  <a href="https://www.lakemedelsverket.se/48fdea/globalassets/dokument/blanketter-och-e-tjanster/handel-med-lakemedel/schengenintyg.pdf"
+                    alt="Schengen-intyg för narkotikaklassade läkemedel" target="_blank">Schengen-intyg</a>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-heading15">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#flush-collapse15" aria-expanded="false" aria-controls="flush-collapse15">
+                Hur förskrivs recept till patienter utan svensk personnummer?
+              </button>
+            </h2>
+            <div id="flush-collapse15" class="accordion-collapse collapse" aria-labelledby="flush-heading15"
+              data-bs-parent="#accordion3">
+              <div class="accordion-body">För patienter utan svensk personnummer gäller inte det nationella e-receptformatet vilket innebär att läkaren och patienten måste komma överens om vilket apotek receptet ska hämtas ut på och ange detta vid förskrivningen. Vidare kan inte uttag sparas och förskrivningen omfattas inte av högkostandsskyddet.
+              </div>
+            </div>
+          </div>
+          
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-heading16">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#flush-collapse16" aria-expanded="false" aria-controls="flush-collapse16">
+                Kan läkare skriva recept till papperslösa?
+              </button>
+            </h2>
+            <div id="flush-collapse16" class="accordion-collapse collapse" aria-labelledby="flush-heading16"
+              data-bs-parent="#accordion3">
+              <div class="accordion-body">Asylsökande och tillståndslösa som uppehåller sig i Sverige omfattas inte av läkemedelsförmånen. För vuxna subventioneras endast läkemedel för vård som inte kan anstå. Barn och ungdomar har rätt till samma vård som andra barn och ungdomar som bor i Sverige. <a href="https://www.migrationsverket.se/Andra-aktorer/Kommuner/Om-asylsokande/Ratt-till-vard.html" target="_blank">Läs mer på Migrationsverkets hemsida</a>. 
+              </div>
+            </div>
+          </div>
+          
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-heading17">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#flush-collapse17" aria-expanded="false" aria-controls="flush-collapse17">
+                Kan patienter hämta ut recept skrivet i Sverige utomlands?
+              </button>
+            </h2>
+            <div id="flush-collapse17" class="accordion-collapse collapse" aria-labelledby="flush-heading17"
+              data-bs-parent="#accordion3">
+              <div class="accordion-body"><p>Ja. I princip är recept förskrivna inom EES giltiga inom hela EES (Europeiska unionen inklusive Norge, Island och Liechtenstein). I praktiken krävs dock ett pappersrecept då EES inte har samma system för e-recept. <a href="https://europa.eu/youreurope/citizens/health/prescription-medicine-abroad/prescriptions/index_sv.htm" target="_blank">Läs mer på europeiska unionens hemsida</a></p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-heading18">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#flush-collapse18" aria-expanded="false" aria-controls="flush-collapse18">
+                Krävs läkarintyg för att få ta med läkemedel på flyget?
+              </button>
+            </h2>
+            <div id="flush-collapse18" class="accordion-collapse collapse" aria-labelledby="flush-heading18"
+              data-bs-parent="#accordion3">
+              <div class="accordion-body">Nej. Däremot underlättar det om läkemedel medförs i originalförpackning men det är inget krav.
+              </div>
+            </div>
+          </div>
+      
+        </div>
+
+      </div>
+    </section>
+
+    <footer class="px-4 py-5 footer-dark">
+      <div class="col-12 mx-auto py-3 text-center">
+        <h3 class="text-white"><a href="https://www.medibyte.se/" class="no-decoration text-white"><img
+              src="./img/layout/medibyte_logo.png" alt="Medibyte logo" id="footer-logo">
+          </a></h3>
+        <div class="col-lg-4 mx-auto">
+          <p class="fs-5 mb-4 mt-2">Medibyte är ett läkardrivet initiativ för digitala verktyg att använda i den
+            kliniska vardagen</p>
+        </div>
+
+      </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+      </script> <!-- Bootstrap 5 -->
+    <script src="./js/main.min.js" type="text/javascript"></script>
+    <!-- Luxon and all custom js, e.g. all calculations and manipulation -->
+
+  </body>
+
+</html>
