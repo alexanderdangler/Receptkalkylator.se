@@ -25,22 +25,18 @@ function mainFunction() {
     const dosage = $("#dosage").val();
     const packageSize = $("#packageSize").val();
     const withdrawls = $("#withdrawls").val();
+    $("#additionalInfo").html("");
 
     if (currentFunction === "uttag") {
         $("#headerToDate").html("Hur länge ska receptet räcka?");
         $(".uttagDropdown").removeClass("d-none");
         $(".usageDropdown").addClass("d-none");
-        console.log("currentFunction === uttag ran");
         $("#formGroupWithdrawls, #formGroupFromDate").addClass("d-none");
         if (typeof dateTo === 'string') {
-            console.log("currentFunction === uttag step 2 ran");
             var days = calculateDateDifference();
-            console.log(dosage);
             if (typeof dosage === 'string') {
-              console.log("currentFunction === uttag step 3 ran");
                 var totalPillsPerDay = calculateTotalPillsPerDay();
                 if (packageSize > 0 && totalPillsPerDay > 0 && days > 0) {
-                  console.log("currentFunction === uttag step 4 ran");
                     var withdrawlsCalculated = Math.ceil((days * totalPillsPerDay) / packageSize);
                     var pillsLeftAtEndofPrescription = (packageSize * withdrawlsCalculated) - (days * totalPillsPerDay);
                     var extraDays = pillsLeftAtEndofPrescription / totalPillsPerDay;
@@ -76,8 +72,8 @@ function mainFunction() {
     }
 
     if (currentFunction === "usage") {
-        $(".uttagDropdown").addClass("d-none");;
-        $(".usageDropdown").removeClass("d-none")
+        $(".uttagDropdown").addClass("d-none");
+        $(".usageDropdown").removeClass("d-none");
         $("#formGroupDose").addClass("d-none");
         $("#headerToDate").html("När tog receptet slut?");
             if (packageSize > 0 && withdrawls > 0) {
@@ -88,13 +84,12 @@ function mainFunction() {
                     var today = DateTime.now();
                     var days = Math.ceil(toDate.diff(fromDate).as('days'));
                     aktuelltRecept = `Om receptet skrivet ${dateFrom} med ${withdrawls} uttag av ${packageSize} tabletter helt har förbrukats till den ${dateTo} har det skett med en <b>snittförbrukning på ${Math.round(((packageSize * withdrawls / days) + Number.EPSILON) * 10) / 10} tabletter/dag</b>. Totalt antal tabletter förskrivet är ${packageSize * withdrawls} stycken`;
-                    updateReceptText()
+                    updateReceptText();
                 }
             }
     }
 
     function calculateDateDifference() {
-        console.log("calculateDateDifference ran");
         var now = DateTime.now();
         var later = DateTime.fromISO(dateTo);
         var i = Interval.fromDateTimes(now, later);
@@ -103,7 +98,6 @@ function mainFunction() {
     }
 
     function updateReceptText() {
-      console.log("updateReceptText ran");
         $("#alertReceptInfo").removeClass("d-none");
         $("#pReceptText").html(aktuelltRecept);
     }

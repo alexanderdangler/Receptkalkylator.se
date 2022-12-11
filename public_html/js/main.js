@@ -8592,12 +8592,15 @@ var currentFunction = "dagar";
 var aktuelltRecept;
 
 // Function that manipulate the form and turns off/"disables" the input boxes not used
-function setUpInitialForm(currentFunctionState, buttonSelector, stateId, dNone) {
+function setUpInitialForm(currentFunctionState, buttonSelector) {
     $("#alertReceptInfo, .hideAtFormSetUp").addClass("d-none");
     $(".btnSelector").addClass("btn-outline-primary").removeClass("btn-primary");
     $(buttonSelector).removeClass("btn-outline-primary").addClass("btn-primary");
     $(".formGroupSelectorElement").removeClass("d-none");
     currentFunction = currentFunctionState;
+    if (currentFunction === "usage") {
+      changeDate("+", "0", "days", "#toDate");
+    }
     mainFunction();
 }
 
@@ -8608,8 +8611,12 @@ function mainFunction() {
     const dosage = $("#dosage").val();
     const packageSize = $("#packageSize").val();
     const withdrawls = $("#withdrawls").val();
+    $("#additionalInfo").html("");
 
     if (currentFunction === "uttag") {
+        $("#headerToDate").html("Hur länge ska receptet räcka?");
+        $(".uttagDropdown").removeClass("d-none");
+        $(".usageDropdown").addClass("d-none");
         $("#formGroupWithdrawls, #formGroupFromDate").addClass("d-none");
         if (typeof dateTo === 'string') {
             var days = calculateDateDifference();
@@ -8619,13 +8626,9 @@ function mainFunction() {
                     var withdrawlsCalculated = Math.ceil((days * totalPillsPerDay) / packageSize);
                     var pillsLeftAtEndofPrescription = (packageSize * withdrawlsCalculated) - (days * totalPillsPerDay);
                     var extraDays = pillsLeftAtEndofPrescription / totalPillsPerDay;
-<<<<<<< HEAD
-                    aktuelltRecept = "Baserat på dosen " + dosage + " från " + DateTime.now().toISODate() + " till " + dateTo + " bör patienten erhålla <b>" + withdrawlsCalculated + " stycken uttag</b> á " + packageSize + " tabletter. Totalt antal tabletter för hela perioden blir " + Math.ceil(days * totalPillsPerDay) + " stycken. Vid slutdatum för receptet bör patienten ha kvar " + Math.floor(pillsLeftAtEndofPrescription) + " tabletter, vilket skulle kunna räcka i ytterliggare " + Math.floor(extraDays) + " dagar till och med " + DateTime.fromISO(dateTo).plus({ days: extraDays }).toISODate();;
-=======
-                    aktuelltRecept = "Baserat på dosen " + dosage + " från " + dateFrom + " till " + dateTo + " bör patienten erhålla " + withdrawlsCalculated + " stycken uttag á " + packageSize + " tabletter. Totalt antal tabletter för hela perioden blir " + Math.ceil(days * totalPillsPerDay) + " stycken. Vid slutdatum för receptet bör patienten ha kvar " + Math.floor(pillsLeftAtEndofPrescription) + " tabletter, vilket skulle kunna räcka i ytterliggare " + Math.floor(extraDays) + " dagar till och med " + DateTime.fromISO(dateTo).plus({ days: extraDays }).toISODate();;
->>>>>>> dev
+                    aktuelltRecept = `Receptet utfärdat idag med dosen ${dosage} kommer räcka till ${DateTime.fromISO(dateTo).plus({ days: extraDays }).toISODate()} baserat på <b>${withdrawlsCalculated} stycken uttag</b> á ${packageSize} tabletter. Totalt antal tabletter för hela perioden blir ${Math.ceil(days * totalPillsPerDay)} stycken.`;
                     updateReceptText()
-                    $("#additionalInfo").html("<hr><i>Om patienten förskrivs 1 paket vid varje uttag kan den tidigast hämta ut ett nytt uttag efter " + Math.floor((packageSize / totalPillsPerDay) / 3 * 2) + " dagar, och 1 uttag räcker som max i " + Math.floor(packageSize / totalPillsPerDay) + " dagar. <a id='toAccordion5' href='#flush-heading5'>Läs mer nedan</a>.</i>").removeClass("d-none");
+                    $("#additionalInfo").html("<hr><i><ul><li>Detta recept räcker " + Math.floor(extraDays) + " dagar längre det datum du önskade</li><li>Om patienten förskrivs 1 paket vid varje uttag kan den tidigast hämta ut ett nytt uttag efter " + Math.floor((packageSize / totalPillsPerDay) / 3 * 2) + " dagar, och 1 uttag räcker som max i " + Math.floor(packageSize / totalPillsPerDay) + " dagar. <a id='toAccordion5' href='#flush-heading5'>Läs mer nedan</a>.</li></ul></i>").removeClass("d-none");
                 }
             }
         }
@@ -8643,18 +8646,33 @@ function mainFunction() {
                     var today = DateTime.now();
                     if (toDate > today) {
                         var remainingDays = Math.ceil(toDate.diff(today).as('days'));
-<<<<<<< HEAD
-                        aktuelltRecept = `Patientens recept från ${dateFrom} för ${packageSize} tabletter med ${withdrawls} uttag med dosen ${dosage} <b>bör räcka i ytterligare ${remainingDays} dagar</b>. Vid dagens datum ${today.toISODate()} bör det fortfarande finnas kvar ${Math.floor(packageSize * withdrawls - Interval.fromDateTimes(fromDate, today).length('days') * totalPillsPerDay)} tabletter. Om alla tabletter förbrukats till idag har det skett med en snittförbrukning på ${Math.round(((packageSize * withdrawls / Interval.fromDateTimes(fromDate, today).length('days')) + Number.EPSILON) * 10) / 10} tabletter/dag.`;
-=======
-                        aktuelltRecept = `Patientens recept från ${dateFrom} för ${packageSize} tabletter med ${withdrawls} uttag med dosen ${dosage} bör räcka i ytterligare ${remainingDays} dagar. Vid dagens datum ${today.toISODate()} bör det fortfarande finnas kvar ${Math.floor(packageSize * withdrawls - Interval.fromDateTimes(fromDate, today).length('days') * totalPillsPerDay)} tabletter. Om alla tabletter förbrukats till idag har det skett med en snittförbrukning på ${Math.round(((packageSize * withdrawls / Interval.fromDateTimes(fromDate, today).length('days')) + Number.EPSILON) * 10) / 10} tabletter/dag.`;
->>>>>>> dev
+                        aktuelltRecept = `Patientens recept från ${dateFrom} för dosen ${dosage} av ${packageSize} tabletter med ${withdrawls} uttag <b>bör räcka i ytterligare ${remainingDays} dagar till och med den ${toDate.toISODate()}</b>. Vid dagens datum ${today.toISODate()} bör det fortfarande finnas kvar ${Math.floor(packageSize * withdrawls - Interval.fromDateTimes(fromDate, today).length('days') * totalPillsPerDay)} tabletter. Om alla tabletter förbrukats till idag har det skett med en snittförbrukning på ${Math.round(((packageSize * withdrawls / Interval.fromDateTimes(fromDate, today).length('days')) + Number.EPSILON) * 10) / 10} tabletter/dag.`;
                     } else {
                         aktuelltRecept = `Patientens recept från ${dateFrom} för ${packageSize} tabletter i ${withdrawls} uttag med dosen ${dosage} bör ha tagit slut ` + toDate.toISODate() + ". Således har patienten varit utan tabletter i " + Math.floor(Interval.fromDateTimes(toDate, today).length('days')) + " dagar.";
+                        $("#additionalInfo").html(`<hr><i>Snittförbrukning: ${Math.round(((packageSize * withdrawls / Interval.fromDateTimes(fromDate, toDate).length('days')) + Number.EPSILON) * 10) / 10} tabletter/dag.</i>`).removeClass("d-none");
                     }
                     updateReceptText()
                 }
             }
         }
+    }
+
+    if (currentFunction === "usage") {
+        $(".uttagDropdown").addClass("d-none");
+        $(".usageDropdown").removeClass("d-none");
+        $("#formGroupDose").addClass("d-none");
+        $("#headerToDate").html("När tog receptet slut?");
+            if (packageSize > 0 && withdrawls > 0) {
+                var days = Math.ceil((packageSize * withdrawls) / totalPillsPerDay);
+                if (typeof dateFrom === 'string') {
+                    var toDate = DateTime.fromISO(dateTo);
+                    var fromDate = DateTime.fromISO(dateFrom);
+                    var today = DateTime.now();
+                    var days = Math.ceil(toDate.diff(fromDate).as('days'));
+                    aktuelltRecept = `Om receptet skrivet ${dateFrom} med ${withdrawls} uttag av ${packageSize} tabletter helt har förbrukats till den ${dateTo} har det skett med en <b>snittförbrukning på ${Math.round(((packageSize * withdrawls / days) + Number.EPSILON) * 10) / 10} tabletter/dag</b>. Totalt antal tabletter förskrivet är ${packageSize * withdrawls} stycken`;
+                    updateReceptText();
+                }
+            }
     }
 
     function calculateDateDifference() {
@@ -8667,7 +8685,7 @@ function mainFunction() {
 
     function updateReceptText() {
         $("#alertReceptInfo").removeClass("d-none");
-        $("#pReceptText").text(aktuelltRecept);
+        $("#pReceptText").html(aktuelltRecept);
     }
 
     function calculateTotalPillsPerDay() {
@@ -8703,12 +8721,8 @@ function changeDate(addOrSub, numberOf, timeFrame, element) {
 }
 
 function copyAktuelltReceptToClipboard() {
-<<<<<<< HEAD
     var strippedAktuelltRecept = $("<div/>").html(aktuelltRecept).text();
     navigator.clipboard.writeText(strippedAktuelltRecept).then(
-=======
-    navigator.clipboard.writeText(aktuelltRecept).then(
->>>>>>> dev
         () => {
             $('#kopieraKnapp').html("<i class='bi bi-clipboard-check-fill'></i> Kopierat");
         },
@@ -8722,9 +8736,9 @@ function copyAktuelltReceptToClipboard() {
 $(function () {
     $("#fromDate, #toDate, #dosage, #packageSize, #withdrawls").on("input", mainFunction);
 
-    $('#btnDagar').on('click', function () { setUpInitialForm("dagar", "#btnDagar", "#toDate,#btnToDate", "formGroupToDate") });
-    $('#btnUttag').on('click', function () { setUpInitialForm("uttag", "#btnUttag", "#withdrawls") });
-    //$('#btnAverage').on('click', function() { setUpInitialForm("average", "#btnAverage", "#dosage")});
+    $('#btnDagar').on('click', function () { setUpInitialForm("dagar", "#btnDagar") });
+    $('#btnUttag').on('click', function () { setUpInitialForm("uttag", "#btnUttag") });
+    $('#btnUsage').on('click', function () { setUpInitialForm("usage", "#btnUsage") });
 
     $('.dateDropdown').on('click', function () {
         var element = $(this);
@@ -8735,7 +8749,6 @@ $(function () {
     $(document).on('click', 'a[href^="#"]', function(event) {
 
         var target = $(this.getAttribute('href'));
-      
         if (target.length) {
           event.preventDefault();
           $('html, body').stop().animate({
