@@ -42,8 +42,6 @@
               finns kvar?</button>
             <button id="btnUttag" class="btnSelector btn btn-lg btn-outline-primary mb-2" type="button">Hur stort recept
               ska jag skriva ut?</button>
-            <button id="btnUsage" class="btnSelector btn btn-lg btn-outline-primary mb-2" type="button">Hur många
-              tabletter har förbrukats?</button>
           </div>
 
           <div id="mainForm">
@@ -58,38 +56,28 @@
             </div>
 
             <div id="formGroupToDate" class="formGroupSelectorElement d-none">
-              <h4 id="headerToDate">Hur länge ska receptet räcka?</h4>
+              <h4>Hur länge ska receptet räcka?</h4>
               <div class="input-group mb-3">
                 <input id="toDate" type="date" class="form-control" aria-label="Text input with dropdown button"
                   max="2999-12-31">
                 <button id="btnToDate" class="btn btn-outline-primary dropdown-toggle" type="button"
                   data-bs-toggle="dropdown" aria-expanded="false">Förvalda datum:</button>
                 <ul class="dropdown-menu dropdown-menu-end">
-                  <li class="usageDropdown"><a class="dateDropdown dropdown-item" data-addorsub="-" data-numberof="2" data-timeframe="days"
-                      data-element="#toDate" href="#">I förrgår</a></li>
-                  <li class="usageDropdown"><a class="dateDropdown dropdown-item" data-addorsub="-" data-numberof="1" data-timeframe="days"
-                      data-element="#toDate" href="#">Igår</a></li>
-                  <li class="usageDropdown"><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="0" data-timeframe="days"
-                      data-element="#toDate" href="#">Idag</a></li>
-                  </li>
-                  <li class="usageDropdown"><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="1" data-timeframe="days"
-                      data-element="#toDate" href="#">Imorgon</a></li>
-                  <li class="uttagDropdown"><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="1" data-timeframe="weeks"
+                  <li><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="1" data-timeframe="weeks"
                       data-element="#toDate" href="#">1 vecka</a></li>
-                  <li class="uttagDropdown"><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="2" data-timeframe="weeks"
+                  <li><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="2" data-timeframe="weeks"
                       data-element="#toDate" href="#">2 veckor</a></li>
-                  <li class="uttagDropdown"><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="1" data-timeframe="months"
+                  <li><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="1" data-timeframe="months"
                       data-element="#toDate" href="#">1 månad</a></li>
-                  <li class="uttagDropdown"><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="3" data-timeframe="months"
+                  <li><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="3" data-timeframe="months"
                       data-element="#toDate" href="#">3
                       månader</a></li>
                   </li>
-                  <li class="uttagDropdown"><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="6" data-timeframe="months"
+                  <li><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="6" data-timeframe="months"
                       data-element="#toDate" href="#">6
                       månader</a></li>
-                  <li class="uttagDropdown"><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="1" data-timeframe="years"
+                  <li><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="1" data-timeframe="years"
                       data-element="#toDate" href="#">1 år</a></li>
-                  </li>
                 </ul>
               </div>
             </div>
@@ -97,10 +85,10 @@
 
             <h4>Dosering</h4>
             <div class="row gx-3 gy-sm-1">
-              <div id="formGroupDose" class="col formGroupSelectorElement">
+              <div class="col">
                 <input id="dosage" type="text" class="form-control" placeholder="Dos (t.ex. 2x2, 1+0+1, 1*3)">
               </div>
-              <div id="formGroupPackageSize" class="col formGroupSelectorElement">
+              <div class="col">
                 <input id="packageSize" type="number" class="form-control" placeholder="Förpackningsstorlek">
               </div>
               <div id="formGroupWithdrawls" class="col formGroupSelectorElement">
@@ -120,9 +108,9 @@
                 dagar</strong></b></p>
             <button id="kopieraKnapp" class="btn btn-primary"><i class="bi bi-clipboard"></i> Kopiera
               texten (för att klistra in i journalen)</button>
-            <div id="additionalInfo" class="text-muted hideAtFormSetUp pt-2">
-
-            </div>
+              <div id="additionalInfo" class="text-muted hideAtFormSetUp pt-2">
+                
+              </div>
           </div>
         </div>
 
@@ -192,8 +180,8 @@
                   uttag.</p>
                 <p><i>Exempel: Paracetamol 500 mg förskrivs med ordination 2x4 på förpackningsstorleken 100 stycken och
                     12 uttag. En förpackning á 100 tabletter räcker utifrån ordinationen endast i 12 dagar. Patienten
-                    har visserligen totalt sett behandling för 150 dagar men måste besöka apoteket varannan vecka.
-                    För patienten hade det underlättat att få fler förpackningar förskrivet per uttag.
+                    har visserligen totalt sett behandling för 150 dagar men måste besöka apoteket varannan vecka. 
+                    För patienten hade det underlättat att få fler förpackningar förskrivet per uttag. 
                   </i></p>
               </div>
             </div>
@@ -224,11 +212,7 @@
             </h2>
             <div id="flush-collapse19" class="accordion-collapse collapse" aria-labelledby="flush-heading19"
               data-bs-parent="#accordion1">
-              <div class="accordion-body">Ja. Genom att lämna in en fullmakt till apoteket kan exempelvis en anhörig
-                eller vårdenhet hämta ut läkemedel åt patienten. En vårnadshavare kan även överlåta sitt barns
-                apoteksärenden genom en <a
-                  href="https://www.ehalsomyndigheten.se/privat/blanketter/blanketter-for-fullmakter/"
-                  target="_blank">fullmakt från E-hälsomyndigheten</a>.
+              <div class="accordion-body">Ja. Genom att lämna in en fullmakt till apoteket kan exempelvis en anhörig eller vårdenhet hämta ut läkemedel åt patienten. En vårnadshavare kan även överlåta sitt barns apoteksärenden genom en <a href="https://www.ehalsomyndigheten.se/privat/blanketter/blanketter-for-fullmakter/" target="_blank">fullmakt från E-hälsomyndigheten</a>. 
               </div>
             </div>
           </div>
@@ -241,8 +225,7 @@
             </h2>
             <div id="flush-collapse20" class="accordion-collapse collapse" aria-labelledby="flush-heading20"
               data-bs-parent="#accordion1">
-              <div class="accordion-body">På de flesta orter som saknar apotek finns det apoteksombud. Det kan
-                exempelvis vara en lanthandel där du kan kan hämta ut och lämna in läkemedel.
+              <div class="accordion-body">På de flesta orter som saknar apotek finns det apoteksombud. Det kan exempelvis vara en lanthandel där du kan kan hämta ut och lämna in läkemedel.
               </div>
             </div>
           </div>
@@ -255,9 +238,7 @@
             </h2>
             <div id="flush-collapse15" class="accordion-collapse collapse" aria-labelledby="flush-heading15"
               data-bs-parent="#accordion1">
-              <div class="accordion-body">Ja. Förskrivningsrätten innefattar även läkemedelsförskrivning för eget bruk.
-                Detta görs enklast som “Fritidsförskrivning” på E-hälsomyndighetens webbplats <a
-                  href="https://www.ehalsomyndigheten.se/yrkesverksam/vard/forskrivningskollen/">förskrivningskollen.se</a>.
+              <div class="accordion-body">Ja. Förskrivningsrätten innefattar även läkemedelsförskrivning för eget bruk. Detta görs enklast som “Fritidsförskrivning” på E-hälsomyndighetens webbplats <a href="https://www.ehalsomyndigheten.se/yrkesverksam/vard/forskrivningskollen/">förskrivningskollen.se</a>.
               </div>
             </div>
           </div>
@@ -275,13 +256,8 @@
             </h2>
             <div id="flush-collapse16" class="accordion-collapse collapse" aria-labelledby="flush-heading16"
               data-bs-parent="#accordion5">
-              <div class="accordion-body">
-                <p> För att en patient ska kunna behandlas med ett icke godkänt läkemedel krävs det att apoteket söker
-                  en licens. Läkaren måste först skriva en licensmotivering i <a
-                    href="https://www.ehalsomyndigheten.se/yrkesverksam/klas/" target="_blank">e-tjänsten KLAS</a>. Det
-                  är Läkemedelsverket som beslutar i frågan.
-                <p>Licensmotiveringen ska beskriva tidigare behandlingsförsök och varför inte godkända läkemedel kan
-                  användas samt motivera valet av det aktuella licensläkemedlet.</p>
+              <div class="accordion-body"><p> För att en patient ska kunna behandlas med ett icke godkänt läkemedel krävs det att apoteket söker en licens. Läkaren måste först skriva en licensmotivering i <a href="https://www.ehalsomyndigheten.se/yrkesverksam/klas/" target="_blank">e-tjänsten KLAS</a>. Det är Läkemedelsverket som beslutar i frågan. 
+                <p>Licensmotiveringen ska beskriva tidigare behandlingsförsök och varför inte godkända läkemedel kan användas samt motivera valet av det aktuella licensläkemedlet.</p>
               </div>
             </div>
           </div>
@@ -294,8 +270,7 @@
             </h2>
             <div id="flush-collapse17" class="accordion-collapse collapse" aria-labelledby="flush-heading17"
               data-bs-parent="#accordion5">
-              <div class="accordion-body">Läkarens licensmotivering sparas i 36 månader. Under denna period kan apoteket
-                på egen hand förnya licensansökan vid behov.
+              <div class="accordion-body">Läkarens licensmotivering sparas i 36 månader. Under denna period kan apoteket på egen hand förnya licensansökan vid behov.
               </div>
             </div>
           </div>
@@ -308,10 +283,7 @@
             </h2>
             <div id="flush-collapse18" class="accordion-collapse collapse" aria-labelledby="flush-heading18"
               data-bs-parent="#accordion5">
-              <div class="accordion-body">En enskild licens gäller för en enskild patient och är inte kopplad till
-                förskrivande läkare eller vårdenhet. En generell licens tillgodoser tvärtom behovet av
-                läkemedelsrekvirering på en eller flera vårdenheter (exempelvis ett sjukhus) men gäller inte för
-                receptexpediering annat än i undantagsfall.
+              <div class="accordion-body">En enskild licens gäller för en enskild patient och är inte kopplad till förskrivande läkare eller vårdenhet. En generell licens tillgodoser tvärtom behovet av läkemedelsrekvirering på en eller flera vårdenheter (exempelvis ett sjukhus) men gäller inte för receptexpediering annat än i undantagsfall. 
               </div>
             </div>
           </div>
@@ -329,10 +301,7 @@
             </h2>
             <div id="flush-collapse10" class="accordion-collapse collapse" aria-labelledby="flush-heading10"
               data-bs-parent="#accordion6">
-              <div class="accordion-body">Ja. Alla läkemedel kan skrivas på recept. Det är dock inte säkert att
-                läkemedlet ingår i läkemedelsförmånen och därmed innefattas av högkostnadsskyddet bara för att det
-                skrivs på recept. Vidare har flertalet regioner särskilda regler för förskrivning av receptfria
-                läkemedel.
+              <div class="accordion-body">Ja. Alla läkemedel kan skrivas på recept. Det är dock inte säkert att läkemedlet ingår i läkemedelsförmånen och därmed innefattas av högkostnadsskyddet bara för att det skrivs på recept. Vidare har flertalet regioner särskilda regler för förskrivning av receptfria läkemedel.
               </div>
             </div>
           </div>
@@ -365,14 +334,12 @@
             </h2>
             <div id="flush-collapse14" class="accordion-collapse collapse" aria-labelledby="flush-heading14"
               data-bs-parent="#accordion6">
-              <div class="accordion-body">I dagligvaruhandeln gäller 18-årsgräns på samtliga receptfria läkemedel. På
-                apotek gäller ingen åldersgräns (undantaget nikotinersättning) men mindreåriga får endast köpa en
-                förpackning paracetamol p.g.a. intoxikationsrisk.
+              <div class="accordion-body">I dagligvaruhandeln gäller 18-årsgräns på samtliga receptfria läkemedel. På apotek gäller ingen åldersgräns (undantaget nikotinersättning) men mindreåriga får endast köpa en förpackning paracetamol p.g.a. intoxikationsrisk.
               </div>
             </div>
           </div>
         </div>
-
+      
         <!--KOSTNADER-->
         <h4 class="pt-3">Kostnader</h4>
         <div class="accordion" id="accordion2">
@@ -399,8 +366,7 @@
             </h2>
             <div id="flush-collapse11" class="accordion-collapse collapse" aria-labelledby="flush-heading11"
               data-bs-parent="#accordion2">
-              <div class="accordion-body">Ja. Läkemedel inom läkemedelsförmånen är kostnadsfria till barn och ungdomar
-                upp till och med 18 år.
+              <div class="accordion-body">Ja. Läkemedel inom läkemedelsförmånen är kostnadsfria till barn och ungdomar upp till och med 18 år.
               </div>
             </div>
           </div>
@@ -413,9 +379,7 @@
             </h2>
             <div id="flush-collapse12" class="accordion-collapse collapse" aria-labelledby="flush-heading12"
               data-bs-parent="#accordion2">
-              <div class="accordion-body">Ja. Läkemedel för behandling av könssjukdomar som lyder under Smittskyddslagen
-                är kostnadsfria oavsett ålder. Könssjukdomar som ingår i Smittskyddslagen är: Klamydia, Gonorré, Hepatit
-                B, Syfilis och HIV.
+              <div class="accordion-body">Ja. Läkemedel för behandling av könssjukdomar som lyder under Smittskyddslagen är kostnadsfria oavsett ålder. Könssjukdomar som ingår i Smittskyddslagen är: Klamydia, Gonorré, Hepatit B, Syfilis och HIV.
               </div>
             </div>
           </div>
@@ -428,11 +392,7 @@
             </h2>
             <div id="flush-collapse13" class="accordion-collapse collapse" aria-labelledby="flush-heading13"
               data-bs-parent="#accordion2">
-              <div class="accordion-body">Preventivmedel inom förmånen är kostnadsfria upp till och med 20 års ålder på
-                nationell nivå. Därefter subventioneras preventivmedel olika beroende på i vilken region patienten är
-                skriven. Läs mer om regionspeficika <a
-                  href="https://www.ehalsomyndigheten.se/yrkesverksam/apotek/lakemedelssubventioner/#regionssubventioner">läkemedelssubventioner
-                  på E-hälsomyndigheten.</a>
+              <div class="accordion-body">Preventivmedel inom förmånen är kostnadsfria upp till och med 20 års ålder på nationell nivå. Därefter subventioneras preventivmedel olika beroende på i vilken region patienten är skriven. Läs mer om regionspeficika <a href="https://www.ehalsomyndigheten.se/yrkesverksam/apotek/lakemedelssubventioner/#regionssubventioner">läkemedelssubventioner på E-hälsomyndigheten.</a>
               </div>
             </div>
           </div>
@@ -445,8 +405,7 @@
             </h2>
             <div id="flush-collapse37" class="accordion-collapse collapse" aria-labelledby="flush-heading37"
               data-bs-parent="#accordion2">
-              <div class="accordion-body">Ja. För patienter med diabetes typ 2 är även kombinationspreparat av insulin
-                och GLP-1-analog kostnadsfria.
+              <div class="accordion-body">Ja. För patienter med diabetes typ 2 är även kombinationspreparat av insulin och GLP-1-analog kostnadsfria. 
               </div>
             </div>
           </div>
@@ -511,9 +470,7 @@
             </h2>
             <div id="flush-collapse15" class="accordion-collapse collapse" aria-labelledby="flush-heading15"
               data-bs-parent="#accordion3">
-              <div class="accordion-body">För patienter utan svensk personnummer måste ett specifikt apotek anges på
-                receptet och patienten informeras om att receptet inte kan hämtas ut på något annat apotek. Vidare kan
-                inte uttag sparas och förskrivningen omfattas inte av högkostnadsskyddet.
+              <div class="accordion-body">För patienter utan svensk personnummer måste ett specifikt apotek anges på receptet och patienten informeras om att receptet inte kan hämtas ut på något annat apotek. Vidare kan inte uttag sparas och förskrivningen omfattas inte av högkostnadsskyddet.
               </div>
             </div>
           </div>
@@ -526,14 +483,8 @@
             </h2>
             <div id="flush-collapse16" class="accordion-collapse collapse" aria-labelledby="flush-heading16"
               data-bs-parent="#accordion3">
-              <div class="accordion-body">
-                <p>Ja. Läs <i>“Hur förskrivs recept till patienter utan svenskt personnummer?”</i> ovan.</p>
-                <p>Asylsökande och papperslösa omfattas inte av läkemedelsförmånen. För vuxna subventioneras endast
-                  läkemedel för vård som inte kan anstå. Barn och ungdomar har rätt till samma vård som andra barn och
-                  ungdomar som bor i Sverige. Läs mer om läkemedel till asylsökande på <a
-                    href="https://www.migrationsverket.se/Andra-aktorer/Kommuner/Om-asylsokande/Ratt-till-vard.html"
-                    target="_blank">Migrationsverkets hemsida</a> respektive aktuell region för hantering av läkemedel
-                  till papperslösa.</p>
+              <div class="accordion-body"> <p>Ja. Läs <i>“Hur förskrivs recept till patienter utan svenskt personnummer?”</i> ovan.</p>
+                <p>Asylsökande och papperslösa omfattas inte av läkemedelsförmånen. För vuxna subventioneras endast läkemedel för vård som inte kan anstå. Barn och ungdomar har rätt till samma vård som andra barn och ungdomar som bor i Sverige. Läs mer om läkemedel till asylsökande på <a href="https://www.migrationsverket.se/Andra-aktorer/Kommuner/Om-asylsokande/Ratt-till-vard.html" target="_blank">Migrationsverkets hemsida</a> respektive aktuell region för hantering av läkemedel till papperslösa.</p>
               </div>
             </div>
           </div>
@@ -546,12 +497,7 @@
             </h2>
             <div id="flush-collapse17" class="accordion-collapse collapse" aria-labelledby="flush-heading17"
               data-bs-parent="#accordion3">
-              <div class="accordion-body">
-                <p>Ja. I princip är recept förskrivna inom EES giltiga inom hela EES (Europeiska unionen inklusive
-                  Norge, Island och Liechtenstein). I praktiken krävs dock ett pappersrecept då EES inte har samma
-                  system för e-recept. <a
-                    href="https://europa.eu/youreurope/citizens/health/prescription-medicine-abroad/prescriptions/index_sv.htm"
-                    target="_blank">Läs mer på europeiska unionens hemsida</a></p>
+              <div class="accordion-body"><p>Ja. I princip är recept förskrivna inom EES giltiga inom hela EES (Europeiska unionen inklusive Norge, Island och Liechtenstein). I praktiken krävs dock ett pappersrecept då EES inte har samma system för e-recept. <a href="https://europa.eu/youreurope/citizens/health/prescription-medicine-abroad/prescriptions/index_sv.htm" target="_blank">Läs mer på europeiska unionens hemsida</a></p>
               </div>
             </div>
           </div>
@@ -564,15 +510,14 @@
             </h2>
             <div id="flush-collapse18" class="accordion-collapse collapse" aria-labelledby="flush-heading18"
               data-bs-parent="#accordion3">
-              <div class="accordion-body">Nej. Däremot underlättar det om läkemedel medförs i originalförpackning men
-                det är inget krav.
+              <div class="accordion-body">Nej. Däremot underlättar det om läkemedel medförs i originalförpackning men det är inget krav.
               </div>
             </div>
           </div>
         </div>
-
-        <!--PASCAL-->
-        <h4 class="pt-3">Pascal</h4>
+      
+      <!--PASCAL-->
+      <h4 class="pt-3">Pascal</h4>
         <div class="accordion" id="accordion4">
           <div class="accordion-item">
             <h2 class="accordion-header" id="flush-heading21">
@@ -596,8 +541,7 @@
             </h2>
             <div id="flush-collapse22" class="accordion-collapse collapse" aria-labelledby="flush-heading22"
               data-bs-parent="#accordion4">
-              <div class="accordion-body">Nej. Helförpackningar hämtas ut på valfritt apotek, alternativt levereras till
-                överenskommet utlämningsställe.
+              <div class="accordion-body">Nej. Helförpackningar hämtas ut på valfritt apotek, alternativt levereras till överenskommet utlämningsställe.
               </div>
             </div>
           </div>
@@ -610,10 +554,7 @@
             </h2>
             <div id="flush-collapse23" class="accordion-collapse collapse" aria-labelledby="flush-heading23"
               data-bs-parent="#accordion4">
-              <div class="accordion-body"> Nej. Endast vid utsättning eller dosändring av dispenserade läkemedel skickas
-                en ny så kallad utbytesrulle. Om endast läkemedel läkemedel läggs till skickas tilläggsdoser i en så
-                kallad kompletteringsrulle. Detta är en ny funktion sedan 2018. Det är därför viktigt att akutmarkera
-                samtliga läkemedel som önskas ingå i en akutbeställning.
+              <div class="accordion-body"> Nej. Endast vid utsättning eller dosändring av dispenserade läkemedel skickas en ny så kallad utbytesrulle. Om endast läkemedel läkemedel läggs till skickas tilläggsdoser i en så kallad kompletteringsrulle. Detta är en ny funktion sedan 2018. Det är därför viktigt att akutmarkera samtliga läkemedel som önskas ingå i en akutbeställning. 
               </div>
             </div>
           </div>
@@ -626,11 +567,7 @@
             </h2>
             <div id="flush-collapse24" class="accordion-collapse collapse" aria-labelledby="flush-heading24"
               data-bs-parent="#accordion4">
-              <div class="accordion-body">Det beror på om akutbeställningen görs innan stopptiden (kl. 12:00), isåfall
-                levereras nya dospåsar till utlämningsstället senast dagen därpå (dag 2) med läkemedel för nästa dag
-                (dag 3). Annars dröjer det ytterligare en dag. Vidare sker inga leveranser på helgdagar. <br><br> Detta
-                innebär att en akutbeställning efter kl. 12:00 på en fredag levereras först på tisdag med dispenserade
-                läkemedel för start onsdag.
+              <div class="accordion-body">Det beror på om akutbeställningen görs innan stopptiden (kl. 12:00), isåfall levereras nya dospåsar till utlämningsstället senast dagen därpå (dag 2) med läkemedel för nästa dag (dag 3). Annars dröjer det ytterligare en dag. Vidare sker inga leveranser på helgdagar. <br><br> Detta innebär att en akutbeställning efter kl. 12:00 på en fredag levereras först på tisdag med dispenserade läkemedel för start onsdag. 
               </div>
             </div>
           </div>
@@ -643,9 +580,7 @@
             </h2>
             <div id="flush-collapse25" class="accordion-collapse collapse" aria-labelledby="flush-heading25"
               data-bs-parent="#accordion4">
-              <div class="accordion-body">Akut dosleverans till avtal utlämningsställe är kostnadsfritt. Om mottagande
-                enhet (exempelvis hemsjukvården eller SÄBO) har avtalat om direktleverans utgår en extra kostnad för
-                detta.
+              <div class="accordion-body">Akut dosleverans till avtal utlämningsställe är kostnadsfritt. Om mottagande enhet (exempelvis hemsjukvården eller SÄBO) har avtalat om direktleverans utgår en extra kostnad för detta. 
               </div>
             </div>
           </div>
@@ -658,9 +593,7 @@
             </h2>
             <div id="flush-collapse26" class="accordion-collapse collapse" aria-labelledby="flush-heading26"
               data-bs-parent="#accordion4">
-              <div class="accordion-body">Ja. Det tar tid för informationen att överföras från folkbokföringen till
-                Pascal varför fortsatta försändelser (och fakturor) kommer att skickas om patienten inte registreras som
-                avliden.
+              <div class="accordion-body">Ja. Det tar tid för informationen att överföras från folkbokföringen till Pascal varför fortsatta försändelser (och fakturor) kommer att skickas om patienten inte registreras som avliden.
               </div>
             </div>
           </div>
@@ -673,8 +606,7 @@
             </h2>
             <div id="flush-collapse27" class="accordion-collapse collapse" aria-labelledby="flush-heading27"
               data-bs-parent="#accordion4">
-              <div class="accordion-body">Genom att sätta ut läkemedlet i Pascal makuleras receptet och ytterligare
-                helförpackning går inte att hämta ut.
+              <div class="accordion-body">Genom att sätta ut läkemedlet i Pascal makuleras receptet och ytterligare helförpackning går inte att hämta ut.
               </div>
             </div>
           </div>
@@ -687,8 +619,7 @@
             </h2>
             <div id="flush-collapse29" class="accordion-collapse collapse" aria-labelledby="flush-heading29"
               data-bs-parent="#accordion4">
-              <div class="accordion-body">Det innebär att patientens dosrullar är pausade. Det går dock fortfarande att
-                göra förändringar i läkemedelslistan och helförpackningar kan hämtas ut som vanligt.
+              <div class="accordion-body">Det innebär att patientens dosrullar är pausade. Det går dock fortfarande att göra förändringar i läkemedelslistan och helförpackningar kan hämtas ut som vanligt. 
               </div>
             </div>
           </div>
@@ -701,8 +632,7 @@
             </h2>
             <div id="flush-collapse30" class="accordion-collapse collapse" aria-labelledby="flush-heading30"
               data-bs-parent="#accordion4">
-              <div class="accordion-body">Som standard levereras dospåsar för 2 veckors förbrukning åt gång. Detta kan
-                ändras till 1 vecka om det önskas.
+              <div class="accordion-body">Som standard levereras dospåsar för 2 veckors förbrukning åt gång. Detta kan ändras till 1 vecka om det önskas.
               </div>
             </div>
           </div>
@@ -715,9 +645,7 @@
             </h2>
             <div id="flush-collapse31" class="accordion-collapse collapse" aria-labelledby="flush-heading31"
               data-bs-parent="#accordion4">
-              <div class="accordion-body">I de flesta fall går det att få dosrullar för längre tid än 2 veckor men en
-                individuell bedömning görs av Dostjänst vid förfrågan. Då dispensering riskerar att försämra
-                hållbarheten dispenseras i regel inte läkemedel för mer än 3 månaders förbrukning.
+              <div class="accordion-body">I de flesta fall går det att få dosrullar för längre tid än 2 veckor men en individuell bedömning görs av Dostjänst vid förfrågan. Då dispensering riskerar att försämra hållbarheten dispenseras i regel inte läkemedel för mer än 3 månaders förbrukning.
               </div>
             </div>
           </div>
@@ -730,8 +658,7 @@
             </h2>
             <div id="flush-collapse38" class="accordion-collapse collapse" aria-labelledby="flush-heading38"
               data-bs-parent="#accordion4">
-              <div class="accordion-body">Det tar som längst 5 dagar för patienten att få sina dospåsar efter att
-                patienten är registrerad och läkemedel förskrivet.
+              <div class="accordion-body">Det tar som längst 5 dagar för patienten att få sina dospåsar efter att patienten är registrerad och läkemedel förskrivet.
               </div>
             </div>
           </div>
@@ -744,18 +671,13 @@
             </h2>
             <div id="flush-collapse32" class="accordion-collapse collapse" aria-labelledby="flush-heading32"
               data-bs-parent="#accordion4">
-              <div class="accordion-body">Vid ställningstagande till registrering i Pascal ska en helhetsbedömning av
-                patientens medicinska situation göras. Dosdispensering ska företrädesvis erbjudas patienter som
-                uppfyller nedanstående kriterier. <br><br>
+              <div class="accordion-body">Vid ställningstagande till registrering i Pascal ska en helhetsbedömning av patientens medicinska situation göras. Dosdispensering ska företrädesvis erbjudas patienter som uppfyller nedanstående kriterier. <br><br>
                 <ul>
-                  <li>Oförmåga att sköta sin egen medicinering</li>
-                  <li>Stabil läkemedelsordination</li>
-                  <li>Minst 3 dispenserbara läkemedel för kontinuerligt bruk</li>
+                <li>Oförmåga att sköta sin egen medicinering</li>
+                <li>Stabil läkemedelsordination</li>
+                <li>Minst 3 dispenserbara läkemedel för kontinuerligt bruk</li>
                 </ul>
-                Vid frekventa sjukhusvistelser eller annan orsak till förväntat snabbt förändrad läkemedelssituation är
-                det mindre lämpligt med dispenserade läkemedel. Även vid stående läkemedelsordiantion av
-                icke-dispenserbara läkemedel bör lämpligheten utvärderas, särskilt i kombination med fåtal dispenserbara
-                läkemedel.
+                Vid frekventa sjukhusvistelser eller annan orsak till förväntat snabbt förändrad läkemedelssituation är det mindre lämpligt med dispenserade läkemedel. Även vid stående läkemedelsordiantion av icke-dispenserbara läkemedel bör lämpligheten utvärderas, särskilt i kombination med fåtal dispenserbara läkemedel.
               </div>
             </div>
           </div>
@@ -768,8 +690,7 @@
             </h2>
             <div id="flush-collapse33" class="accordion-collapse collapse" aria-labelledby="flush-heading33"
               data-bs-parent="#accordion4">
-              <div class="accordion-body">Ja. Det går att ha Pascal med enbart förskrivning i helförpackningar. Nyttan
-                bör dock utvärderas.
+              <div class="accordion-body">Ja. Det går att ha Pascal med enbart förskrivning i helförpackningar. Nyttan bör dock utvärderas.
               </div>
             </div>
           </div>
@@ -782,8 +703,7 @@
             </h2>
             <div id="flush-collapse34" class="accordion-collapse collapse" aria-labelledby="flush-heading34"
               data-bs-parent="#accordion4">
-              <div class="accordion-body"> I regel går det bra att dela och dispensera tabletter såvida aktuellt
-                läkemedel har brytskåra.
+              <div class="accordion-body"> I regel går det bra att dela och dispensera tabletter såvida aktuellt läkemedel har brytskåra.
               </div>
             </div>
           </div>
@@ -796,9 +716,7 @@
             </h2>
             <div id="flush-collapse35" class="accordion-collapse collapse" aria-labelledby="flush-heading35"
               data-bs-parent="#accordion4">
-              <div class="accordion-body"> För vissa läkemedel finns det praktiskt uppenbara skäl, exempelvis läkemedel
-                i flytande form, inhalationer eller injektioner. Andra vanliga orsaker till att läkemedel inte kan
-                dispenseras är ljus-/fuktkänslighet eller risk för kontamination.
+              <div class="accordion-body"> För vissa läkemedel finns det praktiskt uppenbara skäl, exempelvis läkemedel i flytande form, inhalationer eller injektioner. Andra vanliga orsaker till att läkemedel inte kan dispenseras är ljus-/fuktkänslighet eller risk för kontamination.
               </div>
             </div>
           </div>
@@ -811,9 +729,7 @@
             </h2>
             <div id="flush-collapse36" class="accordion-collapse collapse" aria-labelledby="flush-heading36"
               data-bs-parent="#accordion4">
-              <div class="accordion-body"> Ja. Klicka på <i>Sök även bland icke-godkända läkemedel</i> för att söka
-                efter licenspreparat och extemporeläkemedel. Gruppvarunummer 670000 (licens) respektive 660000
-                (extempore) kan även användas.
+              <div class="accordion-body"> Ja. Klicka på <i>Sök även bland icke-godkända läkemedel</i> för att söka efter licenspreparat och extemporeläkemedel. Gruppvarunummer 670000 (licens) respektive 660000 (extempore) kan även användas.
               </div>
             </div>
           </div>
@@ -833,14 +749,12 @@
       </div>
     </footer>
 
-    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
-      integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
       </script> <!-- Bootstrap 5 -->
     <script src="./js/main.min.js" type="text/javascript"></script>
     <!-- Luxon and all custom js, e.g. all calculations and manipulation -->
-
+    
   </body>
-
 </html>
