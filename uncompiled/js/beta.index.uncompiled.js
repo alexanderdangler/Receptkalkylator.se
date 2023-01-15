@@ -1,6 +1,6 @@
 var { DateTime, Interval } = require("luxon"); //imports Luxon
 // to browswerify: 
-// browserify uncompiled/js/index.uncompiled.js -o public_html/js/main.js
+// browserify uncompiled/js/beta.index.uncompiled.js -o public_html/js/beta.main.js
 
 var currentFunction = "dagar";
 var aktuelltRecept;
@@ -12,9 +12,6 @@ function setUpInitialForm(currentFunctionState, buttonSelector) {
     $(buttonSelector).removeClass("btn-outline-primary").addClass("btn-primary");
     $(".formGroupSelectorElement").removeClass("d-none");
     currentFunction = currentFunctionState;
-    if (currentFunction === "usage") {
-      changeDate("+", "0", "days", "#toDate");
-    }
     mainFunction();
 }
 
@@ -28,8 +25,6 @@ function mainFunction() {
 
     if (currentFunction === "uttag") {
         $("#headerToDate").html("Hur länge ska receptet räcka?");
-        $(".uttagDropdown").removeClass("d-none");
-        $(".usageDropdown").addClass("d-none");
         console.log("currentFunction === uttag ran");
         $("#formGroupWithdrawls, #formGroupFromDate").addClass("d-none");
         if (typeof dateTo === 'string') {
@@ -76,8 +71,6 @@ function mainFunction() {
     }
 
     if (currentFunction === "usage") {
-        $(".uttagDropdown").addClass("d-none");;
-        $(".usageDropdown").removeClass("d-none")
         $("#formGroupDose").addClass("d-none");
         $("#headerToDate").html("När tog receptet slut?");
             if (packageSize > 0 && withdrawls > 0) {
