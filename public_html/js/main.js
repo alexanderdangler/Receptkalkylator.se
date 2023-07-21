@@ -8588,7 +8588,7 @@ var { DateTime, Interval } = require("luxon"); //imports Luxon
 // to browswerify: 
 // browserify uncompiled/js/index.uncompiled.js -o public_html/js/main.js
 
-var currentFunction = "dagar";
+var currentFunction = "usage";
 var aktuelltRecept;
 
 // Function that manipulate the form and turns off/"disables" the input boxes not used
@@ -8734,6 +8734,8 @@ function copyAktuelltReceptToClipboard() {
 
 // Functions to run when the document has loaded completely and to be listened for all the time
 $(function () {
+    setUpInitialForm("usage", "#btnUsage");
+    
     $("#fromDate, #toDate, #dosage, #packageSize, #withdrawls").on("input", mainFunction);
 
     $('#btnDagar').on('click', function () { setUpInitialForm("dagar", "#btnDagar") });
