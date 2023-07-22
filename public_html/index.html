@@ -321,38 +321,33 @@
               </div>
   
               <div id="formGroupToDate" class="formGroupSelectorElement mt-3">
-                <h4 id="headerToDate">Hur länge ska patienten smörja?</h4>
-                <div class="input-group mb-3">
-                  <input id="creamToDate" type="date" class="form-control" aria-label="Text input with dropdown button"
-                    max="2999-12-31">
-                  <button id="btnToDate" class="btn btn-outline-primary dropdown-toggle" type="button"
-                    data-bs-toggle="dropdown" aria-expanded="false">Förvalda datum:</button>
-                  <ul class="dropdown-menu dropdown-menu-end">
-                    <li class="uttagDropdown"><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="1"
-                        data-timeframe="weeks" data-element="#toDate" href="#">1 vecka</a></li>
-                    <li class="uttagDropdown"><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="2"
-                        data-timeframe="weeks" data-element="#toDate" href="#">2 veckor</a></li>
-                    <li class="uttagDropdown"><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="1"
-                        data-timeframe="months" data-element="#toDate" href="#">1 månad</a></li>
-                    <li class="uttagDropdown"><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="3"
-                        data-timeframe="months" data-element="#toDate" href="#">3
-                        månader</a></li>
-                    </li>
-                    <li class="uttagDropdown"><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="6"
-                        data-timeframe="months" data-element="#toDate" href="#">6
-                        månader</a></li>
-                    <li class="uttagDropdown"><a class="dateDropdown dropdown-item" data-addorsub="+" data-numberof="1"
-                        data-timeframe="years" data-element="#toDate" href="#">1 år</a></li>
-                    </li>
-                  </ul>
+                <h4 id="headerToDate">Hur mycket ska patienten smörja?</h4>
+                <form id="creamDoses">
+                  <div class="row g-2 mb-2 creamDosesBlock">
+                    <div class="col">
+                      <div class="form-floating">
+                        <select class="form-select timesPerWeek" id="timesPerWeek">
+                          <option value="21">Morgon, lunch och kväll</option>
+                          <option value="14">Morgon & kväll</option>
+                          <option value="7" selected>Dagligen</option>
+                          <option value="3.5">Varannan dag</option>
+                          <option value="2">2 gånger per vecka</option>
+                          <option value="1">1 gång per vecka</option>
+                        </select>
+                        <label for="timesPerWeek">Gånger per dag</label>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="form-floating">
+                        <input id="weeks" type="number" class="form-control weeks" placeholder="i antal veckor">
+                        <label for="weeks">i antal veckor</label>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+                <div class="d-grid gap-2 col-6 mt-2">
+                  <button id="moreCreamDoses" class="btn btn-outline-primary" type="button"><i class="bi bi-plus"></i> Lägg till fler doseringar/nedtrappningssteg</button>
                 </div>
-              </div>
-  
-              <h4 class="mt-3">Hur många gånger per dag ska patienten smörja?</h4>
-              <div class="qty">
-                <span class="minus"><i class="bi bi-dash-circle-fill text-primary"></i></span>
-                <input type="number" id="creamsPerDay" class="count" name="qty" value="0">
-                <span class="plus"><i class="bi bi-plus-circle-fill text-primary"></i></span>
               </div>
 
             </div>
