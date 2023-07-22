@@ -8916,7 +8916,7 @@ function updateCreamCounter() {
 
   var totalGramsAll = totalGrams * totalApplications;
   if (totalGramsAll > 0) {
-    aktuelltRecept = `${doseringsText}Använd mjukgörande dagligen. <b>Totalt åtgång ${Math.round(totalGramsAll)} gram.</b>`;
+    aktuelltRecept = `${doseringsText}Använd mjukgörande dagligen. <b>Total åtgång ${Math.round(totalGramsAll)} gram.</b>`;
     $("#alertReceptInfo").removeClass("d-none");
     $("#pReceptText").html(aktuelltRecept);
   } else if (totalGramsAll == 0) {

@@ -330,7 +330,7 @@ function updateCreamCounter() {
 
   var totalGramsAll = totalGrams * totalApplications;
   if (totalGramsAll > 0) {
-    aktuelltRecept = `${doseringsText}Använd mjukgörande dagligen. <b>Totalt åtgång ${Math.round(totalGramsAll)} gram.</b>`;
+    aktuelltRecept = `${doseringsText}Använd mjukgörande dagligen. <b>Total åtgång ${Math.round(totalGramsAll)} gram.</b>`;
     $("#alertReceptInfo").removeClass("d-none");
     $("#pReceptText").html(aktuelltRecept);
   } else if (totalGramsAll == 0) {
@@ -373,9 +373,30 @@ function updatePremadeSchedule() {
   <div class="col-auto">
     <div class="form-floating">
       <select class="form-select timesPerWeek" id="timesPerWeek">
-      <option value="21" selected>Morgon, lunch och kväll</option>
-      <option value="14">Morgon & kväll</option>
+      <option value="21">Morgon, lunch och kväll</option>
+      <option value="14" selected>Morgon & kväll</option>
       <option value="7">Dagligen</option>
+      <option value="3.5">Varannan dag</option>
+      <option value="2">2 gånger per vecka</option>
+      <option value="1">1 gång per vecka</option>
+      </select>
+      <label for="timesPerWeek">Gånger per dag</label>
+    </div>
+  </div>
+  <div class="col-auto">
+    <div class="form-floating">
+      <input id="weeks" type="number" class="form-control weeks" placeholder="i antal veckor" value="1">
+      <label for="weeks">i antal veckor</label>
+    </div>
+  </div>
+</div>
+<div class="row g-2 mb-2 creamDosesBlock">
+  <div class="col-auto">
+    <div class="form-floating">
+      <select class="form-select timesPerWeek" id="timesPerWeek">
+      <option value="21">Morgon, lunch och kväll</option>
+      <option value="14">Morgon & kväll</option>
+      <option value="7" selected>Dagligen</option>
       <option value="3.5">Varannan dag</option>
       <option value="2">2 gånger per vecka</option>
       <option value="1">1 gång per vecka</option>
@@ -392,8 +413,57 @@ function updatePremadeSchedule() {
   <div class="col-auto align-items-center d-flex">
     <button class="btn btn-danger removeButton" type="button"><i class="bi bi-dash-circle-dotted"></i> Ta bort</button>
   </div>
+</div>
+<div class="row g-2 mb-2 creamDosesBlock">
+  <div class="col-auto">
+    <div class="form-floating">
+      <select class="form-select timesPerWeek" id="timesPerWeek">
+      <option value="21">Morgon, lunch och kväll</option>
+      <option value="14">Morgon & kväll</option>
+      <option value="7">Dagligen</option>
+      <option value="3.5" selected>Varannan dag</option>
+      <option value="2">2 gånger per vecka</option>
+      <option value="1">1 gång per vecka</option>
+      </select>
+      <label for="timesPerWeek">Gånger per dag</label>
+    </div>
+  </div>
+  <div class="col-auto">
+    <div class="form-floating">
+      <input id="weeks" type="number" class="form-control weeks" placeholder="i antal veckor" value="1">
+      <label for="weeks">i antal veckor</label>
+    </div>
+  </div>
+  <div class="col-auto align-items-center d-flex">
+    <button class="btn btn-danger removeButton" type="button"><i class="bi bi-dash-circle-dotted"></i> Ta bort</button>
+  </div>
+</div>
+<div class="row g-2 mb-2 creamDosesBlock">
+  <div class="col-auto">
+    <div class="form-floating">
+      <select class="form-select timesPerWeek" id="timesPerWeek">
+      <option value="21">Morgon, lunch och kväll</option>
+      <option value="14">Morgon & kväll</option>
+      <option value="7">Dagligen</option>
+      <option value="3.5">Varannan dag</option>
+      <option value="2" selected>2 gånger per vecka</option>
+      <option value="1">1 gång per vecka</option>
+      </select>
+      <label for="timesPerWeek">Gånger per dag</label>
+    </div>
+  </div>
+  <div class="col-auto">
+    <div class="form-floating">
+      <input id="weeks" type="number" class="form-control weeks" placeholder="i antal veckor" value="1">
+      <label for="weeks">i antal veckor</label>
+    </div>
+  </div>
+  <div class="col-auto align-items-center d-flex">
+    <button class="btn btn-danger removeButton" type="button"><i class="bi bi-dash-circle-dotted"></i> Ta bort</button>
+  </div>
 </div>`
   $('#creamDoses').append(elements);
+  updateCreamCounter()
 }
 
 
