@@ -13,9 +13,18 @@ function setUpInitialForm(currentFunctionState, buttonSelector) {
     $(".formGroupSelectorElement").removeClass("d-none");
     currentFunction = currentFunctionState;
     if (currentFunction === "usage") {
-      changeDate("+", "0", "days", "#toDate");
+        changeDate("+", "0", "days", "#toDate");
     }
-    mainFunction();
+
+    if (currentFunction === "cream") {
+        $("#mainForm").addClass("d-none");
+        $("#creamForm").removeClass("d-none");
+        updateCreamCounter();
+    } else {
+        $("#mainForm").removeClass("d-none");
+        $("#creamForm").addClass("d-none");
+        mainFunction();
+    }
 }
 
 // The function that calculates all the necessary data
@@ -76,17 +85,17 @@ function mainFunction() {
         $(".usageDropdown").removeClass("d-none");
         $("#formGroupDose").addClass("d-none");
         $("#headerToDate").html("När tog receptet slut?");
-            if (packageSize > 0 && withdrawls > 0) {
-                var days = Math.ceil((packageSize * withdrawls) / totalPillsPerDay);
-                if (typeof dateFrom === 'string') {
-                    var toDate = DateTime.fromISO(dateTo);
-                    var fromDate = DateTime.fromISO(dateFrom);
-                    var today = DateTime.now();
-                    var days = Math.ceil(toDate.diff(fromDate).as('days'));
-                    aktuelltRecept = `Om receptet skrivet ${dateFrom} med ${withdrawls} uttag av ${packageSize} tabletter helt har förbrukats till den ${dateTo} har det skett med en <b>snittförbrukning på ${Math.round(((packageSize * withdrawls / days) + Number.EPSILON) * 10) / 10} tabletter/dag</b>. Totalt antal tabletter förskrivet är ${packageSize * withdrawls} stycken`;
-                    updateReceptText();
-                }
+        if (packageSize > 0 && withdrawls > 0) {
+            var days = Math.ceil((packageSize * withdrawls) / totalPillsPerDay);
+            if (typeof dateFrom === 'string') {
+                var toDate = DateTime.fromISO(dateTo);
+                var fromDate = DateTime.fromISO(dateFrom);
+                var today = DateTime.now();
+                var days = Math.ceil(toDate.diff(fromDate).as('days'));
+                aktuelltRecept = `Om receptet skrivet ${dateFrom} med ${withdrawls} uttag av ${packageSize} tabletter helt har förbrukats till den ${dateTo} har det skett med en <b>snittförbrukning på ${Math.round(((packageSize * withdrawls / days) + Number.EPSILON) * 10) / 10} tabletter/dag</b>. Totalt antal tabletter förskrivet är ${packageSize * withdrawls} stycken`;
+                updateReceptText();
             }
+        }
     }
 
     function calculateDateDifference() {
@@ -146,15 +155,193 @@ function copyAktuelltReceptToClipboard() {
     );
 }
 
+function updateCreamCounter() {
+    totalGrams = 0;
+    totalGramsPerDay = 0;
+    creamsPerDay = 0;
+    switch ($('input[name="patient_age"]:checked').val()) {
+        case "vuxen":
+            $(".count").each(function () {
+                switch ($(this).attr("id")) {
+                    case "face":
+                        totalGrams += $(this).val() * 1.25;
+                        break;
+                    case "chest":
+                        totalGrams += $(this).val() * 3.5;
+                        break;
+                    case "back":
+                        totalGrams += $(this).val() * 3.5;
+                        break;
+                    case "arm":
+                        totalGrams += $(this).val() * 1.5;
+                        break;
+                    case "hand":
+                        totalGrams += $(this).val() * 0.5;
+                        break;
+                    case "leg":
+                        totalGrams += $(this).val() * 3;
+                        break;
+                    case "foot":
+                        totalGrams += $(this).val() * 1;
+                        break;
+                    case "creamsPerDay":
+                        creamsPerDay = $(this).val();
+                        totalGramsPerDay = totalGrams * $(this).val();
+                }
+            });
+            break;
+        case "6-10":
+            $(".count").each(function () {
+                switch ($(this).attr("id")) {
+                    case "face":
+                        totalGrams += $(this).val() * 1;
+                        break;
+                    case "chest":
+                        totalGrams += $(this).val() * 1.75;
+                        break;
+                    case "back":
+                        totalGrams += $(this).val() * 2.5;
+                        break;
+                    case "arm":
+                        totalGrams += $(this).val() * 0.9375;
+                        break;
+                    case "hand":
+                        totalGrams += $(this).val() * 0.3125;
+                        break;
+                    case "leg":
+                        totalGrams += $(this).val() * 1.6875;
+                        break;
+                    case "foot":
+                        totalGrams += $(this).val() * 0.5625;
+                        break;
+                    case "creamsPerDay":
+                        creamsPerDay = $(this).val();
+                        totalGramsPerDay = totalGrams * $(this).val();
+                }
+            });
+            break;
+        case "3-6":
+            $(".count").each(function () {
+                switch ($(this).attr("id")) {
+                    case "face":
+                        totalGrams += $(this).val() * 0.75;
+                        break;
+                    case "chest":
+                        totalGrams += $(this).val() * 1.5;
+                        break;
+                    case "back":
+                        totalGrams += $(this).val() * 1.75;
+                        break;
+                    case "arm":
+                        totalGrams += $(this).val() * 0.75;
+                        break;
+                    case "hand":
+                        totalGrams += $(this).val() * 0.25;
+                        break;
+                    case "leg":
+                        totalGrams += $(this).val() * 1.125;
+                        break;
+                    case "foot":
+                        totalGrams += $(this).val() * 0.375;
+                        break;
+                    case "creamsPerDay":
+                        creamsPerDay = $(this).val();
+                        totalGramsPerDay = totalGrams * $(this).val();
+                }
+            });
+            break;
+        case "1-3":
+            $(".count").each(function () {
+                switch ($(this).attr("id")) {
+                    case "face":
+                        totalGrams += $(this).val() * 0.75;
+                        break;
+                    case "chest":
+                        totalGrams += $(this).val() * 1;
+                        break;
+                    case "back":
+                        totalGrams += $(this).val() * 1.5;
+                        break;
+                    case "arm":
+                        totalGrams += $(this).val() * 0.5625;
+                        break;
+                    case "hand":
+                        totalGrams += $(this).val() * 0.1875;
+                        break;
+                    case "leg":
+                        totalGrams += $(this).val() * 0.75;
+                        break;
+                    case "foot":
+                        totalGrams += $(this).val() * 0.25;
+                        break;
+                    case "creamsPerDay":
+                        creamsPerDay = $(this).val();
+                        totalGramsPerDay = totalGrams * $(this).val();
+                }
+            });
+            break;
+        case "0-1":
+            $(".count").each(function () {
+                switch ($(this).attr("id")) {
+                    case "face":
+                        totalGrams += $(this).val() * 0.5;
+                        break;
+                    case "chest":
+                        totalGrams += $(this).val() * 0.5;
+                        break;
+                    case "back":
+                        totalGrams += $(this).val() * 0.75;
+                        break;
+                    case "arm":
+                        totalGrams += $(this).val() * 0.375;
+                        break;
+                    case "hand":
+                        totalGrams += $(this).val() * 0.125;
+                        break;
+                    case "leg":
+                        totalGrams += $(this).val() * 0.5625;
+                        break;
+                    case "foot":
+                        totalGrams += $(this).val() * 0.1875;
+                        break;
+                    case "creamsPerDay":
+                        creamsPerDay = $(this).val();
+                        totalGramsPerDay = totalGrams * $(this).val();
+                }
+            });
+            break;
+    }
+
+    const dateTo = $("#creamToDate").val();
+    if (typeof dateTo === 'string') {
+        var now = DateTime.now();
+        var later = DateTime.fromISO(dateTo);
+        var i = Interval.fromDateTimes(now, later);
+        var days = Math.round(i.length('days') + 2);
+
+        totalGramsAll = totalGramsPerDay * days;
+
+        console.log(totalGramsAll);
+
+        if(totalGramsAll > 0) {
+            aktuelltRecept = `Smörj ${creamsPerDay} gånger per dag i ${days} dagar. <b>Totalt åtgång ${Math.round(totalGramsAll)} gram.</b>`;
+            $("#alertReceptInfo").removeClass("d-none");
+            $("#pReceptText").html(aktuelltRecept);
+        }
+
+    }
+
+}
+
 // Functions to run when the document has loaded completely and to be listened for all the time
 $(function () {
     setUpInitialForm("usage", "#btnUsage");
-    
-    $("#fromDate, #toDate, #dosage, #packageSize, #withdrawls").on("input", mainFunction);
-
     $('#btnDagar').on('click', function () { setUpInitialForm("dagar", "#btnDagar") });
     $('#btnUttag').on('click', function () { setUpInitialForm("uttag", "#btnUttag") });
     $('#btnUsage').on('click', function () { setUpInitialForm("usage", "#btnUsage") });
+    $('#btnCream').on('click', function () { setUpInitialForm("cream", "#btnCream") });
+
+    $("#fromDate, #toDate, #dosage, #packageSize, #withdrawls").on("input", mainFunction);
 
     $('.dateDropdown').on('click', function () {
         var element = $(this);
@@ -162,19 +349,31 @@ $(function () {
         mainFunction();
     });
 
-    $(document).on('click', 'a[href^="#"]', function(event) {
-
+    $(document).on('click', 'a[href^="#"]', function (event) {
         var target = $(this.getAttribute('href'));
         if (target.length) {
-          event.preventDefault();
-          $('html, body').stop().animate({
-            scrollTop: target.offset().top
-          }, 600);
+            event.preventDefault();
+            $('html, body').stop().animate({
+                scrollTop: target.offset().top
+            }, 600);
         }
-
         $("#flush-heading5 button").trigger("click");
-      });
-      
+    });
 
     $('#kopieraKnapp').on('click', copyAktuelltReceptToClipboard);
+
+    // Funktion för plus och minusknappar
+    $('.count').prop('disabled', true);
+    $('input[name="patient_age"], #creamToDate').on('input', function () { updateCreamCounter() });
+    $(".plus").on('click', function () {
+        $(this).prev('.count').val(parseInt($(this).prev('.count').val()) + 1);
+        updateCreamCounter();
+    });
+    $(".minus").on('click', function () {
+        if ($(this).next('.count').val() > 0) {
+            $(this).next('.count').val(parseInt($(this).next('.count').val()) - 1);
+            updateCreamCounter();
+        }
+    });
+
 });
