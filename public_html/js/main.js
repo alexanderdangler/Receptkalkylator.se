@@ -8927,29 +8927,130 @@ function updateCreamCounter() {
 
 function addCreamDoses() {
   var elements = `<div class="row g-2 mb-2 creamDosesBlock">
-  <div class="col">
+  <div class="col-auto">
     <div class="form-floating">
       <select class="form-select timesPerWeek" id="timesPerWeek">
-        <option value="7" selected>Dagligen</option>
-        <option value="14">Morgon & kväll</option>
-        <option value="21">Morgon, lunch och kväll</option>
-        <option value="3.5">Varannan dag</option>
-        <option value="2">2 gånger per vecka</option>
-        <option value="1">1 gång per vecka</option>
+      <option value="21">Morgon, lunch och kväll</option>
+      <option value="14">Morgon & kväll</option>
+      <option value="7" selected>Dagligen</option>
+      <option value="3.5">Varannan dag</option>
+      <option value="2">2 gånger per vecka</option>
+      <option value="1">1 gång per vecka</option>
       </select>
       <label for="timesPerWeek">Gånger per dag</label>
     </div>
   </div>
-  <div class="col">
+  <div class="col-auto">
     <div class="form-floating">
       <input id="weeks" type="number" class="form-control weeks" placeholder="i antal veckor">
       <label for="weeks">i antal veckor</label>
     </div>
   </div>
+  <div class="col-auto align-items-center d-flex">
+    <button class="btn btn-danger removeButton" type="button"><i class="bi bi-dash-circle-dotted"></i> Ta bort</button>
+  </div>
 </div>`
   $('#creamDoses').append(elements);
 }
 
+function updatePremadeSchedule() {
+  $('#creamDoses').empty();
+  var elements = `<div class="row g-2 mb-2 creamDosesBlock">
+  <div class="col-auto">
+    <div class="form-floating">
+      <select class="form-select timesPerWeek" id="timesPerWeek">
+      <option value="21">Morgon, lunch och kväll</option>
+      <option value="14" selected>Morgon & kväll</option>
+      <option value="7">Dagligen</option>
+      <option value="3.5">Varannan dag</option>
+      <option value="2">2 gånger per vecka</option>
+      <option value="1">1 gång per vecka</option>
+      </select>
+      <label for="timesPerWeek">Gånger per dag</label>
+    </div>
+  </div>
+  <div class="col-auto">
+    <div class="form-floating">
+      <input id="weeks" type="number" class="form-control weeks" placeholder="i antal veckor" value="1">
+      <label for="weeks">i antal veckor</label>
+    </div>
+  </div>
+</div>
+<div class="row g-2 mb-2 creamDosesBlock">
+  <div class="col-auto">
+    <div class="form-floating">
+      <select class="form-select timesPerWeek" id="timesPerWeek">
+      <option value="21">Morgon, lunch och kväll</option>
+      <option value="14">Morgon & kväll</option>
+      <option value="7" selected>Dagligen</option>
+      <option value="3.5">Varannan dag</option>
+      <option value="2">2 gånger per vecka</option>
+      <option value="1">1 gång per vecka</option>
+      </select>
+      <label for="timesPerWeek">Gånger per dag</label>
+    </div>
+  </div>
+  <div class="col-auto">
+    <div class="form-floating">
+      <input id="weeks" type="number" class="form-control weeks" placeholder="i antal veckor" value="1">
+      <label for="weeks">i antal veckor</label>
+    </div>
+  </div>
+  <div class="col-auto align-items-center d-flex">
+    <button class="btn btn-danger removeButton" type="button"><i class="bi bi-dash-circle-dotted"></i> Ta bort</button>
+  </div>
+</div>
+<div class="row g-2 mb-2 creamDosesBlock">
+  <div class="col-auto">
+    <div class="form-floating">
+      <select class="form-select timesPerWeek" id="timesPerWeek">
+      <option value="21">Morgon, lunch och kväll</option>
+      <option value="14">Morgon & kväll</option>
+      <option value="7">Dagligen</option>
+      <option value="3.5" selected>Varannan dag</option>
+      <option value="2">2 gånger per vecka</option>
+      <option value="1">1 gång per vecka</option>
+      </select>
+      <label for="timesPerWeek">Gånger per dag</label>
+    </div>
+  </div>
+  <div class="col-auto">
+    <div class="form-floating">
+      <input id="weeks" type="number" class="form-control weeks" placeholder="i antal veckor" value="1">
+      <label for="weeks">i antal veckor</label>
+    </div>
+  </div>
+  <div class="col-auto align-items-center d-flex">
+    <button class="btn btn-danger removeButton" type="button"><i class="bi bi-dash-circle-dotted"></i> Ta bort</button>
+  </div>
+</div>
+<div class="row g-2 mb-2 creamDosesBlock">
+  <div class="col-auto">
+    <div class="form-floating">
+      <select class="form-select timesPerWeek" id="timesPerWeek">
+      <option value="21">Morgon, lunch och kväll</option>
+      <option value="14">Morgon & kväll</option>
+      <option value="7">Dagligen</option>
+      <option value="3.5">Varannan dag</option>
+      <option value="2" selected>2 gånger per vecka</option>
+      <option value="1">1 gång per vecka</option>
+      </select>
+      <label for="timesPerWeek">Gånger per dag</label>
+    </div>
+  </div>
+  <div class="col-auto">
+    <div class="form-floating">
+      <input id="weeks" type="number" class="form-control weeks" placeholder="i antal veckor" value="1">
+      <label for="weeks">i antal veckor</label>
+    </div>
+  </div>
+  <div class="col-auto align-items-center d-flex">
+    <button class="btn btn-danger removeButton" type="button"><i class="bi bi-dash-circle-dotted"></i> Ta bort</button>
+  </div>
+</div>`
+  $('#creamDoses').append(elements);
+  updateCreamCounter()
+}
 
 
 // Functions to run when the document has loaded completely and to be listened for all the time
@@ -8984,8 +9085,14 @@ $(function () {
   // Funktion för plus och minusknappar
   $('.count').prop('disabled', true);
   $('input[name="patient_age"], .weeks, .timesPerWeek').on('input', function () { updateCreamCounter() });
+  $('#premadeSchedule').on('click', function () { updatePremadeSchedule() });
   $('#creamDoses').on('click', '.timesPerWeek', function () { updateCreamCounter() });
   $('#creamDoses').on('input', '.weeks', function () { updateCreamCounter() });
+  // Knapp för att ta bort doseringen och uppdaterar sen uträkningen
+  $('#creamDoses').on('click', '.removeButton', function () { 
+    $(this).closest(".creamDosesBlock").remove();
+    updateCreamCounter();
+  });
   $("#moreCreamDoses").on('click', function () { addCreamDoses() });
   $(".plus").on('click', function () {
     $(this).prev('.count').val(parseInt($(this).prev('.count').val()) + 1);
