@@ -7,7 +7,7 @@ var aktuelltRecept;
 
 // Function that manipulate the form and turns off/"disables" the input boxes not used
 function setUpInitialForm(currentFunctionState, buttonSelector) {
-  $("#alertReceptInfo, .hideAtFormSetUp").addClass("d-none");
+  $("#alertReceptInfo, .hideAtFormSetUp, #kortisonTabell").addClass("d-none");
   $(".btnSelector").addClass("btn-outline-primary").removeClass("btn-primary");
   $(buttonSelector).removeClass("btn-outline-primary").addClass("btn-primary");
   $(".formGroupSelectorElement").removeClass("d-none");
@@ -19,10 +19,13 @@ function setUpInitialForm(currentFunctionState, buttonSelector) {
   if (currentFunction === "cream") {
     $("#mainForm").addClass("d-none");
     $("#creamForm").removeClass("d-none");
+    $("#kortisonTabell").removeClass("d-none");
+    $("#FAQsalvorokramer").prependTo("#FAQ");
     updateCreamCounter();
   } else {
     $("#mainForm").removeClass("d-none");
     $("#creamForm").addClass("d-none");
+    $("#FAQsalvorokramer").appendTo("#FAQ");
     mainFunction();
   }
 }
@@ -341,7 +344,7 @@ function updateCreamCounter() {
 
 function addCreamDoses() {
   var elements = `<div class="row g-2 mb-2 creamDosesBlock">
-  <div class="col-auto">
+  <div class="col-md-auto col-12">
     <div class="form-floating">
       <select class="form-select timesPerWeek" id="timesPerWeek">
       <option value="21">Morgon, lunch och kväll</option>
@@ -354,13 +357,13 @@ function addCreamDoses() {
       <label for="timesPerWeek">Gånger per dag</label>
     </div>
   </div>
-  <div class="col-auto">
+  <div class="col-md-auto col-12">
     <div class="form-floating">
       <input id="weeks" type="number" class="form-control weeks" placeholder="i antal veckor">
       <label for="weeks">i antal veckor</label>
     </div>
   </div>
-  <div class="col-auto align-items-center d-flex">
+  <div class="col-md-auto col-12 align-items-center d-flex">
     <button class="btn btn-danger removeButton" type="button"><i class="bi bi-dash-circle-dotted"></i> Ta bort</button>
   </div>
 </div>`
@@ -370,28 +373,7 @@ function addCreamDoses() {
 function updatePremadeSchedule() {
   $('#creamDoses').empty();
   var elements = `<div class="row g-2 mb-2 creamDosesBlock">
-  <div class="col-auto">
-    <div class="form-floating">
-      <select class="form-select timesPerWeek" id="timesPerWeek">
-      <option value="21">Morgon, lunch och kväll</option>
-      <option value="14" selected>Morgon & kväll</option>
-      <option value="7">Dagligen</option>
-      <option value="3.5">Varannan dag</option>
-      <option value="2">2 gånger per vecka</option>
-      <option value="1">1 gång per vecka</option>
-      </select>
-      <label for="timesPerWeek">Gånger per dag</label>
-    </div>
-  </div>
-  <div class="col-auto">
-    <div class="form-floating">
-      <input id="weeks" type="number" class="form-control weeks" placeholder="i antal veckor" value="1">
-      <label for="weeks">i antal veckor</label>
-    </div>
-  </div>
-</div>
-<div class="row g-2 mb-2 creamDosesBlock">
-  <div class="col-auto">
+  <div class="col-md-auto col-12">
     <div class="form-floating">
       <select class="form-select timesPerWeek" id="timesPerWeek">
       <option value="21">Morgon, lunch och kväll</option>
@@ -404,18 +386,15 @@ function updatePremadeSchedule() {
       <label for="timesPerWeek">Gånger per dag</label>
     </div>
   </div>
-  <div class="col-auto">
+  <div class="col-md-auto col-12">
     <div class="form-floating">
-      <input id="weeks" type="number" class="form-control weeks" placeholder="i antal veckor" value="1">
+      <input id="weeks" type="number" class="form-control weeks" placeholder="i antal veckor" value="2">
       <label for="weeks">i antal veckor</label>
     </div>
   </div>
-  <div class="col-auto align-items-center d-flex">
-    <button class="btn btn-danger removeButton" type="button"><i class="bi bi-dash-circle-dotted"></i> Ta bort</button>
-  </div>
 </div>
 <div class="row g-2 mb-2 creamDosesBlock">
-  <div class="col-auto">
+  <div class="col-md-auto col-12">
     <div class="form-floating">
       <select class="form-select timesPerWeek" id="timesPerWeek">
       <option value="21">Morgon, lunch och kväll</option>
@@ -428,18 +407,18 @@ function updatePremadeSchedule() {
       <label for="timesPerWeek">Gånger per dag</label>
     </div>
   </div>
-  <div class="col-auto">
+  <div class="col-md-auto col-12">
     <div class="form-floating">
-      <input id="weeks" type="number" class="form-control weeks" placeholder="i antal veckor" value="1">
+      <input id="weeks" type="number" class="form-control weeks" placeholder="i antal veckor" value="2">
       <label for="weeks">i antal veckor</label>
     </div>
   </div>
-  <div class="col-auto align-items-center d-flex">
+  <div class="col-md-auto col-12 align-items-center d-flex">
     <button class="btn btn-danger removeButton" type="button"><i class="bi bi-dash-circle-dotted"></i> Ta bort</button>
   </div>
 </div>
 <div class="row g-2 mb-2 creamDosesBlock">
-  <div class="col-auto">
+  <div class="col-md-auto col-12">
     <div class="form-floating">
       <select class="form-select timesPerWeek" id="timesPerWeek">
       <option value="21">Morgon, lunch och kväll</option>
@@ -452,13 +431,13 @@ function updatePremadeSchedule() {
       <label for="timesPerWeek">Gånger per dag</label>
     </div>
   </div>
-  <div class="col-auto">
+  <div class="col-md-auto col-12">
     <div class="form-floating">
-      <input id="weeks" type="number" class="form-control weeks" placeholder="i antal veckor" value="1">
+      <input id="weeks" type="number" class="form-control weeks" placeholder="i antal veckor" value="2">
       <label for="weeks">i antal veckor</label>
     </div>
   </div>
-  <div class="col-auto align-items-center d-flex">
+  <div class="col-md-auto col-12 align-items-center d-flex">
     <button class="btn btn-danger removeButton" type="button"><i class="bi bi-dash-circle-dotted"></i> Ta bort</button>
   </div>
 </div>`
