@@ -71,6 +71,10 @@ header, main {
     }
 }
 
+#imgLogo {
+  max-width: 100%;
+}
+
 #links a, a.links {
     color: $primary !important;
     text-decoration: none !important;
@@ -165,11 +169,7 @@ a.no-decoration, a:hover.no-decoration {
   background-clip: padding-box;
 }
 
-.minus:hover {
-  background-color: #717fe0 !important;
-}
-
-.plus:hover {
+.minus:hover, .plus:hover {
   background-color: #717fe0 !important;
 }
 

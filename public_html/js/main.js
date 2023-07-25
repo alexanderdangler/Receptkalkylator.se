@@ -9075,14 +9075,19 @@ $(function () {
   $("#moreCreamDoses").on('click', function () { addCreamDoses() });
   $(".plus").on('click', function () {
     $(this).prev('.count').val(parseInt($(this).prev('.count').val()) + 1);
+    $(this).prevAll('.showNumber').html($(this).prev('.count').val());
     updateCreamCounter();
   });
   $(".minus").on('click', function () {
-    if ($(this).next('.count').val() > 0) {
-      $(this).next('.count').val(parseInt($(this).next('.count').val()) - 1);
+    if ($(this).nextAll('.count').val() > 0) {
+      $(this).nextAll('.count').val(parseInt($(this).nextAll('.count').val()) - 1);
+      $(this).next('.showNumber').html($(this).nextAll('.count').val());
       updateCreamCounter();
     }
   });
+
+  const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+  const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
 });
 },{"luxon":1}]},{},[2]);
