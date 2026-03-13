@@ -113,7 +113,7 @@ a.no-decoration, a:hover.no-decoration {
 .footer-dark p {
   padding:0;
   font-size:0.9em;
-  opacity: 0.6;
+  opacity: 0.8;
 }
 
 #alertReceptInfo {
@@ -193,13 +193,6 @@ input::-webkit-inner-spin-button {
 
 input:disabled {
   background-color: white;
-}
-
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
 }
 
 /* Firefox */

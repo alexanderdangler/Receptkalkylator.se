@@ -4,14 +4,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <meta name="description"
-    content="Beräkna snittförbrukning & hur stora recept som ska skrivas ut för både tabletter och krämer.">
+    content="Beräkna snittförbrukning & hur stora recept som ska skrivas ut för både tabletter och krämer. Receptkalkylator för läkare.">
+  <link rel="canonical" href="https://nyttrecept.se/">
+
+  <meta property="og:title" content="Nyttrecept.se – Receptkalkylator för läkare">
+  <meta property="og:description" content="Beräkna snittförbrukning, antal uttag och mängd kortisonkräm för receptförskrivning.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nyttrecept.se/">
   <meta property="og:image" content="https://nyttrecept.se/img/content/social-media-image.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
 
-  <title>Nyttrecept.se · Beräkna snittförbrukning, mängd kortisonkräm, mm</title>
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Nyttrecept.se – Receptkalkylator för läkare">
+  <meta name="twitter:description" content="Beräkna snittförbrukning & mängd kortisonkräm.">
+  <meta name="twitter:image" content="https://nyttrecept.se/img/content/social-media-image.jpg">
+
+  <title>Nyttrecept.se – Receptkalkylator för läkare | Beräkna tabletter, uttag & kortisonkräm</title>
 
   <link rel="stylesheet" type="text/css" href="css/main.min.css" media="screen">
 
@@ -20,7 +30,7 @@
       "@context": "https://schema.org",
       "@type": "MedicalWebPage",
       "reviewedBy": "Alexander Dangler, legitimerad läkare & Jesper Hjertström, legitimerad läkare",
-      "lastReviewed": "2023-07-25",
+      "lastReviewed": "2026-03-14",
       "name": "Nyttrecept.se",
       "url": "https://www.nyttrecept.se/",
       "description": "Nyttrecept.se offers dosage calculators and cortisone cream calculator."
@@ -149,7 +159,7 @@
             "name": "Hur högt är högkostnadsskyddet?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Högkostnadsskyddet uppgår 2023 till 2600 kr. Det innebär att patienten aldrig betalar mer än 2600 kr per 12 månadersperiod för sina läkemedel."
+              "text": "Högkostnadsskyddet uppgår 2026 till 2950 kr. Det innebär att patienten aldrig betalar mer än 2950 kr per 12 månadersperiod för sina läkemedel. Läs mer på E-hälsomyndighetens webbplats."
             }
           },
           {
@@ -460,12 +470,13 @@
 
 <body>
 
+  <a href="#mainForm" class="visually-hidden-focusable">Hoppa till huvudinnehåll</a>
+
   <div style="background: white; width: 100%;">
     <!-- hack made to make sides white when using footer as body-background to make it look like footer stretches the page height-->
 
     <header class="px-4 pt-4 text-center">
-      <p class="h3" role="alert"><span class="badge bg-danger">Ny funktion för kladdiga recept!</span></p>
-      <a href="/" alt="Link to home" class="text-decoration-none">
+      <a href="/" title="Tillbaka till startsidan" class="text-decoration-none">
         <div class="col-xl-6 col-lg-9 col-md-12 mx-auto text-center d-flex align-items-center justify-content-center">
           <img id="imgLogo" src="./img/layout/logo_with_text.svg" alt="Logo of Receptkalkylator.se" height="110"
             width="726">
@@ -491,7 +502,7 @@
             <div class="col-12">
               <h4>När skrevs receptet?</h4>
               <div class="input-group mb-3">
-                <input id="fromDate" type="date" class="form-control" aria-label="Text input with dropdown button"
+                <input id="fromDate" type="date" class="form-control" aria-label="Datum då receptet skrevs"
                   max="2999-12-31">
               </div>
             </div>
@@ -500,7 +511,7 @@
           <div id="formGroupToDate" class="formGroupSelectorElement">
             <h4 id="headerToDate">När tog receptet slut?</h4>
             <div class="input-group mb-3">
-              <input id="toDate" type="date" class="form-control" aria-label="Text input with dropdown button"
+              <input id="toDate" type="date" class="form-control" aria-label="Slutdatum för receptet"
                 max="2999-12-31">
               <button id="btnToDate" class="btn btn-outline-primary dropdown-toggle" type="button"
                 data-bs-toggle="dropdown" aria-expanded="false">Förvalda datum:</button>
@@ -537,13 +548,13 @@
           <h4>Dosering</h4>
           <div class="row gx-3 gy-sm-1">
             <div id="formGroupDose" class="col formGroupSelectorElement d-none">
-              <input id="dosage" type="text" class="form-control" placeholder="Dos (t.ex. 2x2, 1+0+1, 1*3)">
+              <input id="dosage" type="text" class="form-control" placeholder="Dos (t.ex. 2x2, 1+0+1, 1*3)" aria-label="Dosering, till exempel 2x2 eller 1+0+1">
             </div>
             <div id="formGroupPackageSize" class="col formGroupSelectorElement">
-              <input id="packageSize" type="number" class="form-control" placeholder="Förpackningsstorlek">
+              <input id="packageSize" type="number" class="form-control" placeholder="Förpackningsstorlek" aria-label="Förpackningsstorlek i antal tabletter">
             </div>
             <div id="formGroupWithdrawls" class="col formGroupSelectorElement">
-              <input id="withdrawls" type="number" class="form-control" placeholder="Antal uttag">
+              <input id="withdrawls" type="number" class="form-control" placeholder="Antal uttag" aria-label="Antal uttag">
             </div>
           </div>
 
@@ -590,98 +601,98 @@
           <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-2">
             <div class="col">
               <div class="card h-100 text-center align-content-center">
-                <img src="img/content/bodyparts/face.svg" class="card-img-top" alt="...">
+                <img src="img/content/bodyparts/face.svg" class="card-img-top" alt="Illustration av ansikte och hals">
                 <div class="card-body">
                   <h5 class="card-title">Ansikte och hals</h5>
                   <div class="qty">
-                    <span class="minus"><i class="bi bi-dash-circle-fill text-primary"></i></span>
+                    <span class="minus" role="button" tabindex="0" aria-label="Minska antal ansikte och hals"><i class="bi bi-dash-circle-fill text-primary"></i></span>
                     <span class="showNumber px-1 h4 fw-bold">0</span>
                     <input type="number" id="face" class="count d-none" name="qty" value="0">
-                    <span class="plus"><i class="bi bi-plus-circle-fill text-primary"></i></span>
+                    <span class="plus" role="button" tabindex="0" aria-label="Öka antal ansikte och hals"><i class="bi bi-plus-circle-fill text-primary"></i></span>
                   </div>
                 </div>
               </div>
             </div>
             <div class="col">
               <div class="card h-100 text-center align-content-center">
-                <img src="img/content/bodyparts/chest.svg" class="card-img-top" alt="...">
+                <img src="img/content/bodyparts/chest.svg" class="card-img-top" alt="Illustration av bröstkorg och mage">
                 <div class="card-body">
                   <h5 class="card-title">Bröstkorg och mage</h5>
                   <div class="qty">
-                    <span class="minus"><i class="bi bi-dash-circle-fill text-primary"></i></span>
+                    <span class="minus" role="button" tabindex="0" aria-label="Minska antal bröstkorg och mage"><i class="bi bi-dash-circle-fill text-primary"></i></span>
                     <span class="showNumber px-1 h4 fw-bold">0</span>
                     <input type="number" id="chest" class="count d-none" name="qty" value="0">
-                    <span class="plus"><i class="bi bi-plus-circle-fill text-primary"></i></span>
+                    <span class="plus" role="button" tabindex="0" aria-label="Öka antal bröstkorg och mage"><i class="bi bi-plus-circle-fill text-primary"></i></span>
                   </div>
                 </div>
               </div>
             </div>
             <div class="col">
               <div class="card h-100 text-center align-content-center">
-                <img src="img/content/bodyparts/back.svg" class="card-img-top" alt="...">
+                <img src="img/content/bodyparts/back.svg" class="card-img-top" alt="Illustration av rygg och skinkor">
                 <div class="card-body">
                   <h5 class="card-title">Rygg och skinkor</h5>
                   <div class="qty">
-                    <span class="minus"><i class="bi bi-dash-circle-fill text-primary"></i></span>
+                    <span class="minus" role="button" tabindex="0" aria-label="Minska antal rygg och skinkor"><i class="bi bi-dash-circle-fill text-primary"></i></span>
                     <span class="showNumber px-1 h4 fw-bold">0</span>
                     <input type="number" id="back" class="count d-none" name="qty" value="0">
-                    <span class="plus"><i class="bi bi-plus-circle-fill text-primary"></i></span>
+                    <span class="plus" role="button" tabindex="0" aria-label="Öka antal rygg och skinkor"><i class="bi bi-plus-circle-fill text-primary"></i></span>
                   </div>
                 </div>
               </div>
             </div>
             <div class="col">
               <div class="card h-100 text-center align-content-center">
-                <img src="img/content/bodyparts/arm.svg" class="card-img-top" alt="...">
+                <img src="img/content/bodyparts/arm.svg" class="card-img-top" alt="Illustration av arm">
                 <div class="card-body">
                   <h5 class="card-title">Arm</h5>
                   <div class="qty">
-                    <span class="minus"><i class="bi bi-dash-circle-fill text-primary"></i></span>
+                    <span class="minus" role="button" tabindex="0" aria-label="Minska antal arm"><i class="bi bi-dash-circle-fill text-primary"></i></span>
                     <span class="showNumber px-1 h4 fw-bold">0</span>
                     <input type="number" id="arm" class="count d-none" name="qty" value="0">
-                    <span class="plus"><i class="bi bi-plus-circle-fill text-primary"></i></span>
+                    <span class="plus" role="button" tabindex="0" aria-label="Öka antal arm"><i class="bi bi-plus-circle-fill text-primary"></i></span>
                   </div>
                 </div>
               </div>
             </div>
             <div class="col">
               <div class="card h-100 text-center align-content-center">
-                <img src="img/content/bodyparts/hand.svg" class="card-img-top" alt="...">
+                <img src="img/content/bodyparts/hand.svg" class="card-img-top" alt="Illustration av hand">
                 <div class="card-body">
                   <h5 class="card-title">Hand</h5>
                   <div class="qty">
-                    <span class="minus"><i class="bi bi-dash-circle-fill text-primary"></i></span>
+                    <span class="minus" role="button" tabindex="0" aria-label="Minska antal hand"><i class="bi bi-dash-circle-fill text-primary"></i></span>
                     <span class="showNumber px-1 h4 fw-bold">0</span>
                     <input type="number" id="hand" class="count d-none" name="qty" value="0">
-                    <span class="plus"><i class="bi bi-plus-circle-fill text-primary"></i></span>
+                    <span class="plus" role="button" tabindex="0" aria-label="Öka antal hand"><i class="bi bi-plus-circle-fill text-primary"></i></span>
                   </div>
                 </div>
               </div>
             </div>
             <div class="col">
               <div class="card h-100 text-center align-content-center">
-                <img src="img/content/bodyparts/leg.svg" class="card-img-top" alt="...">
+                <img src="img/content/bodyparts/leg.svg" class="card-img-top" alt="Illustration av ben">
                 <div class="card-body">
                   <h5 class="card-title">Ben</h5>
                   <div class="qty">
-                    <span class="minus"><i class="bi bi-dash-circle-fill text-primary"></i></span>
+                    <span class="minus" role="button" tabindex="0" aria-label="Minska antal ben"><i class="bi bi-dash-circle-fill text-primary"></i></span>
                     <span class="showNumber px-1 h4 fw-bold">0</span>
                     <input type="number" id="leg" class="count d-none" name="qty" value="0">
-                    <span class="plus"><i class="bi bi-plus-circle-fill text-primary"></i></span>
+                    <span class="plus" role="button" tabindex="0" aria-label="Öka antal ben"><i class="bi bi-plus-circle-fill text-primary"></i></span>
                   </div>
                 </div>
               </div>
             </div>
             <div class="col">
               <div class="card h-100 text-center align-content-center">
-                <img src="img/content/bodyparts/foot.svg" class="card-img-top" alt="...">
+                <img src="img/content/bodyparts/foot.svg" class="card-img-top" alt="Illustration av fot">
                 <div class="card-body">
                   <h5 class="card-title">Fot</h5>
                   <div class="qty">
-                    <span class="minus"><i class="bi bi-dash-circle-fill text-primary"></i></span>
+                    <span class="minus" role="button" tabindex="0" aria-label="Minska antal fot"><i class="bi bi-dash-circle-fill text-primary"></i></span>
                     <span class="showNumber px-1 h4 fw-bold">0</span>
                     <input type="number" id="foot" class="count d-none" name="qty" value="0">
-                    <span class="plus"><i class="bi bi-plus-circle-fill text-primary"></i></span>
+                    <span class="plus" role="button" tabindex="0" aria-label="Öka antal fot"><i class="bi bi-plus-circle-fill text-primary"></i></span>
                   </div>
                 </div>
               </div>
@@ -1058,7 +1069,7 @@
                   högkostnadsskyddet och att det aktuella läkemedelet ingår i förmånen.</p>
                 <p>Läs mer i <a
                     href="https://www.konkurrensverket.se/informationsmaterial/rapportlista/prisutveckling-pa-receptfria-lakemedel-sedan-omregleringen/"
-                    target="_blank" alt="Länk till rapport om recept på Konkurrensverkets hemsida">Konkurrensverkets
+                    target="_blank" title="Länk till rapport om recept på Konkurrensverkets hemsida">Konkurrensverkets
                     rapport från 2017</a>.</p>
               </div>
             </div>
@@ -1092,9 +1103,10 @@
             </h4>
             <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo"
               data-bs-parent="#accordion2">
-              <div class="accordion-body">Högkostandsskyddet uppgår 2023 till 2600 kr. Det innebär att patienten
-                aldrig
-                betalar mer än 2600 kr per 12 månadersperiod för sina läkemedel.
+              <div class="accordion-body">Högkostnadsskyddet uppgår 2026 till 2 950 kr. Det innebär att patienten
+                aldrig betalar mer än 2 950 kr per 12 månadersperiod för sina läkemedel.
+                <a href="https://www.ehalsomyndigheten.se/privatperson/hogkostnadsskydd/hogkostnadsskyddet-januari-2026/"
+                  target="_blank">Läs mer på E-hälsomyndighetens webbplats</a>.
               </div>
             </div>
           </div>
@@ -1209,7 +1221,7 @@
                   mottagande landet. För övriga länder bör aktuellt lands ambassad konsulteras.</p>
                 <p>Schengenintyg finns att fylla i elektroniskt på Läkemedelsverkets hemsida:
                   <a href="https://www.lakemedelsverket.se/48fdea/globalassets/dokument/blanketter-och-e-tjanster/handel-med-lakemedel/schengenintyg.pdf"
-                    alt="Schengen-intyg för narkotikaklassade läkemedel" target="_blank">Schengen-intyg</a>
+                    title="Schengen-intyg för narkotikaklassade läkemedel" target="_blank">Schengen-intyg</a>
                 </p>
               </div>
             </div>
@@ -1696,7 +1708,7 @@
 
   <footer class="bg-dark col-lg-8 col-12 mx-auto text-center text-white py-5 overflow-hidden">
     <div class="row">
-      <a href="https://www.medibyte.se" alt="Länk till Medibyte.se - digitala verktyg utvecklade av läkare"
+      <a href="https://www.medibyte.se" title="Länk till Medibyte.se - digitala verktyg utvecklade av läkare"
         class="text-decoration-none text-white">
         <img src="https://www.medibyte.se/central_resources/img/logo/medibyte/medibyte_logo_white.svg"
           alt="Medibyte.se logga" width="375" height="63">
@@ -1705,26 +1717,26 @@
     </div>
     <div id="medibyte-links" class="row border-top border-1 border-white border-opacity-10 border-3 mt-3 pt-4 mx-3">
       <div class="col-12 col-lg-6 my-3">
-        <a href="https://www.diabeteslakemedel.se" alt="Länk till Diabeteslakemedel.se"
+        <a href="https://www.diabeteslakemedel.se" title="Länk till Diabeteslakemedel.se"
           class="text-decoration-none text-white">
           <img src="https://www.medibyte.se/central_resources/img/logo/diabeteslakemedel/whiteoutline.svg"
             alt="Diabeteslakemedel.se logga" width="350" height="25">
         </a>
       </div>
       <div class="col-12 col-lg-6 my-3">
-        <a href="https://www.egfr.se" alt="Länk till eGFR.se" class="text-decoration-none text-white">
+        <a href="https://www.egfr.se" title="Länk till eGFR.se" class="text-decoration-none text-white">
           <img src="https://www.medibyte.se/central_resources/img/logo/egfr/whiteoutline.svg" alt="egfr.se logga"
             width="180" height="25">
         </a>
       </div>
       <div class="col-12 col-lg-6 my-3">
-        <a href="https://www.smittarjag.se" alt="Länk till smittarjag.se" class="text-decoration-none text-white">
+        <a href="https://www.smittarjag.se" title="Länk till smittarjag.se" class="text-decoration-none text-white">
           <img src="https://www.medibyte.se/central_resources/img/logo/smittarjag/whiteoutline.svg"
             alt="smittarjag.se logga" width="300" height="25">
         </a>
       </div>
       <div class="col-12 col-lg-6 my-3">
-        <a href="https://www.feberbarn.se" alt="Länk till feberbarn.se"
+        <a href="https://www.feberbarn.se" title="Länk till feberbarn.se"
         class="text-decoration-none text-white">   
         <img src="https://www.medibyte.se/central_resources/img/logo/feberbarn/whiteoutline.svg" alt="feberbarn.se logga" width="300" height="25">
         </a>
@@ -1733,13 +1745,9 @@
 
   </footer>
 
-  <script src="https://code.jquery.com/jquery-3.6.1.min.js"
-    integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous" defer>
-    </script> --> <!-- Bootstrap 5 -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RT6QuHRETrKXPbrsUFQfLoBkiPB5+lW" crossorigin="anonymous" defer></script>
   <script src="js/main.min.js" type="text/javascript" defer></script>
-  <!-- Luxon and all custom js, e.g. all calculations and manipulation -->
 
 </body>
 
