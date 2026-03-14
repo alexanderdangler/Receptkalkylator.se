@@ -1,6 +1,32 @@
-var { DateTime, Interval } = require("luxon"); //imports Luxon
-// to browswerify: 
-// browserify uncompiled/js/index.uncompiled.js -o public_html/js/main.js
+// Native date helpers (replacing Luxon)
+function parseISO(str) {
+  var parts = str.split('-');
+  return new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+}
+
+function toISODate(date) {
+  return date.getFullYear() + '-' +
+    String(date.getMonth() + 1).padStart(2, '0') + '-' +
+    String(date.getDate()).padStart(2, '0');
+}
+
+function todayISO() { return toISODate(new Date()); }
+
+function addDays(date, n) {
+  var d = new Date(date.getTime());
+  d.setDate(d.getDate() + Math.floor(n));
+  var frac = n % 1;
+  if (frac) d.setTime(d.getTime() + frac * 86400000);
+  return d;
+}
+
+function diffDays(a, b) {
+  return (b.getTime() - a.getTime()) / 86400000;
+}
+
+// DOM helpers
+function qs(sel) { return document.querySelector(sel); }
+function qsa(sel) { return document.querySelectorAll(sel); }
 
 var currentFunction = "usage";
 var aktuelltRecept;
@@ -14,43 +40,45 @@ function escapeHtml(str) {
 
 // Function that manipulate the form and turns off/"disables" the input boxes not used
 function setUpInitialForm(currentFunctionState, buttonSelector) {
-  $("#alertReceptInfo, .hideAtFormSetUp, #kortisonTabell").addClass("d-none");
-  $(".btnSelector").addClass("btn-outline-primary").removeClass("btn-primary");
-  $(buttonSelector).removeClass("btn-outline-primary").addClass("btn-primary");
-  $(".formGroupSelectorElement").removeClass("d-none");
+  qsa('#alertReceptInfo, .hideAtFormSetUp, #kortisonTabell').forEach(function(el) { el.classList.add('d-none'); });
+  qsa('.btnSelector').forEach(function(el) { el.classList.add('btn-outline-primary'); el.classList.remove('btn-primary'); });
+  var btn = qs(buttonSelector);
+  btn.classList.remove('btn-outline-primary');
+  btn.classList.add('btn-primary');
+  qsa('.formGroupSelectorElement').forEach(function(el) { el.classList.remove('d-none'); });
   currentFunction = currentFunctionState;
   if (currentFunction === "usage") {
     changeDate("+", "0", "days", "#toDate");
   }
 
   if (currentFunction === "cream") {
-    $("#mainForm").addClass("d-none");
-    $("#creamForm").removeClass("d-none");
-    $("#kortisonTabell").removeClass("d-none");
-    $("#FAQsalvorokramer").prependTo("#FAQ");
+    qs('#mainForm').classList.add('d-none');
+    qs('#creamForm').classList.remove('d-none');
+    qs('#kortisonTabell').classList.remove('d-none');
+    qs('#FAQ').prepend(qs('#FAQsalvorokramer'));
     updateCreamCounter();
   } else {
-    $("#mainForm").removeClass("d-none");
-    $("#creamForm").addClass("d-none");
-    $("#FAQsalvorokramer").appendTo("#FAQ");
+    qs('#mainForm').classList.remove('d-none');
+    qs('#creamForm').classList.add('d-none');
+    qs('#FAQ').append(qs('#FAQsalvorokramer'));
     mainFunction();
   }
 }
 
 // The function that calculates all the necessary data
 function mainFunction() {
-  const dateFrom = $("#fromDate").val();
-  const dateTo = $("#toDate").val();
-  const dosage = $("#dosage").val();
-  const packageSize = $("#packageSize").val();
-  const withdrawls = $("#withdrawls").val();
-  $("#additionalInfo").html("");
+  const dateFrom = qs('#fromDate').value;
+  const dateTo = qs('#toDate').value;
+  const dosage = qs('#dosage').value;
+  const packageSize = qs('#packageSize').value;
+  const withdrawls = qs('#withdrawls').value;
+  qs('#additionalInfo').innerHTML = '';
 
   if (currentFunction === "uttag") {
-    $("#headerToDate").html("Hur länge ska receptet räcka?");
-    $(".uttagDropdown").removeClass("d-none");
-    $(".usageDropdown").addClass("d-none");
-    $("#formGroupWithdrawls, #formGroupFromDate").addClass("d-none");
+    qs('#headerToDate').innerHTML = "Hur länge ska receptet räcka?";
+    qsa('.uttagDropdown').forEach(function(el) { el.classList.remove('d-none'); });
+    qsa('.usageDropdown').forEach(function(el) { el.classList.add('d-none'); });
+    qsa('#formGroupWithdrawls, #formGroupFromDate').forEach(function(el) { el.classList.add('d-none'); });
     if (typeof dateTo === 'string') {
       var days = calculateDateDifference();
       if (typeof dosage === 'string') {
@@ -59,48 +87,51 @@ function mainFunction() {
           var withdrawlsCalculated = Math.ceil((days * totalPillsPerDay) / packageSize);
           var pillsLeftAtEndofPrescription = (packageSize * withdrawlsCalculated) - (days * totalPillsPerDay);
           var extraDays = pillsLeftAtEndofPrescription / totalPillsPerDay;
-          aktuelltRecept = `Receptet utfärdat idag med dosen ${escapeHtml(dosage)} kommer räcka till ${DateTime.fromISO(dateTo).plus({ days: extraDays }).toISODate()} baserat på <b>${withdrawlsCalculated} stycken uttag</b> á ${escapeHtml(packageSize)} tabletter. Totalt antal tabletter för hela perioden blir ${Math.ceil(days * totalPillsPerDay)} stycken.`;
-          updateReceptText()
-          $("#additionalInfo").html("<hr><i><ul><li>Detta recept räcker " + Math.floor(extraDays) + " dagar längre det datum du önskade</li><li>Om patienten förskrivs 1 paket vid varje uttag kan den tidigast hämta ut ett nytt uttag efter " + Math.floor((packageSize / totalPillsPerDay) / 3 * 2) + " dagar, och 1 uttag räcker som max i " + Math.floor(packageSize / totalPillsPerDay) + " dagar. <a id='toAccordion5' href='#flush-heading5'>Läs mer nedan</a>.</li></ul></i>").removeClass("d-none");
+          aktuelltRecept = `Receptet utfärdat idag med dosen ${escapeHtml(dosage)} kommer räcka till ${toISODate(addDays(parseISO(dateTo), extraDays))} baserat på <b>${withdrawlsCalculated} stycken uttag</b> á ${escapeHtml(packageSize)} tabletter. Totalt antal tabletter för hela perioden blir ${Math.ceil(days * totalPillsPerDay)} stycken.`;
+          updateReceptText();
+          var addInfo = qs('#additionalInfo');
+          addInfo.innerHTML = "<hr><i><ul><li>Detta recept räcker " + Math.floor(extraDays) + " dagar längre det datum du önskade</li><li>Om patienten förskrivs 1 paket vid varje uttag kan den tidigast hämta ut ett nytt uttag efter " + Math.floor((packageSize / totalPillsPerDay) / 3 * 2) + " dagar, och 1 uttag räcker som max i " + Math.floor(packageSize / totalPillsPerDay) + " dagar. <a id='toAccordion5' href='#flush-heading5'>Läs mer nedan</a>.</li></ul></i>";
+          addInfo.classList.remove('d-none');
         }
       }
     }
   }
 
   if (currentFunction === "dagar") {
-    $("#formGroupToDate").addClass("d-none");
+    qs('#formGroupToDate').classList.add('d-none');
     if (typeof dosage === 'string') {
       var totalPillsPerDay = calculateTotalPillsPerDay();
       if (packageSize > 0 && withdrawls > 0 && totalPillsPerDay > 0) {
         var days = Math.ceil((packageSize * withdrawls) / totalPillsPerDay);
         if (typeof dateFrom === 'string') {
-          var toDate = DateTime.fromISO(dateFrom).plus({ days: days });
-          var fromDate = DateTime.fromISO(dateFrom);
-          var today = DateTime.now();
+          var toDate = addDays(parseISO(dateFrom), days);
+          var fromDate = parseISO(dateFrom);
+          var today = new Date();
           if (toDate > today) {
-            var remainingDays = Math.ceil(toDate.diff(today).as('days'));
-            aktuelltRecept = `Patientens recept från ${escapeHtml(dateFrom)} för dosen ${escapeHtml(dosage)} av ${escapeHtml(packageSize)} tabletter med ${escapeHtml(withdrawls)} uttag <b>bör räcka i ytterligare ${remainingDays} dagar till och med den ${toDate.toISODate()}</b>. Vid dagens datum ${today.toISODate()} bör det fortfarande finnas kvar ${Math.floor(packageSize * withdrawls - Interval.fromDateTimes(fromDate, today).length('days') * totalPillsPerDay)} tabletter. Om alla tabletter förbrukats till idag har det skett med en snittförbrukning på ${Math.round(((packageSize * withdrawls / Interval.fromDateTimes(fromDate, today).length('days')) + Number.EPSILON) * 10) / 10} tabletter/dag.`;
+            var remainingDays = Math.ceil(diffDays(today, toDate));
+            aktuelltRecept = `Patientens recept från ${escapeHtml(dateFrom)} för dosen ${escapeHtml(dosage)} av ${escapeHtml(packageSize)} tabletter med ${escapeHtml(withdrawls)} uttag <b>bör räcka i ytterligare ${remainingDays} dagar till och med den ${toISODate(toDate)}</b>. Vid dagens datum ${todayISO()} bör det fortfarande finnas kvar ${Math.floor(packageSize * withdrawls - diffDays(fromDate, today) * totalPillsPerDay)} tabletter. Om alla tabletter förbrukats till idag har det skett med en snittförbrukning på ${Math.round(((packageSize * withdrawls / diffDays(fromDate, today)) + Number.EPSILON) * 10) / 10} tabletter/dag.`;
           } else {
-            aktuelltRecept = `Patientens recept från ${escapeHtml(dateFrom)} för ${escapeHtml(packageSize)} tabletter i ${escapeHtml(withdrawls)} uttag med dosen ${escapeHtml(dosage)} bör ha tagit slut ` + toDate.toISODate() + ". Således har patienten varit utan tabletter i " + Math.floor(Interval.fromDateTimes(toDate, today).length('days')) + " dagar.";
-            $("#additionalInfo").html(`<hr><i>Snittförbrukning: ${Math.round(((packageSize * withdrawls / Interval.fromDateTimes(fromDate, toDate).length('days')) + Number.EPSILON) * 10) / 10} tabletter/dag.</i>`).removeClass("d-none");
+            aktuelltRecept = `Patientens recept från ${escapeHtml(dateFrom)} för ${escapeHtml(packageSize)} tabletter i ${escapeHtml(withdrawls)} uttag med dosen ${escapeHtml(dosage)} bör ha tagit slut ` + toISODate(toDate) + ". Således har patienten varit utan tabletter i " + Math.floor(diffDays(toDate, today)) + " dagar.";
+            var addInfo = qs('#additionalInfo');
+            addInfo.innerHTML = `<hr><i>Snittförbrukning: ${Math.round(((packageSize * withdrawls / diffDays(fromDate, toDate)) + Number.EPSILON) * 10) / 10} tabletter/dag.</i>`;
+            addInfo.classList.remove('d-none');
           }
-          updateReceptText()
+          updateReceptText();
         }
       }
     }
   }
 
   if (currentFunction === "usage") {
-    $(".uttagDropdown").addClass("d-none");
-    $(".usageDropdown").removeClass("d-none");
-    $("#formGroupDose").addClass("d-none");
-    $("#headerToDate").html("När tog receptet slut?");
+    qsa('.uttagDropdown').forEach(function(el) { el.classList.add('d-none'); });
+    qsa('.usageDropdown').forEach(function(el) { el.classList.remove('d-none'); });
+    qs('#formGroupDose').classList.add('d-none');
+    qs('#headerToDate').innerHTML = "När tog receptet slut?";
     if (packageSize > 0 && withdrawls > 0) {
       if (typeof dateFrom === 'string') {
-        var toDate = DateTime.fromISO(dateTo);
-        var fromDate = DateTime.fromISO(dateFrom);
-        var today = DateTime.now();
-        var days = Math.ceil(toDate.diff(fromDate).as('days'));
+        var toDate = parseISO(dateTo);
+        var fromDate = parseISO(dateFrom);
+        var days = Math.ceil(diffDays(fromDate, toDate));
         aktuelltRecept = `Om receptet skrivet ${escapeHtml(dateFrom)} med ${escapeHtml(withdrawls)} uttag av ${escapeHtml(packageSize)} tabletter helt har förbrukats till den ${escapeHtml(dateTo)} har det skett med en <b>snittförbrukning på ${Math.round(((packageSize * withdrawls / days) + Number.EPSILON) * 10) / 10} tabletter/dag</b>. Totalt antal tabletter förskrivet är ${packageSize * withdrawls} stycken`;
         updateReceptText();
       }
@@ -108,16 +139,12 @@ function mainFunction() {
   }
 
   function calculateDateDifference() {
-    var now = DateTime.now();
-    var later = DateTime.fromISO(dateTo);
-    var i = Interval.fromDateTimes(now, later);
-    var days = Math.round(i.length('days'));
-    return days;
+    return Math.round(diffDays(new Date(), parseISO(dateTo)));
   }
 
   function updateReceptText() {
-    $("#alertReceptInfo").removeClass("d-none");
-    $("#pReceptText").html(aktuelltRecept);
+    qs('#alertReceptInfo').classList.remove('d-none');
+    qs('#pReceptText').innerHTML = aktuelltRecept;
   }
 
   function calculateTotalPillsPerDay() {
@@ -150,22 +177,25 @@ function mainFunction() {
 }
 
 function changeDate(addOrSub, numberOf, timeFrame, element) {
-  if (addOrSub === "+") {
-    var date = DateTime.now().plus({ [timeFrame]: numberOf }).toISODate();
-  } else if (addOrSub === "-") {
-    var date = DateTime.now().minus({ [timeFrame]: numberOf }).toISODate();
-  }
-  $(element).val(date);
+  var now = new Date();
+  var n = Number(numberOf);
+  if (addOrSub === "-") n = -n;
+  var result = new Date(now.getTime());
+  if (timeFrame === 'days') result = addDays(now, n);
+  else if (timeFrame === 'months') result.setMonth(result.getMonth() + n);
+  else if (timeFrame === 'years') result.setFullYear(result.getFullYear() + n);
+  qs(element).value = toISODate(result);
 }
 
 function copyAktuelltReceptToClipboard() {
-  var strippedAktuelltRecept = $("<div/>").html(aktuelltRecept).text();
-  navigator.clipboard.writeText(strippedAktuelltRecept).then(
-    () => {
-      $('#kopieraKnapp').html("<i class='bi bi-clipboard-check-fill'></i> Kopierat");
+  var tmp = document.createElement('div');
+  tmp.innerHTML = aktuelltRecept;
+  navigator.clipboard.writeText(tmp.textContent).then(
+    function() {
+      qs('#kopieraKnapp').innerHTML = "<i class='bi bi-clipboard-check-fill'></i> Kopierat";
     },
-    () => {
-      $('#kopieraKnapp').html("Tyvärr stödjer inte din webbläsare kopiering :'(");
+    function() {
+      qs('#kopieraKnapp').innerHTML = "Tyvärr stödjer inte din webbläsare kopiering :'(";
     }
   );
 }
@@ -180,15 +210,16 @@ var creamGramsPerUnit = {
 };
 
 function updateCreamCounter() {
-  var ageGroup = $('input[name="patient_age"]:checked').val();
+  var checked = qs('input[name="patient_age"]:checked');
+  var ageGroup = checked ? checked.value : undefined;
   var gramsTable = creamGramsPerUnit[ageGroup];
   var totalGrams = 0;
 
   if (gramsTable) {
-    $(".count").each(function () {
-      var bodyPart = $(this).attr("id");
+    qsa(".count").forEach(function (el) {
+      var bodyPart = el.id;
       if (gramsTable[bodyPart]) {
-        totalGrams += $(this).val() * gramsTable[bodyPart];
+        totalGrams += el.value * gramsTable[bodyPart];
       }
     });
   }
@@ -196,9 +227,9 @@ function updateCreamCounter() {
   var totalApplications = 0;
   var doseringsText = "";
 
-  $(".creamDosesBlock").each(function () {
-    var weeks = $(this).find(".weeks").val();
-    var timesPerWeek = $(this).find(".timesPerWeek").val()
+  qsa(".creamDosesBlock").forEach(function (el) {
+    var weeks = el.querySelector(".weeks").value;
+    var timesPerWeek = el.querySelector(".timesPerWeek").value;
     var dosering;
     totalApplications += timesPerWeek * weeks;
 
@@ -228,16 +259,16 @@ function updateCreamCounter() {
     } else {
       doseringsText += `Därefter ${dosering} i ${weeks == 1 ? "1 vecka" : weeks + " veckor"}. `;
     }
-    
+
   });
 
   var totalGramsAll = totalGrams * totalApplications;
   if (totalGramsAll > 0) {
     aktuelltRecept = `${doseringsText}Använd mjukgörande dagligen. <b>Total åtgång ${Math.round(totalGramsAll)} gram.</b>`;
-    $("#alertReceptInfo").removeClass("d-none");
-    $("#pReceptText").html(aktuelltRecept);
+    qs("#alertReceptInfo").classList.remove("d-none");
+    qs("#pReceptText").innerHTML = aktuelltRecept;
   } else if (totalGramsAll == 0) {
-    $("#alertReceptInfo").addClass("d-none");
+    qs("#alertReceptInfo").classList.add("d-none");
   }
 
 }
@@ -280,12 +311,12 @@ function createCreamDoseBlock(selectedValue, weeksValue, showRemoveButton) {
 }
 
 function addCreamDoses() {
-  $('#creamDoses').append(createCreamDoseBlock("7", "", true));
+  qs('#creamDoses').insertAdjacentHTML('beforeend', createCreamDoseBlock("7", "", true));
 }
 
 function updatePremadeSchedule() {
-  $('#creamDoses').empty();
-  $('#creamDoses').append(
+  qs('#creamDoses').innerHTML = '';
+  qs('#creamDoses').insertAdjacentHTML('beforeend',
     createCreamDoseBlock("7", "2", false) +
     createCreamDoseBlock("3.5", "2", true) +
     createCreamDoseBlock("2", "2", true)
@@ -295,68 +326,123 @@ function updatePremadeSchedule() {
 
 
 // Functions to run when the document has loaded completely and to be listened for all the time
-$(function () {
+document.addEventListener('DOMContentLoaded', function () {
   setUpInitialForm("usage", "#btnUsage");
-  $('#btnDagar').on('click', function () { setUpInitialForm("dagar", "#btnDagar") });
-  $('#btnUttag').on('click', function () { setUpInitialForm("uttag", "#btnUttag") });
-  $('#btnUsage').on('click', function () { setUpInitialForm("usage", "#btnUsage") });
-  $('#btnCream').on('click', function () { setUpInitialForm("cream", "#btnCream") });
+  qs('#btnDagar').addEventListener('click', function () { setUpInitialForm("dagar", "#btnDagar") });
+  qs('#btnUttag').addEventListener('click', function () { setUpInitialForm("uttag", "#btnUttag") });
+  qs('#btnUsage').addEventListener('click', function () { setUpInitialForm("usage", "#btnUsage") });
+  qs('#btnCream').addEventListener('click', function () { setUpInitialForm("cream", "#btnCream") });
 
-  $("#fromDate, #toDate, #dosage, #packageSize, #withdrawls").on("input", mainFunction);
-
-  $('.dateDropdown').on('click', function () {
-    var element = $(this);
-    changeDate(element.data("addorsub"), element.data("numberof"), element.data("timeframe"), element.data("element"));
-    mainFunction();
+  ['fromDate', 'toDate', 'dosage', 'packageSize', 'withdrawls'].forEach(function(id) {
+    document.getElementById(id).addEventListener('input', mainFunction);
   });
 
-  $(document).on('click', 'a[href^="#"]', function (event) {
-    var target = $(this.getAttribute('href'));
-    if (target.length) {
+  qsa('.dateDropdown').forEach(function(el) {
+    el.addEventListener('click', function () {
+      changeDate(this.dataset.addorsub, this.dataset.numberof, this.dataset.timeframe, this.dataset.element);
+      mainFunction();
+    });
+  });
+
+  document.addEventListener('click', function (event) {
+    var link = event.target.closest('a[href^="#"]');
+    if (!link) return;
+    var target = qs(link.getAttribute('href'));
+    if (target) {
       event.preventDefault();
-      $('html, body').stop().animate({
-        scrollTop: target.offset().top
-      }, 600);
+      target.scrollIntoView({ behavior: 'smooth' });
     }
-    $("#flush-heading5 button").trigger("click");
+    var accordionBtn = qs('#flush-heading5 button');
+    if (accordionBtn) accordionBtn.click();
   });
 
-  $('#kopieraKnapp').on('click', copyAktuelltReceptToClipboard);
+  qs('#kopieraKnapp').addEventListener('click', copyAktuelltReceptToClipboard);
 
   // Funktion för plus och minusknappar
-  $('.count').prop('disabled', true);
-  $('input[name="patient_age"], .weeks, .timesPerWeek').on('input', function () { updateCreamCounter() });
-  $('#premadeSchedule').on('click', function () { updatePremadeSchedule() });
-  $('#creamDoses').on('click', '.timesPerWeek', function () { updateCreamCounter() });
-  $('#creamDoses').on('input', '.weeks', function () { updateCreamCounter() });
-  // Knapp för att ta bort doseringen och uppdaterar sen uträkningen
-  $('#creamDoses').on('click', '.removeButton', function () { 
-    $(this).closest(".creamDosesBlock").remove();
-    updateCreamCounter();
+  qsa('.count').forEach(function(el) { el.disabled = true; });
+  qsa('input[name="patient_age"], .weeks, .timesPerWeek').forEach(function(el) {
+    el.addEventListener('input', function () { updateCreamCounter() });
   });
-  $("#moreCreamDoses").on('click', function () { addCreamDoses() });
-  $(".plus").on('click', function () {
-    $(this).prev('.count').val(parseInt($(this).prev('.count').val()) + 1);
-    $(this).prevAll('.showNumber').html($(this).prev('.count').val());
-    updateCreamCounter();
-  });
-  $(".minus").on('click', function () {
-    if ($(this).nextAll('.count').val() > 0) {
-      $(this).nextAll('.count').val(parseInt($(this).nextAll('.count').val()) - 1);
-      $(this).next('.showNumber').html($(this).nextAll('.count').val());
+  qs('#premadeSchedule').addEventListener('click', function () { updatePremadeSchedule() });
+  var creamDoses = qs('#creamDoses');
+  creamDoses.addEventListener('click', function (e) {
+    if (e.target.closest('.timesPerWeek')) updateCreamCounter();
+    var removeBtn = e.target.closest('.removeButton');
+    if (removeBtn) {
+      removeBtn.closest('.creamDosesBlock').remove();
       updateCreamCounter();
     }
   });
-
-  // Keyboard accessibility for plus/minus buttons
-  $(".plus, .minus").on('keydown', function (e) {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      $(this).trigger('click');
-    }
+  creamDoses.addEventListener('input', function (e) {
+    if (e.target.closest('.weeks')) updateCreamCounter();
+  });
+  // Knapp för att ta bort doseringen och uppdaterar sen uträkningen
+  qs('#moreCreamDoses').addEventListener('click', function () { addCreamDoses() });
+  qsa('.plus').forEach(function(el) {
+    el.addEventListener('click', function () {
+      var countInput = this.parentElement.querySelector('.count');
+      var showNum = this.parentElement.querySelector('.showNumber');
+      countInput.value = parseInt(countInput.value) + 1;
+      showNum.innerHTML = countInput.value;
+      updateCreamCounter();
+    });
+  });
+  qsa('.minus').forEach(function(el) {
+    el.addEventListener('click', function () {
+      var countInput = this.parentElement.querySelector('.count');
+      var showNum = this.parentElement.querySelector('.showNumber');
+      if (parseInt(countInput.value) > 0) {
+        countInput.value = parseInt(countInput.value) - 1;
+        showNum.innerHTML = countInput.value;
+        updateCreamCounter();
+      }
+    });
   });
 
-  const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-  const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+  // Keyboard accessibility for plus/minus buttons
+  qsa('.plus, .minus').forEach(function(el) {
+    el.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        this.click();
+      }
+    });
+  });
+
+  var tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+  tooltipTriggerList.forEach(function(el) { new bootstrap.Tooltip(el) });
+
+  // FAQ search
+  var faqSearch = qs('#faq-search');
+  if (faqSearch) {
+    faqSearch.addEventListener('input', function () {
+      var query = this.value.toLowerCase().trim();
+      var items = qsa('#FAQ .accordion-item');
+      var categories = qsa('#FAQ .faq-category');
+      var anyVisible = false;
+
+      items.forEach(function (item) {
+        var question = item.querySelector('.accordion-button').textContent.toLowerCase();
+        var answer = item.querySelector('.accordion-body').textContent.toLowerCase();
+        var match = !query || question.indexOf(query) !== -1 || answer.indexOf(query) !== -1;
+        item.style.display = match ? '' : 'none';
+        if (match) anyVisible = true;
+      });
+
+      // Hide category headings if all their items are hidden
+      categories.forEach(function (heading) {
+        var accordion = heading.nextElementSibling;
+        if (accordion && accordion.classList.contains('accordion')) {
+          var visibleItems = accordion.querySelectorAll('.accordion-item:not([style*="display: none"])');
+          heading.style.display = visibleItems.length ? '' : 'none';
+        }
+      });
+
+      var noResults = qs('#faq-no-results');
+      if (noResults) {
+        noResults.classList.toggle('d-none', anyVisible);
+      }
+    });
+  }
 
 });

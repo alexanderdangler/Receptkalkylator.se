@@ -17,8 +17,6 @@
   },
   "homepage": "https://github.com/alexanderdangler/Receptkalkylator.se#readme",
   "dependencies": {
-    "bootstrap": "^5.2.1",
-    "jquery": "^3.6.1",
-    "luxon": "^3.0.4"
+    "bootstrap": "^5.2.1"
   }
 }

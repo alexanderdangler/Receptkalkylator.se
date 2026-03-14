@@ -16,13 +16,12 @@ Ingen backend – allt körs i webbläsaren.
 
 ## Byggprocess
 1. Redigera källfiler i `uncompiled/`
-2. Bundla JS: `browserify uncompiled/js/index.uncompiled.js -o public_html/js/main.js`
-3. Minifiera JS: Använd VS Code Minify-extension eller `npx terser public_html/js/main.js -o public_html/js/main.min.js -c -m`
-4. Kompilera SCSS: VS Code Live Sass Compiler eller liknande
+2. Minifiera JS: `npx terser uncompiled/js/index.uncompiled.js -o public_html/js/main.min.js -c -m`
+3. Kompilera SCSS: VS Code Live Sass Compiler eller liknande
 
 ## Kodkonventioner
-- jQuery används för DOM-manipulation
-- Luxon används för datumberäkningar (importeras via Browserify/CommonJS)
+- Vanilla JavaScript för DOM-manipulation (qs/qsa helpers)
+- Nativa Date-objekt för datumberäkningar (parseISO, addDays, diffDays helpers)
 - Bootstrap 5 laddas selektivt via SCSS-imports
 - Bootstrap JS laddas via CDN (5.2.1)
 - Blandat svenska och engelska variabelnamn – behåll befintligt mönster

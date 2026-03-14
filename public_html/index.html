@@ -846,7 +846,11 @@
       <h2 class="pb-2 display-3 text-success">Vanliga frågor - Läkemedels<wbr>förskrivning</h2>
 
       <section id="FAQ">
-        <h3 class="pt-3">Giltighet och uttag</h3>
+        <div class="mb-3">
+          <input type="text" id="faq-search" class="form-control" placeholder="Sök bland vanliga frågor..." aria-label="Sök bland vanliga frågor">
+        </div>
+        <p id="faq-no-results" class="text-muted d-none">Inga frågor matchade din sökning.</p>
+        <h3 class="pt-3 faq-category">Giltighet och uttag</h3>
         <div class="accordion" id="accordion1">
           <div class="accordion-item">
             <h4 class="accordion-header" id="flush-headingOne">
@@ -980,7 +984,7 @@
         </div>
 
         <!--LICENSFÖRSKRIVNING-->
-        <h3 class="pt-3">Licensförskrivning</h3>
+        <h3 class="pt-3 faq-category">Licensförskrivning</h3>
         <div class="accordion" id="accordion5">
           <div class="accordion-item">
             <h4 class="accordion-header" id="flush-heading16">
@@ -1036,7 +1040,7 @@
         </div>
 
         <!-- RECEPTFRIA LÄKEMEDEL-->
-        <h3 class="pt-3">Receptfria läkemedel</h3>
+        <h3 class="pt-3 faq-category">Receptfria läkemedel</h3>
         <div class="accordion" id="accordion6">
           <div class="accordion-item">
             <h4 class="accordion-header" id="flush-heading10">
@@ -1092,7 +1096,7 @@
         </div>
 
         <!--KOSTNADER-->
-        <h3 class="pt-3">Kostnader</h3>
+        <h3 class="pt-3 faq-category">Kostnader</h3>
         <div class="accordion" id="accordion2">
           <div class="accordion-item">
             <h4 class="accordion-header" id="flush-headingTwo">
@@ -1176,7 +1180,7 @@
         </div>
 
         <!--RESA OCH MEDBORGARSKAP-->
-        <h3 class="pt-3">Resa och medborgarskap</h3>
+        <h3 class="pt-3 faq-category">Resa och medborgarskap</h3>
         <div class="accordion" id="accordion3">
           <div class="accordion-item">
             <h4 class="accordion-header" id="flush-heading7">
@@ -1296,7 +1300,7 @@
         </div>
 
         <!--PASCAL-->
-        <h3 class="pt-3">Pascal</h3>
+        <h3 class="pt-3 faq-category">Pascal</h3>
         <div class="accordion" id="accordion4">
           <div class="accordion-item">
             <h4 class="accordion-header" id="flush-heading21">
@@ -1553,7 +1557,7 @@
 
         <div id="FAQsalvorokramer">
           <!--Salvor och krämer-->
-          <h3 class="pt-3">Salvor och krämer</h3>
+          <h3 class="pt-3 faq-category">Salvor och krämer</h3>
           <div class="accordion" id="accordion5">
             <div class="accordion-item">
               <h4 class="accordion-header" id="flush-heading137">
@@ -1745,8 +1749,6 @@
 
   </footer>
 
-  <script src="https://code.jquery.com/jquery-3.6.1.min.js"
-    integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
     crossorigin="anonymous" defer></script>
   <script src="js/main.min.js" type="text/javascript" defer></script>
