@@ -485,17 +485,30 @@
     </header>
 
     <main class="col-xl-6 col-lg-9 col-md-12 mx-auto text-start px-3 pb-5">
-      <div class="row text-start pt-4">
-        <div class="col-12 py-3 d-grid gap-2 d-md-block">
-          <button id="btnUsage" class="btnSelector btn btn-lg btn-primary mb-2" type="button"><i
-              class="bi bi-prescription"></i> Hur många tabletter har förbrukats?</button>
-          <button id="btnDagar" class="btnSelector btn btn-lg btn-outline-primary mb-2" type="button"><i
-              class="bi bi-capsule-pill"></i> Hur många tabletter borde finnas kvar?</button>
-          <button id="btnUttag" class="btnSelector btn btn-lg btn-outline-primary mb-2" type="button"><i
-              class="bi bi-pencil-fill"></i> Hur stort recept ska jag skriva ut?</button>
-          <button id="btnCream" class="btnSelector btn btn-lg btn-outline-primary mb-2" type="button"><i
-              class="bi bi-droplet-fill"></i> Hur mycket kräm/salva ska jag skriva ut?</button>
-        </div>
+      <div class="pt-4">
+        <nav class="tab-bar" role="tablist" aria-label="Välj kalkylator">
+          <button id="btnUsage" class="btnSelector tab-item tab-usage tab-active" role="tab"
+                  aria-selected="true" title="Hur många tabletter har förbrukats?" type="button">
+            <i class="bi bi-prescription"></i>
+            <span class="tab-label">Förbrukade tabletter</span>
+          </button>
+          <button id="btnDagar" class="btnSelector tab-item tab-dagar" role="tab"
+                  aria-selected="false" title="Hur många tabletter borde finnas kvar?" type="button">
+            <i class="bi bi-capsule-pill"></i>
+            <span class="tab-label">Kvarvarande tabletter</span>
+          </button>
+          <button id="btnUttag" class="btnSelector tab-item tab-uttag" role="tab"
+                  aria-selected="false" title="Hur stort recept ska jag skriva ut?" type="button">
+            <i class="bi bi-pencil-fill"></i>
+            <span class="tab-label">Receptstorlek</span>
+          </button>
+          <button id="btnCream" class="btnSelector tab-item tab-cream" role="tab"
+                  aria-selected="false" title="Hur mycket kräm/salva ska jag skriva ut?" type="button">
+            <i class="bi bi-droplet-fill"></i>
+            <span class="tab-label">Kräm/salva</span>
+          </button>
+        </nav>
+        <div class="tab-content">
 
         <div id="mainForm">
           <div id="formGroupFromDate" class="formGroupSelectorElement">
@@ -718,7 +731,7 @@
                 </div>
                 <div class="col-md-auto col-12">
                   <div class="form-floating">
-                    <input id="weeks" type="number" class="form-control weeks" placeholder="i antal veckor">
+                    <input id="weeks" type="number" class="form-control weeks" placeholder=" ">
                     <label for="weeks">i antal veckor</label>
                   </div>
                 </div>
@@ -737,6 +750,7 @@
 
         </div>
 
+        </div><!-- /.tab-content -->
       </div>
 
       <div id="alertReceptInfo" class="col-12 mt-5 alert alert-secondary rounded-0 text-start d-none" role="alert">
@@ -1749,8 +1763,6 @@
 
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
-    crossorigin="anonymous" defer></script>
   <script src="js/main.min.js" type="text/javascript" defer></script>
 
 </body>

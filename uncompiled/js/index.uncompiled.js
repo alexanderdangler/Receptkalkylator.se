@@ -41,10 +41,10 @@ function escapeHtml(str) {
 // Function that manipulate the form and turns off/"disables" the input boxes not used
 function setUpInitialForm(currentFunctionState, buttonSelector) {
   qsa('#alertReceptInfo, .hideAtFormSetUp, #kortisonTabell').forEach(function(el) { el.classList.add('d-none'); });
-  qsa('.btnSelector').forEach(function(el) { el.classList.add('btn-outline-primary'); el.classList.remove('btn-primary'); });
+  qsa('.btnSelector').forEach(function(el) { el.classList.remove('tab-active'); el.setAttribute('aria-selected', 'false'); });
   var btn = qs(buttonSelector);
-  btn.classList.remove('btn-outline-primary');
-  btn.classList.add('btn-primary');
+  btn.classList.add('tab-active');
+  btn.setAttribute('aria-selected', 'true');
   qsa('.formGroupSelectorElement').forEach(function(el) { el.classList.remove('d-none'); });
   currentFunction = currentFunctionState;
   if (currentFunction === "usage") {
@@ -132,7 +132,7 @@ function mainFunction() {
         var toDate = parseISO(dateTo);
         var fromDate = parseISO(dateFrom);
         var days = Math.ceil(diffDays(fromDate, toDate));
-        aktuelltRecept = `Om receptet skrivet ${escapeHtml(dateFrom)} med ${escapeHtml(withdrawls)} uttag av ${escapeHtml(packageSize)} tabletter helt har förbrukats till den ${escapeHtml(dateTo)} har det skett med en <b>snittförbrukning på ${Math.round(((packageSize * withdrawls / days) + Number.EPSILON) * 10) / 10} tabletter/dag</b>. Totalt antal tabletter förskrivet är ${packageSize * withdrawls} stycken`;
+        aktuelltRecept = `Om receptet skrivet ${escapeHtml(dateFrom)} med ${escapeHtml(withdrawls)} uttag av ${escapeHtml(packageSize)} tabletter helt har förbrukats till ${escapeHtml(dateTo)} har det skett med en <b>snittförbrukning på ${Math.round(((packageSize * withdrawls / days) + Number.EPSILON) * 10) / 10} tabletter/dag</b>. Totalt antal tabletter förskrivet var ${packageSize * withdrawls} stycken`;
         updateReceptText();
       }
     }
@@ -302,7 +302,7 @@ function createCreamDoseBlock(selectedValue, weeksValue, showRemoveButton) {
   </div>
   <div class="col-md-auto col-12">
     <div class="form-floating">
-      <input id="weeks" type="number" class="form-control weeks" placeholder="i antal veckor"${weeksValue ? ' value="' + weeksValue + '"' : ""}>
+      <input id="weeks" type="number" class="form-control weeks" placeholder=" "${weeksValue ? ' value="' + weeksValue + '"' : ""}>
       <label for="weeks">i antal veckor</label>
     </div>
   </div>
@@ -338,7 +338,8 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   qsa('.dateDropdown').forEach(function(el) {
-    el.addEventListener('click', function () {
+    el.addEventListener('click', function (e) {
+      e.preventDefault();
       changeDate(this.dataset.addorsub, this.dataset.numberof, this.dataset.timeframe, this.dataset.element);
       mainFunction();
     });
@@ -409,8 +410,76 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  var tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-  tooltipTriggerList.forEach(function(el) { new bootstrap.Tooltip(el) });
+  // Custom dropdown (replaces Bootstrap dropdown)
+  var dropdownToggle = qs('[data-bs-toggle="dropdown"]');
+  if (dropdownToggle) {
+    var dropdownMenu = dropdownToggle.parentElement.querySelector('.dropdown-menu');
+    dropdownToggle.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var isOpen = dropdownMenu.classList.contains('show');
+      dropdownMenu.classList.toggle('show');
+      dropdownToggle.setAttribute('aria-expanded', String(!isOpen));
+    });
+    document.addEventListener('click', function(e) {
+      if (!dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
+        dropdownMenu.classList.remove('show');
+        dropdownToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+    dropdownMenu.addEventListener('click', function(e) {
+      if (e.target.classList.contains('dropdown-item')) {
+        dropdownMenu.classList.remove('show');
+        dropdownToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        dropdownMenu.classList.remove('show');
+        dropdownToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  // Custom accordion (replaces Bootstrap collapse)
+  document.addEventListener('click', function(e) {
+    var accBtn = e.target.closest('[data-bs-toggle="collapse"]');
+    if (!accBtn) return;
+    e.preventDefault();
+    var targetSelector = accBtn.getAttribute('data-bs-target');
+    var target = qs(targetSelector);
+    if (!target) return;
+    var parentSelector = target.getAttribute('data-bs-parent');
+    var isOpen = target.classList.contains('show');
+
+    // Close siblings within same parent accordion
+    if (parentSelector) {
+      qsa(parentSelector + ' .accordion-collapse.show').forEach(function(panel) {
+        panel.classList.remove('show');
+        panel.style.maxHeight = panel.scrollHeight + 'px';
+        panel.offsetHeight;
+        panel.style.maxHeight = '0';
+        var sibBtn = panel.previousElementSibling ? panel.previousElementSibling.querySelector('.accordion-button') : null;
+        if (sibBtn) { sibBtn.classList.add('collapsed'); sibBtn.setAttribute('aria-expanded', 'false'); }
+      });
+    }
+
+    if (!isOpen) {
+      target.classList.add('show');
+      target.style.maxHeight = target.scrollHeight + 'px';
+      // After transition, switch to none so dynamic content isn't clipped
+      setTimeout(function() { if (target.classList.contains('show')) target.style.maxHeight = 'none'; }, 350);
+      accBtn.classList.remove('collapsed');
+      accBtn.setAttribute('aria-expanded', 'true');
+    } else {
+      // Collapse: remove show first, set explicit height, reflow, then animate to 0
+      target.classList.remove('show');
+      target.style.maxHeight = target.scrollHeight + 'px';
+      target.offsetHeight; // force reflow
+      target.style.maxHeight = '0';
+      accBtn.classList.add('collapsed');
+      accBtn.setAttribute('aria-expanded', 'false');
+    }
+  });
 
   // FAQ search
   var faqSearch = qs('#faq-search');

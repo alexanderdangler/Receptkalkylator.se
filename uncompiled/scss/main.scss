@@ -1,119 +1,739 @@
-// 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
-@import "../../node_modules/bootstrap/scss/functions";
+// =============================================================================
+// NyttRecept.se – Custom CSS (Bootstrap replacement)
+// =============================================================================
 
-// 2. Include any default variable overrides here
-    $light:      #ecf4ed;
-    $dark:       #021e04;
-    $primary:    darkgreen;
-    $secondary:  #ffffe0;
-    $info:       #2E294E;
-    $success:    #569700;
-    $warning:    #ffba57;
-    $danger:     #AD343E;
-
-$component-active-color: white;
-$component-active-bg: $primary;
-
-// 3. Include remainder of required Bootstrap stylesheets
-@import "../../node_modules/bootstrap/scss/variables";
-@import "../../node_modules/bootstrap/scss/maps";
-@import "../../node_modules/bootstrap/scss/mixins";
-@import "../../node_modules/bootstrap/scss/utilities"; 
-@import "../../node_modules/bootstrap/scss/helpers"; 
-@import "../../node_modules/bootstrap/scss/utilities/api"; 
-
-// 4. Include any optional Bootstrap components as you like
-@import "../../node_modules/bootstrap/scss/root";
-@import "../../node_modules/bootstrap/scss/reboot";
-@import "../../node_modules/bootstrap/scss/type";
-//@import "../../node_modules/bootstrap/scss/images";
-@import "../../node_modules/bootstrap/scss/containers";
-@import "../../node_modules/bootstrap/scss/grid";
-@import "../../node_modules/bootstrap/scss/tables";
-@import "../../node_modules/bootstrap/scss/forms";
-@import "../../node_modules/bootstrap/scss/buttons";
-@import "../../node_modules/bootstrap/scss/transitions";
-@import "../../node_modules/bootstrap/scss/dropdown";
-@import "../../node_modules/bootstrap/scss/button-group";
-//@import "../../node_modules/bootstrap/scss/nav";
-//@import "../../node_modules/bootstrap/scss/navbar";
-@import "../../node_modules/bootstrap/scss/card";
-@import "../../node_modules/bootstrap/scss/accordion";
-//@import "../../node_modules/bootstrap/scss/breadcrumb";
-//@import "../../node_modules/bootstrap/scss/pagination";
-@import "../../node_modules/bootstrap/scss/badge";
-@import "../../node_modules/bootstrap/scss/alert";
-//@import "../../node_modules/bootstrap/scss/progress";
-@import "../../node_modules/bootstrap/scss/list-group";
-//@import "../../node_modules/bootstrap/scss/close";
-//@import "../../node_modules/bootstrap/scss/toasts";
-//@import "../../node_modules/bootstrap/scss/modal";
-@import "../../node_modules/bootstrap/scss/tooltip";
-//@import "../../node_modules/bootstrap/scss/popover";
-//@import "../../node_modules/bootstrap/scss/carousel";
-//@import "../../node_modules/bootstrap/scss/spinners";
-//@import "../../node_modules/bootstrap/scss/offcanvas";
-
+// Bootstrap Icons (keep – just an icon font, not part of Bootstrap CSS/JS)
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css");
 
-// 5. Add additional custom code here
-body {
-  background-color: $dark;
+// =============================================================================
+// 1. Design Tokens
+// =============================================================================
+:root {
+  --color-primary: #006400;
+  --color-light: #ecf4ed;
+  --color-dark: #021e04;
+  --color-secondary: #ffffe0;
+  --color-info: #2E294E;
+  --color-success: #569700;
+  --color-warning: #ffba57;
+  --color-danger: #AD343E;
+  --color-muted: #6c757d;
+  --color-white: #fff;
+  --color-border: #dee2e6;
+  --border-radius: 0.375rem;
+  --transition-speed: 0.2s;
+  --font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
-header, main {
-  background-color: white;
+// =============================================================================
+// 2. Reset / Reboot
+// =============================================================================
+*, *::before, *::after { box-sizing: border-box; }
+
+html { line-height: 1.5; -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #212529;
+  background-color: var(--color-dark);
+  -webkit-font-smoothing: antialiased;
 }
+
+h1, h2, h3, h4, h5, h6 { margin-top: 0; margin-bottom: 0.5rem; font-weight: 500; line-height: 1.2; }
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.75rem; }
+h4 { font-size: 1.5rem; }
+h5 { font-size: 1.25rem; }
+h6 { font-size: 1rem; }
+
+p { margin-top: 0; margin-bottom: 1rem; }
+a { color: var(--color-primary); text-decoration: underline; }
+a:hover { color: #004d00; }
+
+ul, ol { margin-top: 0; margin-bottom: 1rem; }
+hr { margin: 1rem 0; border: 0; border-top: 1px solid rgba(0,0,0,0.1); opacity: 1; }
+
+img { max-width: 100%; height: auto; vertical-align: middle; }
+
+label { display: inline-block; margin-bottom: 0.25rem; }
+button { cursor: pointer; font-family: inherit; }
+strong, b { font-weight: 700; }
+th { text-align: inherit; }
+[tabindex] { outline: none; }
+[tabindex]:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+
+// =============================================================================
+// 3. Typography utilities
+// =============================================================================
+.display-3 { font-size: 2.5rem; font-weight: 300; line-height: 1.2; }
+.display-6 { font-size: 1.75rem; font-weight: 300; line-height: 1.2; }
+
+@media (min-width: 768px) {
+  .display-3 { font-size: 3.5rem; }
+  .display-6 { font-size: 2.25rem; }
+}
+
+.h4 { font-size: 1.5rem; font-weight: 500; }
+
+// =============================================================================
+// 4. Layout – Grid
+// =============================================================================
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -0.5rem;
+  margin-left: -0.5rem;
+  > * {
+    flex-shrink: 0;
+    width: 100%;
+    max-width: 100%;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+}
+
+.col { flex: 1 0 0%; }
+.col-12 { flex: 0 0 auto; width: 100%; }
+
+@media (min-width: 768px) {
+  .col-md-auto { flex: 0 0 auto; width: auto; }
+  .col-md-6 { flex: 0 0 auto; width: 50%; }
+  .col-md-12 { flex: 0 0 auto; width: 100%; }
+}
+@media (min-width: 992px) {
+  .col-lg-6 { flex: 0 0 auto; width: 50%; }
+  .col-lg-8 { flex: 0 0 auto; width: 66.6667%; }
+  .col-lg-9 { flex: 0 0 auto; width: 75%; }
+}
+@media (min-width: 1200px) {
+  .col-xl-6 { flex: 0 0 auto; width: 50%; }
+}
+
+// Row-cols (for body part card grid)
+.row-cols-2 > .col { flex: 0 0 auto; width: 50%; }
+@media (min-width: 768px) {
+  .row-cols-md-3 > .col { flex: 0 0 auto; width: 33.3333%; }
+}
+@media (min-width: 992px) {
+  .row-cols-lg-4 > .col { flex: 0 0 auto; width: 25%; }
+}
+
+// Gutters
+.g-2 { --gutter-x: 0.5rem; --gutter-y: 0.5rem; }
+.gx-3 { --gutter-x: 1rem; }
+
+.g-2, .gx-3 {
+  margin-right: calc(var(--gutter-x, 0.5rem) * -0.5);
+  margin-left: calc(var(--gutter-x, 0.5rem) * -0.5);
+  > * {
+    padding-right: calc(var(--gutter-x, 0.5rem) * 0.5);
+    padding-left: calc(var(--gutter-x, 0.5rem) * 0.5);
+  }
+}
+.g-2 { > * { margin-bottom: var(--gutter-y); } }
+
+@media (min-width: 768px) {
+  .g-md-3 {
+    --gutter-x: 1rem;
+    --gutter-y: 1rem;
+    margin-right: calc(var(--gutter-x) * -0.5);
+    margin-left: calc(var(--gutter-x) * -0.5);
+    > * {
+      padding-right: calc(var(--gutter-x) * 0.5);
+      padding-left: calc(var(--gutter-x) * 0.5);
+      margin-bottom: var(--gutter-y);
+    }
+  }
+}
+@media (min-width: 576px) {
+  .gy-sm-1 { > * { margin-bottom: 0.25rem; } }
+}
+
+.gap-2 { gap: 0.5rem; }
+
+// =============================================================================
+// 5. Spacing Utilities
+// =============================================================================
+.mx-auto { margin-left: auto; margin-right: auto; }
+.mx-3 { margin-left: 1rem; margin-right: 1rem; }
+
+.mt-2 { margin-top: 0.5rem; }
+.mt-3 { margin-top: 1rem; }
+.mt-5 { margin-top: 3rem; }
+
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-3 { margin-bottom: 1rem; }
+.mb-5 { margin-bottom: 3rem; }
+
+.ms-1 { margin-left: 0.25rem; }
+
+.my-3 { margin-top: 1rem; margin-bottom: 1rem; }
+
+.m-1 { margin: 0.25rem; }
+
+.px-1 { padding-left: 0.25rem; padding-right: 0.25rem; }
+.px-3 { padding-left: 1rem; padding-right: 1rem; }
+.px-4 { padding-left: 1.5rem; padding-right: 1.5rem; }
+
+.py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
+.py-3 { padding-top: 1rem; padding-bottom: 1rem; }
+.py-4 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+.py-5 { padding-top: 3rem; padding-bottom: 3rem; }
+
+.pb-2 { padding-bottom: 0.5rem; }
+.pb-5 { padding-bottom: 3rem; }
+
+.pt-2 { padding-top: 0.5rem; }
+.pt-3 { padding-top: 1rem; }
+.pt-4 { padding-top: 1.5rem; }
+
+.p-3 { padding: 1rem; }
+
+// =============================================================================
+// 6. Display & Flex Utilities
+// =============================================================================
+.d-none { display: none !important; }
+.d-grid { display: grid; }
+.d-flex { display: flex; }
+
+@media (min-width: 768px) {
+  .d-md-block { display: block !important; }
+}
+@media (min-width: 992px) {
+  .d-lg-none { display: none !important; }
+}
+
+.align-items-center { align-items: center; }
+.align-content-center { align-content: center; }
+.justify-content-center { justify-content: center; }
+.flex-wrap { flex-wrap: wrap; }
+
+// =============================================================================
+// 7. Text Utilities
+// =============================================================================
+.text-center { text-align: center; }
+.text-start { text-align: left; }
+
+.text-white { color: var(--color-white) !important; }
+.text-primary { color: var(--color-primary) !important; }
+.text-muted { color: var(--color-muted) !important; }
+.text-success { color: var(--color-success) !important; }
+
+.text-decoration-none { text-decoration: none !important; }
+
+.fw-bold { font-weight: 700 !important; }
+
+// =============================================================================
+// 8. Buttons
+// =============================================================================
+.btn {
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  border: 1px solid transparent;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: var(--border-radius);
+  transition: color var(--transition-speed), background-color var(--transition-speed), border-color var(--transition-speed);
+  text-decoration: none;
+  &:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+}
+.btn-lg { padding: 0.5rem 1rem; font-size: 1.125rem; border-radius: 0.5rem; }
+
+.btn-primary {
+  color: var(--color-white);
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  &:hover { background-color: #004d00; border-color: #004d00; }
+}
+.btn-outline-primary {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+  background-color: transparent;
+  &:hover { color: var(--color-white); background-color: var(--color-primary); border-color: var(--color-primary); }
+}
+.btn-outline-info {
+  color: var(--color-info);
+  border-color: var(--color-info);
+  background-color: transparent;
+  &:hover { color: var(--color-white); background-color: var(--color-info); border-color: var(--color-info); }
+}
+.btn-danger {
+  color: var(--color-white);
+  background-color: var(--color-danger);
+  border-color: var(--color-danger);
+  &:hover { background-color: #8c2a32; border-color: #8c2a32; }
+}
+.btn-secondary {
+  color: var(--color-white);
+  background-color: var(--color-muted);
+  border-color: var(--color-muted);
+  &:hover { background-color: #5a6268; border-color: #5a6268; }
+}
+
+// =============================================================================
+// 9. Forms
+// =============================================================================
+.form-control, .form-select {
+  display: block;
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+  appearance: none;
+  &:focus {
+    border-color: #80b280;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 100, 0, 0.25);
+  }
+}
+.form-select {
+  padding-right: 2.25rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 16px 12px;
+}
+
+// Floating labels
+.form-floating {
+  position: relative;
+  > .form-control, > .form-select {
+    height: calc(3.5rem + 2px);
+    padding: 1.625rem 0.75rem 0.625rem;
+  }
+  > label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 1rem 0.75rem;
+    pointer-events: none;
+    transform-origin: 0 0;
+    transition: opacity var(--transition-speed), transform var(--transition-speed);
+    color: var(--color-muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  > .form-control:focus ~ label,
+  > .form-control:not(:placeholder-shown) ~ label,
+  > .form-select ~ label {
+    opacity: 0.65;
+    transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+  }
+}
+
+// Input group
+.input-group {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  width: 100%;
+  > .form-control, > .form-select {
+    position: relative;
+    flex: 1 1 auto;
+    width: 1%;
+    min-width: 0;
+  }
+  > .form-control:not(:last-child), > .form-select:not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  > .btn:not(:first-child) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    margin-left: -1px;
+  }
+}
+
+// Checkboxes & radios
+.form-check { display: block; min-height: 1.5rem; padding-left: 1.5em; margin-bottom: 0.125rem; }
+.form-check-inline { display: inline-block; margin-right: 1rem; }
+.form-check-input {
+  width: 1em;
+  height: 1em;
+  margin-top: 0.25em;
+  margin-left: -1.5em;
+  vertical-align: top;
+  appearance: none;
+  border: 1px solid rgba(0,0,0,0.25);
+  border-radius: 50%;
+  background-color: var(--color-white);
+  float: left;
+  &:checked {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3E%3Ccircle r='2' fill='%23fff'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+  &:focus { box-shadow: 0 0 0 0.2rem rgba(0, 100, 0, 0.25); outline: 0; }
+}
+.form-check-label { cursor: pointer; }
+
+// =============================================================================
+// 10. Cards
+// =============================================================================
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+}
+.card-img-top { border-top-left-radius: calc(var(--border-radius) - 1px); border-top-right-radius: calc(var(--border-radius) - 1px); }
+.card-body { flex: 1 1 auto; padding: 1rem; }
+.card-title { margin-bottom: 0.5rem; font-weight: 500; }
+
+// =============================================================================
+// 11. Tables
+// =============================================================================
+.table {
+  width: 100%;
+  margin-bottom: 1rem;
+  border-collapse: collapse;
+  th, td { padding: 0.5rem; vertical-align: top; border-bottom: 1px solid var(--color-border); }
+  thead th { vertical-align: bottom; border-bottom-width: 2px; }
+}
+.table-striped tbody tr:nth-of-type(odd) { background-color: rgba(0,0,0,0.025); }
+.table-hover tbody tr:hover { background-color: rgba(0,0,0,0.05); }
+
+// =============================================================================
+// 12. Alerts
+// =============================================================================
+.alert {
+  position: relative;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: var(--border-radius);
+}
+.alert-secondary {
+  color: #41464b;
+  background-color: #fffff9;
+  border-color: #d3d6d8;
+}
+
+// =============================================================================
+// 13. Accordion
+// =============================================================================
+.accordion {
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+.accordion-item {
+  border-bottom: 1px solid var(--color-border);
+  &:last-child { border-bottom: 0; }
+}
+.accordion-header { margin: 0; }
+.accordion-button {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 1rem 1.25rem;
+  font-size: 1rem;
+  color: #212529;
+  background-color: var(--color-white);
+  border: 0;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--transition-speed);
+  &:hover { background-color: #f8f9fa; }
+  &:not(.collapsed) {
+    color: var(--color-primary);
+    background-color: #f5faf5;
+    font-weight: 600;
+  }
+  // Chevron arrow
+  &::after {
+    content: '';
+    flex-shrink: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-left: auto;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%23212529' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: 1.25rem;
+    transition: transform var(--transition-speed);
+  }
+  &.collapsed::after { transform: rotate(0deg); }
+  &:not(.collapsed)::after { transform: rotate(-180deg); }
+}
+.accordion-collapse {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  &.show { max-height: none; overflow: visible; }
+}
+.accordion-body { padding: 1rem 1.25rem; background-color: #f5faf5; }
+.accordion-collapse.show + .accordion-item,
+.accordion-item:has(.accordion-collapse.show) .accordion-button:not(.collapsed) { background-color: #f5faf5; }
+
+// =============================================================================
+// 14. Dropdown
+// =============================================================================
+.dropdown-toggle::after {
+  display: inline-block;
+  margin-left: 0.255em;
+  vertical-align: 0.255em;
+  content: '';
+  border-top: 0.3em solid;
+  border-right: 0.3em solid transparent;
+  border-bottom: 0;
+  border-left: 0.3em solid transparent;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  z-index: 1000;
+  min-width: 10rem;
+  padding: 0.5rem 0;
+  margin: 0.125rem 0 0;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+  list-style: none;
+  &.show { display: block; }
+}
+.dropdown-menu-end { right: 0; left: auto; }
+.dropdown-item {
+  display: block;
+  width: 100%;
+  padding: 0.25rem 1rem;
+  color: #212529;
+  text-decoration: none;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  &:hover { background-color: var(--color-light); }
+}
+
+// =============================================================================
+// 15. Tooltip (CSS-only)
+// =============================================================================
+[data-bs-toggle="tooltip"] {
+  position: relative;
+  cursor: help;
+  &:hover::after, &:focus::after {
+    content: attr(aria-label);
+    position: absolute;
+    left: calc(100% + 0.5rem);
+    top: 50%;
+    transform: translateY(-50%);
+    background: #333;
+    color: var(--color-white);
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--border-radius);
+    font-size: 0.85rem;
+    font-style: normal;
+    font-weight: normal;
+    white-space: normal;
+    width: 280px;
+    max-width: 300px;
+    z-index: 1000;
+    line-height: 1.4;
+    pointer-events: none;
+  }
+}
+@media (max-width: 767px) {
+  [data-bs-toggle="tooltip"]:hover::after,
+  [data-bs-toggle="tooltip"]:focus::after {
+    left: 0;
+    top: calc(100% + 0.5rem);
+    transform: none;
+    width: 250px;
+  }
+}
+
+// =============================================================================
+// 16. Tabs (new component)
+// =============================================================================
+.tab-bar {
+  display: flex;
+  gap: 2px;
+}
+
+.tab-item {
+  --tab-color: var(--color-primary);
+  flex: 1 1 0;
+  padding: 0.75rem 0.5rem;
+  border: 2px solid var(--color-border);
+  border-bottom: 2px solid var(--color-primary);
+  border-top: 3px solid var(--tab-color);
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+  background: #f8f9fa;
+  color: var(--color-muted);
+  font-weight: 500;
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-align: center;
+  transition: background var(--transition-speed), color var(--transition-speed), border-color var(--transition-speed);
+  position: relative;
+  line-height: 1.3;
+
+  &:hover:not(.tab-active) {
+    background: var(--color-light);
+    color: #212529;
+  }
+
+  &.tab-active {
+    background: var(--color-white);
+    color: var(--tab-color);
+    border-color: var(--tab-color) var(--tab-color) var(--color-white) var(--tab-color);
+    border-top-width: 3px;
+    font-weight: 700;
+  }
+
+  i {
+    display: block;
+    font-size: 1.25rem;
+    margin-bottom: 0.25rem;
+  }
+}
+
+// Tab color variants
+.tab-usage  { --tab-color: #006400; }  // darkgreen
+.tab-dagar  { --tab-color: #569700; }  // success green
+.tab-uttag  { --tab-color: #c78a00; }  // warm amber (darkened for contrast)
+.tab-cream  { --tab-color: #2E294E; }  // deep purple
+
+.tab-content {
+  border: 2px solid #d2dfd2;
+  border-top: none;
+  padding: 1.5rem 1rem;
+  background: var(--color-white);
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
+}
+
+// Mobile: 2x2 grid
+@media (max-width: 767px) {
+  .tab-bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+  .tab-item {
+    border-radius: 0;
+    font-size: 0.85rem;
+    padding: 0.6rem 0.4rem;
+    border: 1px solid var(--color-border);
+    border-top: 3px solid var(--tab-color);
+    border-bottom-color: var(--color-primary);
+
+    &:nth-child(1) { border-radius: var(--border-radius) 0 0 0; }
+    &:nth-child(2) { border-radius: 0 var(--border-radius) 0 0; border-left: 0; }
+    &:nth-child(3) { border-top: 1px solid var(--color-border); border-top-color: var(--color-border); }
+    &:nth-child(4) { border-top: 1px solid var(--color-border); border-top-color: var(--color-border); border-left: 0; }
+
+    &.tab-active {
+      background: var(--tab-color);
+      color: var(--color-white);
+      border-color: var(--tab-color);
+      border-top: 3px solid var(--tab-color);
+    }
+
+    // Keep top-border color hint on bottom row inactive tabs
+    &:nth-child(3):not(.tab-active), &:nth-child(4):not(.tab-active) {
+      border-top: 1px solid var(--color-border);
+    }
+  }
+  .tab-content {
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+  }
+}
+
+// =============================================================================
+// 17. Misc Utilities
+// =============================================================================
+.bg-dark { background-color: var(--color-dark) !important; }
+.bg-light { background-color: var(--color-light) !important; }
+
+.border { border: 1px solid var(--color-border) !important; }
+.border-primary { border-color: var(--color-primary) !important; }
+.border-3 { border-width: 3px !important; }
+.border-1 { border-width: 1px !important; }
+.border-top { border-top: 1px solid var(--color-border) !important; }
+.border-white { border-color: var(--color-white) !important; }
+.border-opacity-10 { border-color: rgba(255,255,255,0.1) !important; }
+
+.rounded-0 { border-radius: 0 !important; }
+.overflow-hidden { overflow: hidden; }
+.h-100 { height: 100%; }
+
+.visually-hidden-focusable {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+  &:focus {
+    position: static !important;
+    width: auto; height: auto;
+    padding: 0.5rem 1rem; margin: 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+    background: var(--color-white);
+    z-index: 9999;
+  }
+}
+
+// =============================================================================
+// 18. Site-specific Custom Styles
+// =============================================================================
+header, main { background-color: white; }
 
 @media (min-width: 992px) {
-    .rounded-lg-3 {
-        border-radius: .3rem;
-    }
+  .rounded-lg-3 { border-radius: .3rem; }
 }
 
-#imgLogo {
-  max-width: 100%;
-}
+#imgLogo { max-width: 100%; }
 
 #links a, a.links {
-    color: $primary !important;
-    text-decoration: none !important;
+  color: var(--color-primary) !important;
+  text-decoration: none !important;
 }
+a:hover.links, #links a:hover { text-decoration: underline !important; }
 
-a:hover.links, #links a:hover  {
-    text-decoration: underline !important;
-}
+#footer-logo { height: 1.2em; vertical-align: top; }
 
-#footer-logo {
-    height: 1.2em; 
-    vertical-align: top;
-}
+a.no-decoration, a:hover.no-decoration { text-decoration: none !important; }
 
-a.no-decoration, a:hover.no-decoration {
-    text-decoration: none !important;
-}
-
-.black:hover {
-    color: black;
-}
+.black:hover { color: black; }
 
 .footer-dark {
-  padding:50px 0;
-  color: $secondary !important;
-  background-color: $dark;
-}
-
-.footer-dark h3 {
-  margin-top:0;
-  margin-bottom:0.1em;
-  font-weight:bold;
-  font-size:2em;
-}
-
-.footer-dark p {
-  padding:0;
-  font-size:0.9em;
-  opacity: 0.8;
+  padding: 50px 0;
+  color: var(--color-secondary) !important;
+  background-color: var(--color-dark);
+  h3 { margin-top: 0; margin-bottom: 0.1em; font-weight: bold; font-size: 2em; }
+  p { padding: 0; font-size: 0.9em; opacity: 0.8; }
 }
 
 #alertReceptInfo {
@@ -121,9 +741,7 @@ a.no-decoration, a:hover.no-decoration {
   margin-bottom: -200px;
 }
 
-#lightGreenSection {
-  margin-top: -140px;
-}
+#lightGreenSection { margin-top: -140px; }
 
 #kurvan {
   min-height: 320px;
@@ -132,6 +750,7 @@ a.no-decoration, a:hover.no-decoration {
   background-repeat: no-repeat;
 }
 
+// Cream counter +/- buttons
 .qty .count {
   color: #000;
   display: inline-block;
@@ -143,8 +762,7 @@ a.no-decoration, a:hover.no-decoration {
   min-width: 35px;
   text-align: center;
 }
-
-.qty .plus {
+.qty .plus, .qty .minus {
   cursor: pointer;
   display: inline-block;
   vertical-align: top;
@@ -155,51 +773,22 @@ a.no-decoration, a:hover.no-decoration {
   text-align: center;
   border-radius: 50%;
 }
+.qty .minus { background-clip: padding-box; }
+.minus:hover, .plus:hover { background-color: #717fe0 !important; }
 
-.qty .minus {
-  cursor: pointer;
-  display: inline-block;
-  vertical-align: top;
-  color: white;
-  width: 30px;
-  height: 30px;
-  font: 30px/1 Arial, sans-serif;
-  text-align: center;
-  border-radius: 50%;
-  background-clip: padding-box;
-}
-
-.minus:hover, .plus:hover {
-  background-color: #717fe0 !important;
-}
-
-/*Prevent text selection*/
+// Prevent text selection on spans
 span {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
+  user-select: none;
 }
 
-input {
-  border: 0;
-  width: 2%;
-}
-
+// Hide number input spinners
+input { border: 0; width: 2%; }
 input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
+input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+input:disabled { background-color: white; }
+input[type=number] { -moz-appearance: textfield; }
 
-input:disabled {
-  background-color: white;
-}
-
-/* Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
-}
-
-#medibyte-links img {
-  max-width: 100%;
-}
+#medibyte-links img { max-width: 100%; }
